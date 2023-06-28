@@ -1,12 +1,11 @@
 import { Controller, Get } from '@nestjs/common';
-import { AppService } from './app.service';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
-
-  @Get()
+  @Get('health-check')
   getHello(): string {
-    return this.appService.getHello();
+    return 'The nest.js application is live!';
   }
+
+  // TODO: checar se a conexão com o BD esta vivo
 }

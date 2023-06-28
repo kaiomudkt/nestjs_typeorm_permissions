@@ -1,0 +1,6 @@
+# EditorConfig is awesome: https://EditorConfig.org
+
+# Definindo o espaçamento da indentação como tab
+[*]
+# indent_style = tab
+# indent_size = tab

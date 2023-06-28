@@ -4,18 +4,22 @@
 
 - Sistema web a funcionalidade de usuário com cargo e suas respectivas permissões;
 - podem ser criados diversos tipos de usuários, e cada cargo só pode ser atribuido a um tipo ou mais
+- multi-tenancy: cada usuario pode estar relacionado com varios tenancy
+- mas em cada tenancy de criar um novo user, pois cada tenancy deve ser todalmente independente 
 
 ### niveis de acesso
 
 1ª valida se o usuário logado tem cargo com a permissão de realizar a ação do serviço
     - exemplo: somente usuários admininstrdores tem permissão de realizar essa ação
 2ª valida se o usuario logado tem autorização sobre o dado que esta interagindo 
+    - exemplo: usuario logado nao tem autorização para interagir com dados de outro tenancy
     - exemplo: usuário logado não tem autorização para interagir com dados de outros usuários
 3ª valida se o dado que esta interagindo permite a ação 
     - exemplo: status do dado não permite realizar essa ação 
 
 ## Tecnologias
 
+- npm
 - postgres
 - typeorm
 - jest
