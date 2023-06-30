@@ -7,7 +7,7 @@ import { RoleModule } from './modules/role/role.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { mongooseConfig } from './infra/db/mongoose/data-source';
 import { dataSouceOptions } from './infra/db/typeorm/data-source';
-import { ManagerModule } from './modules/manager/manager.module';
+import { ManagerUserModule } from './modules/manager-user/manager-user.module';
 
 @Module({
   imports: [
@@ -18,7 +18,7 @@ import { ManagerModule } from './modules/manager/manager.module';
     UserModule,
     AuthModule,
     RoleModule,
-    ManagerModule,
+    ManagerUserModule,
   ],
   controllers: [AppController],
   providers: [],
