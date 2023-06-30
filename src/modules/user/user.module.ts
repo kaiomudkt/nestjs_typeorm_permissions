@@ -4,7 +4,7 @@ import { UserService } from './user.service';
 import { UserEntity } from './user.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from '../auth/auth.module';
-
+ 
 @Module({
   imports: [
     forwardRef(() => AuthModule),

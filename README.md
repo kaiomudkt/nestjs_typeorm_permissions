@@ -7,6 +7,15 @@
 - multi-tenancy: cada usuario pode estar relacionado com varios tenancy
 - mas em cada tenancy de criar um novo user, pois cada tenancy deve ser todalmente independente 
 
+
+### arquitetura
+Por padrão o Nest.js tem um arquitetura de software orientado a serviços,
+mas neste caso estamos se inspirando como o clean architecture é orientado a camada de dominio,
+desta forma podemos 
+
+- entity: camada do ORM
+- domain: camada que aplica a regra de negócio 
+
 ### niveis de acesso
 
 1ª valida se o usuário logado tem cargo com a permissão de realizar a ação do serviço
