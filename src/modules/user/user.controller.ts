@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDTO } from './dto/create.dto';
-import { ParamUuid } from 'src/infra/decorators/param-uuid.decorator';
+import { ParamUuid } from 'src/infra/common/decorators/param-uuid.decorator';
 import { UpdatePutUserDTO } from './dto/update-put.dto';
 import { UpdatePatchUserDTO } from './dto/update-patch.dto';
 

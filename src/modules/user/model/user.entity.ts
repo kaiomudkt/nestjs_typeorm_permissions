@@ -5,33 +5,34 @@ import {
   DeleteDateColumn,
   CreateDateColumn,
   UpdateDateColumn,
-  JoinTable,
   ManyToMany,
+  JoinTable,
 } from 'typeorm';
-import { UserEntity } from '../user/user.entity';
+import { v4 as uuid } from 'uuid';
+import { RoleEntity } from '../role/role.entity';
 
-@Entity({ name: 'user_role' })
-export class RoleEntity {
+@Entity({ name: 'user' })
+export class UserEntity {
+  [x: string]: any;
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToMany(() => UserEntity, user => user.roles)
+  @ManyToMany(() => RoleEntity, role => role.users)
   @JoinTable({
-    name: 'user_role',
+    name: 'user_role', // Nome da tabela pivot
     joinColumn: {
-      name: 'role_id',
+      name: 'user_id', // Nome da coluna de chave estrangeira para User
       referencedColumnName: 'id',
     },
     inverseJoinColumn: {
-      name: 'user_id',
+      name: 'role_id', // Nome da coluna de chave estrangeira para Role
       referencedColumnName: 'id',
     },
   })
-  users: UserEntity[];
+  roles: Role[];
 
   @Column({
     length: 127,
-    unique: true,
   })
   name: string;
 
@@ -39,7 +40,24 @@ export class RoleEntity {
     length: 127,
     unique: true,
   })
-  tupleKey: string;
+  email: string;
+
+  @Column({
+    length: 127,
+    unique: true,
+  })
+  login: string;
+
+  @Column({
+    length: 127,
+  })
+  password: string;
+
+  @Column({
+    type: 'date',
+    nullable: true,
+  })
+  birthAt: string;
 
   @Column({ type: 'timestamp', nullable: true })
   @DeleteDateColumn()

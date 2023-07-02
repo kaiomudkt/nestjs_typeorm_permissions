@@ -39,12 +39,22 @@ desta forma podemos
 - cada entidade deve ter seu proprio modulo
 - os modulos devem explicitamente identificar e separar suas entradas e saidas
     - exemplo: banco de dados, requisições, outros modulos, bibliotecas
+- o a entidade depende de mais de um outro entidade? se sim, então talvez seja interessante cria-lo em um módulo separado, para deixar o modulo em que ela dependa sem dependencias, desta forma o moduto "pai" ainda pode ser separado em um microserviço em algum dia 
+- entidade pivot de junção, nem sempre precisam ter controller e service, neste caso recomendasse que seja um submodulo 
+- Um módulo contém toda a lógica associada a um domínio específico. Devem seguir a primeira regra dos princípios SOLID que é a Responsabilidade Única. Isso significa que cada módulo deve se preocupar apenas com seu próprio domínio e não com outros domínios.
+- Deixe todas as bibliotecas, pacotes etc. de terceiros fora da camada de domínio. Deve ser livre de dependência de terceiros.
+- As ações de domínio devem aceitar apenas o modelo de domínio como um parâmetro ou um Id em forma de string. Os DTOs devem ser mapeados antes de chamar nossa camada de domínio.
+- Em teoria, você deve ser capaz de recortar e colar sua camada de domínio em qualquer projeto (dependente do idioma) e deve funcionar.
 
 
 ## Installation
-
 ```bash
 $ npm install
+```
+
+### cli nest
+```bash
+$ nest generate module nome-do-modulo
 ```
 
 ## Running the app

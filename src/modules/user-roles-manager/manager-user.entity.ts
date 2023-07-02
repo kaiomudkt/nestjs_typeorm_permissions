@@ -5,41 +5,24 @@ import {
   DeleteDateColumn,
   CreateDateColumn,
   UpdateDateColumn,
-  JoinTable,
   ManyToMany,
+  JoinTable,
+  ManyToOne,
 } from 'typeorm';
 import { UserEntity } from '../user/user.entity';
+import { RoleEntity } from '../role/role.entity';
 
-@Entity({ name: 'user_role' })
-export class RoleEntity {
+@Entity({ name: 'user_manager' })
+export class ManagerUserEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToMany(() => UserEntity, user => user.roles)
-  @JoinTable({
-    name: 'user_role',
-    joinColumn: {
-      name: 'role_id',
-      referencedColumnName: 'id',
-    },
-    inverseJoinColumn: {
-      name: 'user_id',
-      referencedColumnName: 'id',
-    },
-  })
-  users: UserEntity[];
+  @ManyToOne(() => UserEntity)
+  user: UserEntity;
 
-  @Column({
-    length: 127,
-    unique: true,
-  })
-  name: string;
-
-  @Column({
-    length: 127,
-    unique: true,
-  })
-  tupleKey: string;
+  @ManyToMany(() => RoleEntity)
+  @JoinTable()
+  roles: RoleEntity[];
 
   @Column({ type: 'timestamp', nullable: true })
   @DeleteDateColumn()
