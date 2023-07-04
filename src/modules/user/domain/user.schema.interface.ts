@@ -1,4 +1,4 @@
-import { IBaseSquema } from 'src/modules/base-domain-interfaces/base.squema.interface';
+import { IBaseSquema } from 'src/modules/base/domain/interfaces/base.squema.interface';
 import { StatusUserEnum } from './enum/status-user.enum';
 
 export interface IUserSchema extends IBaseSquema {
