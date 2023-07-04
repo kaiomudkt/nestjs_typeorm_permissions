@@ -35,6 +35,9 @@ desta forma podemos
 - 
 
 ## arquitetura de software
+- esta arquitetura de software é baseada em dominio, diferente da arquitetura padrão fornecida pelo Nest.js que prove uma arquitetura de software orientada a serviço;
+- a camada de dominio tem por responsabilidade de unificar e isolar a regra de negocio pura em suas entidades (entity), e o fluxo de execução dessas regras nos caso de uso (usecase)
+- a camada de "service" do Nest.js tem a responsabilidade de executar o "usecase" e caso seja necessario fluxo de serviços que não aplicam regra de negocio do dominio, como por exemplo, envio de email;
 ### recomendações de como desenvolver
 - Um módulo contém toda a lógica associada a um domínio específico. É recomendado seguir de forma sensata o princípio da Responsabilidade Única do SOLID. Isso significa que cada módulo deve se preocupar apenas com seu próprio domínio e não com outros domínios. Esta regra pode ser quebrado caso julgue que o "trade-off" de tardar sua decisão de executar essa separação somente quando houver real necessidade tenha um custo beneficio satisfatorio;
 - Deixe todas as bibliotecas, pacotes e qualquer outro importação de terceiros fora da camada de domínio. Pois tudo que esta dentro da camada de dominio só pode depender quase que exclusivamente da propria camada de dominio. Salve em caso que ha necessidade compense, como por exemplo tipagem de data-hora;
@@ -46,7 +49,7 @@ desta forma podemos
 - a diferença entre "src/infra/gateways/external" e "src/infra/gateways/internal"
     - internal: são serviços de "conexão" com outro serviço, que está sendo usado exclusivamente internamente no sistema
     - external: são serviços com regra de negocio, que podem ser usados por outros sistemas, e que inclusive tem potencial para se tornar um microserviço caso haja necessidade
-
+- alem de se preocupar com o princio da responsabilidade unica, tenha cuidado de se preocupar "motivação unica", pois alem de fazer que uma função tenha somente uma responsabilidade, considere em replicar essa função varias vezes se por preciso para manter sua unica motivação de existe, pois para cada motivo como um "service", "usecase" ou "repository" é um motivo diferente o porque esta usando esta função, com motivos diferentes de existir, consequentimente pode acontecer de com o passar do tempo cada função evoluir de forma idependente, tornando oque inicialmente era identico cada vez mais responsabilidades distintas. Mas lembre de que dentro da entidade de dominio nunca não pode haver replicação de código de regra de negocio;
 ## Installation
 ```bash
 $ npm install
