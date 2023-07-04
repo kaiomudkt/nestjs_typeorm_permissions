@@ -1,5 +1,5 @@
 import { IBaseSquema } from 'src/modules/base-domain-interfaces/base.squema';
-import { StatusUserEnum } from '../enum/status-user.enum';
+import { StatusUserEnum } from './enum/status-user.enum';
 
 export interface IUserSchema extends IBaseSquema {
   id?: string;

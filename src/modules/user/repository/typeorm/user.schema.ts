@@ -10,7 +10,7 @@ import {
 } from 'typeorm';
 import { StatusUserEnum } from '../../domain/enum/status-user.enum';
 import { IsEnum } from 'class-validator';
-import { IUserSchema } from '../../domain/repository-interfaces/user.schema.interface';
+import { IUserSchema } from '../../domain/user.schema.interface';
 
 @Entity({ name: 'user' })
 export class UserSchema implements IUserSchema {

@@ -1,6 +1,6 @@
 import { UserEntity } from '../user.entity';
 import { IFindByIdUserRepository } from '../repository-interfaces/find-by-id-user.repository.interface';
-import { IUserSchema } from '../repository-interfaces/user.schema.interface';
+import { IUserSchema } from '../user.schema.interface';
 
 export class FindByIdUserUsecase {
   repository: IFindByIdUserRepository<IUserSchema>;

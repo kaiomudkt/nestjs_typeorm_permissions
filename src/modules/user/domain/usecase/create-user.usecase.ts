@@ -1,7 +1,7 @@
 import { UserEntity } from '../user.entity';
 import { CreateUserDto } from '../../dto/create-user.dto';
 import { ICreateUserRepository } from '../repository-interfaces/create-user.repository.interface';
-import { IUserSchema } from '../repository-interfaces/user.schema.interface';
+import { IUserSchema } from '../user.schema.interface';
 
 export class CreateUserUsecase {
   repository: ICreateUserRepository<IUserSchema>;
