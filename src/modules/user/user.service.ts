@@ -20,6 +20,9 @@ export class UserService {
     this.createUserUsecase = new CreateUserUsecase(
       new CreateUserRepoImpl(this.userRepository),
     );
+    this.findByIdUserUsecase = new FindByIdUserUsecase(
+      new FindByIdUserRepoImpl(this.userRepository),
+    );
   }
 
   async create(createUserDto: CreateUserDto) {
@@ -32,8 +35,8 @@ export class UserService {
     return `This action returns all user`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(id: string) {
+    return await this.findByIdUserUsecase.findById(id);
   }
 
   update(id: number, updatePatchUserDto: UpdatePatchUserDto) {

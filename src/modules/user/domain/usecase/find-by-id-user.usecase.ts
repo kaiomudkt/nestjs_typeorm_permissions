@@ -1,5 +1,4 @@
 import { UserEntity } from '../user.entity';
-import { CreateUserDto } from '../../dto/create-user.dto';
 import { IFindByIdUserRepository } from '../repository-interfaces/find-by-id-user.repository.interface';
 import { IUserSchema } from '../repository-interfaces/user.schema.interface';
 
@@ -9,24 +8,8 @@ export class FindByIdUserUsecase {
     this.repository = repository;
   }
 
-  async findById(data: CreateUserDto) {
-    const userEntity = UserEntity.factory(
-      data.name,
-      data.email,
-      data.login,
-      data.password,
-      data.birthAt,
-    );
-    userEntity.validDateBirth();
-
-    const presenter = {
-      name: userEntity.name,
-      password: userEntity.password,
-      birthAt: userEntity.birthAt,
-      email: userEntity.email,
-      login: userEntity.login,
-      status: userEntity.status,
-    };
-    this.repository.findById(presenter);
+  async findById(id: string) {
+    // const userEntity = UserEntity.factoryWithId(id);
+    return await this.repository.findById(id);
   }
 }
