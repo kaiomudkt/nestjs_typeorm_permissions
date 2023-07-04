@@ -1,7 +1,5 @@
-import { Injectable } from '@nestjs/common';
 import { StatusUserEnum, toEnum } from './enum/status-user.enum';
 
-@Injectable()
 export class UserEntity {
   private _id: string;
   private _name: string;
