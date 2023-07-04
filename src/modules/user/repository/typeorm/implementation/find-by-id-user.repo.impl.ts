@@ -13,8 +13,6 @@ export class FindByIdUserRepoImpl
     private readonly repository: Repository<UserSchema>,
   ) {}
 
-  // readonly repository: Repository<UserSchema>;
-
   async findById(id: string): Promise<UserSchema | undefined> {
     return await this.repository.findOneBy(<any>{ id });
   }

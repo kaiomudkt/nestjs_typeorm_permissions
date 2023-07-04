@@ -11,8 +11,6 @@ export class CreateUserRepoImpl implements ICreateUserRepository<UserSchema> {
     private readonly repository: Repository<UserSchema>,
   ) {}
 
-  // readonly repository: Repository<UserSchema>;
-
   async create(schema: UserSchema): Promise<UserSchema> {
     return await this.repository.save(schema);
   }

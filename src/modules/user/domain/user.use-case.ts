@@ -18,9 +18,10 @@ export class UserUsecase {
   async create(data: CreateUserDto) {
     const userEntity = UserEntity.factory(
       data.name,
+      data.email,
+      data.login,
       data.password,
       data.birthAt,
-      data.email,
     );
     userEntity.validDateBirth();
 
@@ -29,6 +30,7 @@ export class UserUsecase {
       password: userEntity.password,
       birthAt: userEntity.birthAt,
       email: userEntity.email,
+      login: userEntity.login,
       status: userEntity.status,
     };
     this.createUserRepository.create(presenter);

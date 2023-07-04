@@ -1,23 +1,23 @@
 import { Injectable } from '@nestjs/common';
-
 import { UserUsecase } from './domain/user.use-case';
-import { InjectRepository } from '@nestjs/typeorm';
-import { UserSchema } from './repository/typeorm/user.schema';
-import { Repository } from 'typeorm';
-import { IBaseRepository } from '../base-domain-interfaces/base.repository';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdatePatchUserDto } from './dto/update-patch-user.dto';
 import { CreateUserRepoImpl } from './repository/typeorm/implementation/create-user.repo.impl';
 import { FindByIdUserRepoImpl } from './repository/typeorm/implementation/find-by-id-user.repo.impl';
+import { UserSchema } from './repository/typeorm/user.schema';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class UserService {
   private userUsecase: UserUsecase;
-  // TODO: emailService: EmailService,
-  constructor() {
+  constructor(
+    @InjectRepository(UserSchema)
+    private readonly userRepository: Repository<UserSchema>,
+  ) {
     this.userUsecase = new UserUsecase(
-      new CreateUserRepoImpl(),
-      new FindByIdUserRepoImpl(),
+      new CreateUserRepoImpl(this.userRepository),
+      new FindByIdUserRepoImpl(this.userRepository),
     );
   }
 

@@ -14,7 +14,7 @@ export const dataSouceOptions: DataSourceOptions & SeederOptions = {
   username: process.env.DB_MAIN_USER || 'desenvolvedor',
   password: process.env.DB_MAIN_PASSWORD || 'desenvolvedor',
   database: process.env.DB_MAIN_NAME || 'roles',
-  entities: ['dist/modules/**/*.entity.js'],
+  entities: ['dist/modules/**/*.schema.js'],
   synchronize: process.env.ENVIRONMENT_TYPE === 'DEVELOPMENT',
   migrationsTableName: 'Migrations',
   migrations: ['dist/db/migrations/**/*.js'],

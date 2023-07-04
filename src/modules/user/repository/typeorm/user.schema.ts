@@ -8,7 +8,6 @@ import {
   ManyToMany,
   JoinTable,
 } from 'typeorm';
-import { v4 as uuid } from 'uuid';
 import { StatusUserEnum } from '../../domain/enum/status-user.enum';
 import { IsEnum } from 'class-validator';
 import { IUserSchema } from '../../domain/repository-interfaces/user.schema.interface';

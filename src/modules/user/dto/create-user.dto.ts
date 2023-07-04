@@ -20,6 +20,11 @@ export class CreateUserDto {
   email: string;
 
   @IsString()
+  @ApiProperty()
+  @MinLength(6)
+  login: string;
+
+  @IsString()
   @MinLength(6)
   @ApiProperty()
   @Matches(RegExHelper.password, { message: MessagesHelper.PASSWORD_VALID })
