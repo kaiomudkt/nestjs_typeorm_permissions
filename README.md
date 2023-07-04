@@ -38,6 +38,8 @@ desta forma podemos
 ## arquitetura de software
 - esta arquitetura de software é baseada em dominio, diferente da arquitetura padrão fornecida pelo Nest.js que prove uma arquitetura de software orientada a serviço;
 - a camada de dominio tem por responsabilidade de unificar e isolar a regra de negocio pura em suas entidades (entity), e o fluxo de execução dessas regras nos caso de uso (usecase)
+- por nesta aplicação a camada de dominio esta separada, aonde o dominio não pode depender de nada que não pertença a propria camada de dominio. Implicando que exista um isolamento da camada de dominio das outras camadas, incluindo a separação do proprio Nest.js, Typeorm, Jest e outras ferramentas, e este é o "limite arquitetural" de dependencias entre as camadas.
+- O isolamento da camada de dominio faz com que esta tenha que quase somente typescript puro, podendo depender somente de ferramentas extramente estaveis, como por exemplo tipagem da "data-hora";
 - a camada de "service" do Nest.js tem a responsabilidade de executar o "usecase" e caso seja necessario fluxo de serviços que não aplicam regra de negocio do dominio, como por exemplo, envio de email;
 - a camada de "service" do Nest.js tem a responsabilidade verificar se o usuário logado tem a permissão do cargo
 - a camada de "usecase" do Domain tem a responsabilidade de verificar se o usuário logado tem capacidade de executar está ação de acordo com as regra de negocio dos dados
@@ -46,6 +48,7 @@ desta forma podemos
 - a camada de "usecase" do Domain tem a responsabilidade de verificar se a tupla em que o usuario logado esta interagindo permite a ação
     - exemplo:o "cargo-sub-gerente-1" está com o status "lotado", e por isso não pode ser adicionado um novo usuário a este cargo;
 - em aplicações multi-tenancy, a camada de "service" a partir do payload do JWT, é responsavel para verificar se o usuario logado tem a cargo/permissão no tenancy desejado
+- em aplicações multi-tenancy, vários inquilinos (tenants) compartilham a mesma instância da aplicação, você pode seguir uma abordagem em que cada solicitação é roteada para o tenant correto com base em algum critério, como um subdomínio, um cabeçalho personalizado ou um parâmetro de URL.
 ### recomendações de como desenvolver
 - Um módulo contém toda a lógica associada a um domínio específico. É recomendado seguir de forma sensata o princípio da Responsabilidade Única do SOLID. Isso significa que cada módulo deve se preocupar apenas com seu próprio domínio e não com outros domínios. Esta regra pode ser quebrado caso julgue que o "trade-off" de tardar sua decisão de executar essa separação somente quando houver real necessidade tenha um custo beneficio satisfatorio;
 - Deixe todas as bibliotecas, pacotes e qualquer outro importação de terceiros fora da camada de domínio. Pois tudo que esta dentro da camada de dominio só pode depender quase que exclusivamente da propria camada de dominio. Salve em caso que ha necessidade compense, como por exemplo tipagem de data-hora;
