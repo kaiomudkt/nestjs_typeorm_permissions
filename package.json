@@ -22,7 +22,8 @@
     "typeorm:create-migrate-with-name": "npm run typeorm:ts migration:create -n",
     "typeorm:migrate-run": "ts-node -r tsconfig-paths/register ./src/infra/gateways/internal/db/typeorm/data-source.ts",
     "typeorm:migrate-revert": "typeorm migration:revert",
-    "typeorm:migrate-generate": "npm run typeorm:migrate-create"
+    "typeorm:migrate-generate": "npm run typeorm:migrate-create",
+    "typeorm:migrate-up": "typeorm-ts-node-esm migration:run -d ./src/infra/gateways/internal/db/typeorm/data-source.ts"
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",

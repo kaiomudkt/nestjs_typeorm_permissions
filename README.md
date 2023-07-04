@@ -64,51 +64,26 @@ desta forma podemos
 - alem de se preocupar com o princio da responsabilidade unica, tenha cuidado de se preocupar "motivação unica", pois alem de fazer que uma função tenha somente uma responsabilidade, considere em replicar essa função varias vezes se por preciso para manter sua unica motivação de existe, pois para cada motivo como um "service", "usecase" ou "repository" é um motivo diferente o porque esta usando esta função, com motivos diferentes de existir, consequentimente pode acontecer de com o passar do tempo cada função evoluir de forma idependente, tornando oque inicialmente era identico cada vez mais responsabilidades distintas. Mas lembre de que dentro da entidade de dominio nunca não pode haver replicação de código de regra de negocio;
 
 
-## Installation
+## instalação em ambiente de desenvolvimento
+
 ```bash
 $ npm install
+$ sudo docker-compose down -v
+$ sudo docker-compose up
+# arquivo .env ENVIRONMENT_TYPE="DEVELOPMENT"
+$ npm run start:dev
+```
+
+#### Executa as migrations
+```bash
+$ npm run typeorm:migrate-up
 ```
 
 ### cli nest
 ```bash
-$ nest generate module nome-do-modulo
+# gera modulo com CRUD
+$ nest resource modules/nome-do-modulo
 ```
-
-## Running the app
-
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
-```
-
-## Test
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
 
 ## License
 

@@ -21,16 +21,19 @@ export const dataSouceOptions: DataSourceOptions & SeederOptions = {
   migrations: [
     path.join(
       __dirname,
-      '../infra/gateways/internal/db/typeorm/migrations/*.js',
+      '../infra/gateways/internal/db/typeorm/migrations/*.{ts,js}',
     ),
   ],
   seeds: [
-    path.join(__dirname, '../infra/gateways/internal/db/typeorm/seeds/**/*.js'),
+    path.join(
+      __dirname,
+      '../infra/gateways/internal/db/typeorm/seeds/**/*.{ts,js}',
+    ),
   ],
   factories: [
     path.join(
       __dirname,
-      '../infra/gateways/internal/db/typeorm/factories/**/*.js',
+      '../infra/gateways/internal/db/typeorm/factories/**/*.{ts,js}',
     ),
   ],
 };
