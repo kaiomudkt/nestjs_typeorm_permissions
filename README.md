@@ -36,15 +36,14 @@ desta forma podemos
 
 ## arquitetura de software
 ### recomendações de como desenvolver
-- cada entidade deve ter seu proprio modulo
-- os modulos devem explicitamente identificar e separar suas entradas e saidas
-    - exemplo: banco de dados, requisições, outros modulos, bibliotecas
-- o a entidade depende de mais de um outro entidade? se sim, então talvez seja interessante cria-lo em um módulo separado, para deixar o modulo em que ela dependa sem dependencias, desta forma o moduto "pai" ainda pode ser separado em um microserviço em algum dia 
-- entidade pivot de junção, nem sempre precisam ter controller e service, neste caso recomendasse que seja um submodulo 
-- Um módulo contém toda a lógica associada a um domínio específico. Devem seguir a primeira regra dos princípios SOLID que é a Responsabilidade Única. Isso significa que cada módulo deve se preocupar apenas com seu próprio domínio e não com outros domínios.
-- Deixe todas as bibliotecas, pacotes etc. de terceiros fora da camada de domínio. Deve ser livre de dependência de terceiros.
-- As ações de domínio devem aceitar apenas o modelo de domínio como um parâmetro ou um Id em forma de string. Os DTOs devem ser mapeados antes de chamar nossa camada de domínio.
+- Um módulo contém toda a lógica associada a um domínio específico. É recomendado seguir de forma sensata o princípio da Responsabilidade Única do SOLID. Isso significa que cada módulo deve se preocupar apenas com seu próprio domínio e não com outros domínios. Esta regra pode ser quebrado caso julgue que o "trade-off" de tardar sua decisão de executar essa separação somente quando houver real necessidade tenha um custo beneficio satisfatorio;
+- Deixe todas as bibliotecas, pacotes e qualquer outro importação de terceiros fora da camada de domínio. Pois tudo que esta dentro da camada de dominio só pode depender quase que exclusivamente da propria camada de dominio. Salve em caso que ha necessidade compense, como por exemplo tipagem de data-hora;
 - Em teoria, você deve ser capaz de recortar e colar sua camada de domínio em qualquer projeto (dependente do idioma) e deve funcionar.
+- cada "entidade forte" tende a ter seu proprio modulo;
+- existem casos em que "entidade fraca" deve ser um submodulo de uma "entidade forte", mas por padrão tente criar um módulo separado, para não fazer o módulo "pai" não tenha dependencia somente por causa de seu submodulo;
+- Se a entidade depende de outra(s) entidade externa, então talvez seja interessante cria-lo em um módulo separado, e não em submodulo, para que assim o modulo em que ela dependa não seja obrigado tambem ter suas respectivas dependencias;
+- entidade "pivot" de junção em um relacionamento "M:M", só irão necessitar de controller e service caso tenha necessidade de expor externamente seus recursos como por exemplo REST, GraphQL e WebSockets. Mas caso o relacionamento de junção seja incorporado por algum dos lados do relacionamento "M:M", então recomendasse quem em seu respectivo módulo que seja criado um submodulo. Lembrando que isso pode fazer que seu módulo dependa de outro, assim aumentando a profundidade dos niveis de dependencias;
+
 
 
 ## Installation
