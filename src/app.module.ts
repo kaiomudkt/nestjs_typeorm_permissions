@@ -7,6 +7,7 @@ import { dataSouceOptions } from './infra/gateways/internal/db/typeorm/data-sour
 import { UserModule } from './modules/user/user.module';
 import { MultitenancyModule } from './modules/multitenancy/multitenancy.module';
 import { RoleModule } from './modules/role/role.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { RoleModule } from './modules/role/role.module';
     UserModule,
     MultitenancyModule,
     RoleModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [],
