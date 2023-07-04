@@ -49,6 +49,7 @@ desta forma podemos
     - exemplo:o "cargo-sub-gerente-1" está com o status "lotado", e por isso não pode ser adicionado um novo usuário a este cargo;
 - em aplicações multi-tenancy, a camada de "service" a partir do payload do JWT, é responsavel para verificar se o usuario logado tem a cargo/permissão no tenancy desejado
 - em aplicações multi-tenancy, vários inquilinos (tenants) compartilham a mesma instância da aplicação, você pode seguir uma abordagem em que cada solicitação é roteada para o tenant correto com base em algum critério, como um subdomínio, um cabeçalho personalizado ou um parâmetro de URL.
+- todas as entidades do typeorm devem ser criados com o sufixo ".typeorm.schema.impl.js"
 ### recomendações de como desenvolver
 - Um módulo contém toda a lógica associada a um domínio específico. É recomendado seguir de forma sensata o princípio da Responsabilidade Única do SOLID. Isso significa que cada módulo deve se preocupar apenas com seu próprio domínio e não com outros domínios. Esta regra pode ser quebrado caso julgue que o "trade-off" de tardar sua decisão de executar essa separação somente quando houver real necessidade tenha um custo beneficio satisfatorio;
 - Deixe todas as bibliotecas, pacotes e qualquer outro importação de terceiros fora da camada de domínio. Pois tudo que esta dentro da camada de dominio só pode depender quase que exclusivamente da propria camada de dominio. Salve em caso que ha necessidade compense, como por exemplo tipagem de data-hora;
