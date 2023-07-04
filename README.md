@@ -43,8 +43,9 @@ desta forma podemos
 - existem casos em que "entidade fraca" deve ser um submodulo de uma "entidade forte", mas por padrão tente criar um módulo separado, para não fazer o módulo "pai" não tenha dependencia somente por causa de seu submodulo;
 - Se a entidade depende de outra(s) entidade externa, então talvez seja interessante cria-lo em um módulo separado, e não em submodulo, para que assim o modulo em que ela dependa não seja obrigado tambem ter suas respectivas dependencias;
 - entidade "pivot" de junção em um relacionamento "M:M", só irão necessitar de controller e service caso tenha necessidade de expor externamente seus recursos como por exemplo REST, GraphQL e WebSockets. Mas caso o relacionamento de junção seja incorporado por algum dos lados do relacionamento "M:M", então recomendasse quem em seu respectivo módulo que seja criado um submodulo. Lembrando que isso pode fazer que seu módulo dependa de outro, assim aumentando a profundidade dos niveis de dependencias;
-
-
+- a diferença entre "src/infra/gateways/external" e "src/infra/gateways/internal"
+    - internal: são serviços de "conexão" com outro serviço, que está sendo usado exclusivamente internamente no sistema
+    - external: são serviços com regra de negocio, que podem ser usados por outros sistemas, e que inclusive tem potencial para se tornar um microserviço caso haja necessidade
 
 ## Installation
 ```bash
