@@ -1,0 +1,32 @@
+import {
+  IsString,
+  IsEmail,
+  MinLength,
+  IsOptional,
+  IsDateString,
+  Matches,
+} from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+import { RegExHelper } from 'src/infra/utils/regex.helper';
+import { MessagesHelper } from 'src/infra/utils/messages.helper';
+
+export class CreateUserDto {
+  @IsString()
+  @ApiProperty()
+  name: string;
+
+  @IsEmail()
+  @ApiProperty()
+  email: string;
+
+  @IsString()
+  @MinLength(6)
+  @ApiProperty()
+  @Matches(RegExHelper.password, { message: MessagesHelper.PASSWORD_VALID })
+  password: string;
+
+  @IsOptional()
+  @IsDateString()
+  @ApiProperty()
+  birthAt?: string;
+}

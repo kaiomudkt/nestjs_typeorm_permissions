@@ -1,55 +1,45 @@
 import {
-  Body,
   Controller,
-  Delete,
   Get,
-  Patch,
   Post,
-  Put,
+  Body,
+  Patch,
+  Param,
+  Delete,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { CreateUserDTO } from './dto/create.dto';
-import { ParamUuid } from 'src/infra/common/decorators/param-uuid.decorator';
-import { UpdatePutUserDTO } from './dto/update-put.dto';
-import { UpdatePatchUserDTO } from './dto/update-patch.dto';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdatePatchUserDto } from './dto/update-patch-user.dto';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
-  async create(@Body() data: CreateUserDTO) {
-    return this.userService.create(data);
+  create(@Body() createUserDto: CreateUserDto) {
+    return this.userService.create(createUserDto);
   }
 
   @Get()
-  async list() {
-    return this.userService.list();
+  findAll() {
+    return this.userService.findAll();
   }
 
   @Get(':id')
-  async show(@ParamUuid() id: string) {
-    console.log({ id });
-    return this.userService.show(id);
-  }
-
-  @Put(':id')
-  async update(@Body() data: UpdatePutUserDTO, @ParamUuid() id: string) {
-    return this.userService.update(id, data);
+  findOne(@Param('id') id: string) {
+    return this.userService.findOne(+id);
   }
 
   @Patch(':id')
-  async updatePartial(
-    @Body() data: UpdatePatchUserDTO,
-    @ParamUuid() id: string,
+  update(
+    @Param('id') id: string,
+    @Body() updatePatchUserDto: UpdatePatchUserDto,
   ) {
-    return this.userService.updatePartial(id, data);
+    return this.userService.update(+id, updatePatchUserDto);
   }
 
   @Delete(':id')
-  async delete(@ParamUuid() id: string) {
-    return {
-      success: await this.userService.delete(id),
-    };
+  remove(@Param('id') id: string) {
+    return this.userService.remove(+id);
   }
 }

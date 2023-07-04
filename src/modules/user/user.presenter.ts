@@ -1,11 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { TodoM } from '../../../domain/model/todo';
 
 export class UserPresenter {
   @ApiProperty()
   id: number;
-  @ApiProperty()
-  roles: ;
+  // @ApiProperty()
+  // roles: ;
   @ApiProperty()
   name: string;
   @ApiProperty()
@@ -19,11 +18,13 @@ export class UserPresenter {
   @ApiProperty()
   updateddate: Date;
 
-  constructor(todo: TodoM) {
-    this.id = todo.id;
-    this.content = todo.content;
-    this.isDone = todo.isDone;
-    this.createdate = todo.createdate;
-    this.updateddate = todo.updateddate;
+  constructor(user: UserPresenter) {
+    this.id = user.id;
+    this.name = user.name;
+    this.email = user.email;
+    this.login = user.login;
+    this.birthAt = user.birthAt;
+    this.createdate = user.createdate;
+    this.updateddate = user.updateddate;
   }
 }
