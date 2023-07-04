@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { StatusUserEnum } from './enum/status-user.enum';
+import { StatusUserEnum, toEnum } from './enum/status-user.enum';
 
 @Injectable()
 export class UserEntity {
@@ -8,6 +8,7 @@ export class UserEntity {
   private _email: string;
   private _password: string;
   private _birthAt: string;
+  private _login: string;
   private _status: StatusUserEnum;
 
   private constructor(
@@ -15,22 +16,33 @@ export class UserEntity {
     name?: string,
     email?: string,
     password?: string,
+    login?: string,
     birthAt?: string,
+    status?: StatusUserEnum,
   ) {
     this._id = id;
     this._name = name;
     this._email = email;
     this._password = password;
     this._birthAt = birthAt;
+    this._login = login;
+    this._status = status ?? StatusUserEnum.ACTIVE;
   }
 
   static factory(
     name: string,
     email: string,
+    login: string,
     password: string,
+    birthAt: string,
+    status?: StatusUserEnum,
     id?: string,
   ): UserEntity {
-    return new UserEntity(id, name, email, password);
+    const status2: StatusUserEnum | undefined = toEnum(
+      'ACTIVE',
+      StatusUserEnum,
+    );
+    return new UserEntity(id, name, email, password, login, birthAt, status2);
   }
 
   static factoryWithId(id: string): UserEntity {
@@ -62,6 +74,14 @@ export class UserEntity {
 
   set name(name: string) {
     this._name = name;
+  }
+
+  get login(): string {
+    return this._login;
+  }
+
+  set login(login: string) {
+    this._login = login;
   }
 
   get email(): string {
