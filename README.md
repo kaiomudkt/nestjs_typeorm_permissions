@@ -45,6 +45,7 @@ desta forma podemos
     - exemplo: usuário logado não pode realizar está ação caso update-password de outro usuário;
 - a camada de "usecase" do Domain tem a responsabilidade de verificar se a tupla em que o usuario logado esta interagindo permite a ação
     - exemplo:o "cargo-sub-gerente-1" está com o status "lotado", e por isso não pode ser adicionado um novo usuário a este cargo;
+- em aplicações multi-tenancy, a camada de "service" a partir do payload do JWT, é responsavel para verificar se o usuario logado tem a cargo/permissão no tenancy desejado
 ### recomendações de como desenvolver
 - Um módulo contém toda a lógica associada a um domínio específico. É recomendado seguir de forma sensata o princípio da Responsabilidade Única do SOLID. Isso significa que cada módulo deve se preocupar apenas com seu próprio domínio e não com outros domínios. Esta regra pode ser quebrado caso julgue que o "trade-off" de tardar sua decisão de executar essa separação somente quando houver real necessidade tenha um custo beneficio satisfatorio;
 - Deixe todas as bibliotecas, pacotes e qualquer outro importação de terceiros fora da camada de domínio. Pois tudo que esta dentro da camada de dominio só pode depender quase que exclusivamente da propria camada de dominio. Salve em caso que ha necessidade compense, como por exemplo tipagem de data-hora;
