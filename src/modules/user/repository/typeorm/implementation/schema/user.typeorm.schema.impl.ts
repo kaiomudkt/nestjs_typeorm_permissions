@@ -8,12 +8,12 @@ import {
   ManyToMany,
   JoinTable,
 } from 'typeorm';
-import { StatusUserEnum } from '../../domain/enum/status-user.enum';
+import { StatusUserEnum } from 'src/modules/user/domain/enum/status-user.enum';
 import { IsEnum } from 'class-validator';
-import { IUserSchema } from '../../domain/user.schema.interface';
+import { IUserSchema } from 'src/modules/user/domain/user.schema.interface';
 
 @Entity({ name: 'user' })
-export class UserSchema implements IUserSchema {
+export class UserTypeOrmSchemaImpl implements IUserSchema {
   [x: string]: any;
   @PrimaryGeneratedColumn('uuid')
   id: string;

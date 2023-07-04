@@ -14,12 +14,12 @@ export const dataSouceOptions: DataSourceOptions & SeederOptions = {
   username: process.env.DB_MAIN_USER || 'desenvolvedor',
   password: process.env.DB_MAIN_PASSWORD || 'desenvolvedor',
   database: process.env.DB_MAIN_NAME || 'roles',
-  entities: ['dist/modules/**/*.schema.js'],
+  entities: ['dist/modules/**/*.typeorm.schema.js'],
   synchronize: process.env.ENVIRONMENT_TYPE === 'DEVELOPMENT',
   migrationsTableName: 'Migrations',
-  migrations: ['dist/db/migrations/**/*.js'],
-  seeds: ['dist/db/seeds/**/*.js'],
-  factories: ['dist/db/factories/**/*.js'],
+  migrations: ['dist/infra/gateways/internal/db/typeorm/migrations/*.js'],
+  seeds: ['dist/infra/gateways/internal/db/typeorm/seeds/**/*.js'],
+  factories: ['dist/infra/gateways/internal/db/typeorm/factories/**/*.js'],
 };
 
 const dataSource = new DataSource(dataSouceOptions);
