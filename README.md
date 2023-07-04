@@ -1,11 +1,18 @@
+## Tecnologias
+
+- npm
+- postgres
+- typeorm
+- jest
+- moongose
+- *email
+
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-- Sistema web a funcionalidade de usuário com cargo e suas respectivas permissões;
+- Sistema web com a funcionalidade de usuário com cargo e suas respectivas permissões;
 - podem ser criados diversos tipos de usuários, e cada cargo só pode ser atribuido a um tipo ou mais
-- multi-tenancy: cada usuario pode estar relacionado com varios tenancy
-- mas em cada tenancy de criar um novo user, pois cada tenancy deve ser todalmente independente 
+- suporte a multi-tenancy: cada usuario pode estar relacionado com varios tenancy
+    - mas em cada tenancy de criar um novo user, pois cada tenancy deve ser todalmente independente 
 
 
 ### arquitetura
@@ -25,15 +32,6 @@ desta forma podemos
     - exemplo: usuário logado não tem autorização para interagir com dados de outros usuários
 3ª valida se o dado que esta interagindo permite a ação 
     - exemplo: status do dado não permite realizar essa ação 
-
-## Tecnologias
-
-- npm
-- postgres
-- typeorm
-- jest
-- moongose
-- *email
 
 ## arquitetura de software
 - esta arquitetura de software é baseada em dominio, diferente da arquitetura padrão fornecida pelo Nest.js que prove uma arquitetura de software orientada a serviço;
