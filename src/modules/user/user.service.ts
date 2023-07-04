@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { UserUsecase } from './domain/user.use-case';
+import { CreateUserUsecase } from './domain/usecase/create-user.usecase';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdatePatchUserDto } from './dto/update-patch-user.dto';
 import { CreateUserRepoImpl } from './repository/typeorm/implementation/create-user.repo.impl';
@@ -7,22 +7,23 @@ import { FindByIdUserRepoImpl } from './repository/typeorm/implementation/find-b
 import { UserSchema } from './repository/typeorm/user.schema';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { FindByIdUserUsecase } from './domain/usecase/find-by-id-user.usecase';
 
 @Injectable()
 export class UserService {
-  private userUsecase: UserUsecase;
+  private createUserUsecase: CreateUserUsecase;
+  private findByIdUserUsecase: FindByIdUserUsecase;
   constructor(
     @InjectRepository(UserSchema)
     private readonly userRepository: Repository<UserSchema>,
   ) {
-    this.userUsecase = new UserUsecase(
+    this.createUserUsecase = new CreateUserUsecase(
       new CreateUserRepoImpl(this.userRepository),
-      new FindByIdUserRepoImpl(this.userRepository),
     );
   }
 
   async create(createUserDto: CreateUserDto) {
-    const data: any = await this.userUsecase.create(createUserDto);
+    const data: any = await this.createUserUsecase.create(createUserDto);
     // envio de email
     return data;
   }
