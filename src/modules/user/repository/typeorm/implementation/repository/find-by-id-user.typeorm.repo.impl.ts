@@ -1,19 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { IFindByIdUserRepository } from 'src/modules/user/domain/repository-interfaces/find-by-id-user.repository.interface';
-import { UserSchema } from '../user.typeorm.schema';
+import { UserTypeOrmSchemaImpl } from '../schema/user.typeorm.schema.impl';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class FindByIdUserTypeormRepoImpl
-  implements IFindByIdUserRepository<UserSchema>
+  implements IFindByIdUserRepository<UserTypeOrmSchemaImpl>
 {
   constructor(
-    @InjectRepository(UserSchema)
-    private readonly repository: Repository<UserSchema>,
+    @InjectRepository(UserTypeOrmSchemaImpl)
+    private readonly repository: Repository<UserTypeOrmSchemaImpl>,
   ) {}
 
-  async findById(id: string): Promise<UserSchema | undefined> {
+  async findById(id: string): Promise<UserTypeOrmSchemaImpl | undefined> {
     return await this.repository.findOneBy(<any>{ id });
   }
 }

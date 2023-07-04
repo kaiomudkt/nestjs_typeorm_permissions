@@ -14,7 +14,7 @@ export const dataSouceOptions: DataSourceOptions & SeederOptions = {
   username: process.env.DB_MAIN_USER || 'desenvolvedor',
   password: process.env.DB_MAIN_PASSWORD || 'desenvolvedor',
   database: process.env.DB_MAIN_NAME || 'roles',
-  entities: ['dist/modules/**/*.typeorm.schema.js'],
+  entities: ['dist/modules/**/*.typeorm.schema.impl.js'],
   synchronize: process.env.ENVIRONMENT_TYPE === 'DEVELOPMENT',
   migrationsTableName: 'Migrations',
   migrations: ['dist/infra/gateways/internal/db/typeorm/migrations/*.js'],
