@@ -75,8 +75,12 @@ $ sudo docker-compose up
 $ npm run start:dev
 ```
 
-#### Executa as migrations
+#### Migrations
 ```bash
+# cria nova migration, lembre de passar o nome e depois de mover a migration para o diretorio 
+# path: src/infra/gateways/internal/db/typeorm/migrations/
+$ npm run typeorm:migrate-create NomeDaMigration
+# Executa as migrations
 $ npm run typeorm:migrate-up
 ```
 
