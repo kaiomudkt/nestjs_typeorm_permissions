@@ -2,6 +2,7 @@ import { UserEntity } from '../user.entity';
 import { CreateUserDto } from '../../dto/create-user.dto';
 import { ICreateUserRepository } from '../repository/interfaces/create-user.repository.interface';
 import { IUserSchema } from '../user.schema.interface';
+import { StatusUserEnum } from '../enum/status-user.enum';
 
 export class CreateUserUsecase {
   repository: ICreateUserRepository<IUserSchema>;
@@ -16,17 +17,17 @@ export class CreateUserUsecase {
       data.login,
       data.password,
       data.birthAt,
+      data.subdomain,
+      StatusUserEnum.PENDING,
+      null,
     );
     userEntity.validDateBirth();
 
-    const presenter = {
-      name: userEntity.name,
-      password: userEntity.password,
-      birthAt: userEntity.birthAt,
-      email: userEntity.email,
-      login: userEntity.login,
-      status: userEntity.status,
-    };
-    this.repository.create(presenter);
+    // TODO: transaction
+    this.repository.create(userEntity);
+    // TODO: commitTransaction
+
+    // TODO: rollbackTransaction
+    // return userEntity;
   }
 }

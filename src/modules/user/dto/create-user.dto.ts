@@ -34,4 +34,8 @@ export class CreateUserDto {
   @IsDateString()
   @ApiProperty()
   birthAt?: string;
+
+  @IsOptional()
+  @ApiProperty()
+  subdomain?: string;
 }

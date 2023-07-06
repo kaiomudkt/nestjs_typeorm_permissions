@@ -7,6 +7,7 @@ export class UserEntity {
   private _password: string;
   private _birthAt: string;
   private _login: string;
+  private _subdomain: string;
   private _status: StatusUserEnum;
 
   private constructor(
@@ -17,6 +18,7 @@ export class UserEntity {
     login?: string,
     birthAt?: string,
     status?: StatusUserEnum,
+    subdomain?: string,
   ) {
     this._id = id;
     this._name = name;
@@ -25,6 +27,7 @@ export class UserEntity {
     this._birthAt = birthAt;
     this._login = login;
     this._status = status ?? StatusUserEnum.ACTIVE;
+    this._subdomain = subdomain;
   }
 
   static factory(
@@ -33,14 +36,11 @@ export class UserEntity {
     login: string,
     password: string,
     birthAt: string,
+    subdomain: string,
     status?: StatusUserEnum,
     id?: string,
   ): UserEntity {
-    const status2: StatusUserEnum | undefined = toEnum(
-      'ACTIVE',
-      StatusUserEnum,
-    );
-    return new UserEntity(id, name, email, password, login, birthAt, status2);
+    return new UserEntity(id, name, email, password, login, birthAt, status, subdomain);
   }
 
   static factoryWithId(id: string): UserEntity {

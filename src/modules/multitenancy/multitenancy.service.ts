@@ -4,6 +4,8 @@ import { UpdateMultitenancyDto } from './dto/update-multitenancy.dto';
 
 @Injectable()
 export class MultitenancyService {
+  subdomain: string;
+
   create(createMultitenancyDto: CreateMultitenancyDto) {
     return 'This action adds a new multitenancy';
   }

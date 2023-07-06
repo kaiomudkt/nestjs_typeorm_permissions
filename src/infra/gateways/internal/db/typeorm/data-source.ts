@@ -1,4 +1,5 @@
-import 'dotenv/config';
+// import 'dotenv/config';
+import * as dotenv from 'dotenv';
 import { DataSource, DataSourceOptions } from 'typeorm';
 import { SeederOptions } from 'typeorm-extension';
 import * as path from 'path';
@@ -18,24 +19,9 @@ export const dataSouceOptions: DataSourceOptions & SeederOptions = {
   entities: ['dist/modules/**/*.typeorm.schema.impl.js'],
   synchronize: process.env.ENVIRONMENT_TYPE === 'DEVELOPMENT',
   migrationsTableName: 'Migrations',
-  migrations: [
-    path.join(
-      __dirname,
-      '../infra/gateways/internal/db/typeorm/migrations/*.{ts,js}',
-    ),
-  ],
-  seeds: [
-    path.join(
-      __dirname,
-      '../infra/gateways/internal/db/typeorm/seeds/**/*.{ts,js}',
-    ),
-  ],
-  factories: [
-    path.join(
-      __dirname,
-      '../infra/gateways/internal/db/typeorm/factories/**/*.{ts,js}',
-    ),
-  ],
+  migrations: [`${__dirname}/migrations/**/*.ts`],
+  seeds: [`${__dirname}/seeds/**/*.ts`],
+  factories: [`${__dirname}/factories/**/*.ts`],
 };
 
 const cliConfig = {

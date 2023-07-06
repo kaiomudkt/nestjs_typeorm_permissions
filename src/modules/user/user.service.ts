@@ -8,6 +8,8 @@ import { UserTypeOrmSchemaImpl } from './repository/typeorm/implementation/schem
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindByIdUserUsecase } from './domain/usecase/find-by-id-user.usecase';
+// import { MultitenancyService } from '../multitenancy/multitenancy.service';
+import { InjectModel } from '@nestjs/mongoose';
 
 @Injectable()
 export class UserService {
@@ -16,6 +18,7 @@ export class UserService {
   constructor(
     @InjectRepository(UserTypeOrmSchemaImpl)
     private readonly userRepository: Repository<UserTypeOrmSchemaImpl>,
+    // private tenantService: MultitenancyService,
   ) {
     this.createUserUsecase = new CreateUserUsecase(
       new CreateUserTypeormRepoImpl(this.userRepository),
@@ -26,7 +29,10 @@ export class UserService {
   }
 
   async create(createUserDto: CreateUserDto) {
-    const data: any = await this.createUserUsecase.create(createUserDto);
+    const data: any = await this.createUserUsecase.create({
+      ...createUserDto,
+      // subdomain: this.tenantService.subdomain,
+    });
     // envio de email
     return data;
   }
@@ -36,6 +42,7 @@ export class UserService {
   }
 
   async findOne(id: string) {
+    // console.log(this.tenantService.subdomain); // TODO: obtem do payload do token qual é o tenancy
     return await this.findByIdUserUsecase.findById(id);
   }
 

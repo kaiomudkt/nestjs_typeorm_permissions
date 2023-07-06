@@ -6,10 +6,12 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdatePatchUserDto } from './dto/update-patch-user.dto';
+import { MultitenancyGuard } from '../multitenancy/multitenancy.guard';
 
 @Controller('user')
 export class UserController {
@@ -25,6 +27,8 @@ export class UserController {
     return this.userService.findAll();
   }
 
+  // TODO
+  // @UseGuards(JwtGuard, MultitenancyGuard)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.userService.findOne(id);

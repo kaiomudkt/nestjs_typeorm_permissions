@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { MultitenancyService } from './multitenancy.service';
 import { CreateMultitenancyDto } from './dto/create-multitenancy.dto';
 import { UpdateMultitenancyDto } from './dto/update-multitenancy.dto';
@@ -23,7 +31,10 @@ export class MultitenancyController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateMultitenancyDto: UpdateMultitenancyDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateMultitenancyDto: UpdateMultitenancyDto,
+  ) {
     return this.multitenancyService.update(+id, updateMultitenancyDto);
   }
 

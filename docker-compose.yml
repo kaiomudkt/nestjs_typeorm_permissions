@@ -2,6 +2,14 @@ version: '3'
 
 services:
 
+  # app-nestjs:
+  #   build: ./app
+  #   ports:
+  #     - 3000:3000
+  #   depends_on:
+  #     - db
+  #     - keycloak
+
   postgres:
     image: postgres
     ports:
@@ -12,6 +20,19 @@ services:
       POSTGRES_DB: ${DB_MAIN_NAME}
     volumes:
       - postgres_data:/var/lib/postgresql/data
+
+  keycloak:
+    image: jboss/keycloak:latest
+    environment:
+      - KEYCLOAK_USER=admin
+      - KEYCLOAK_PASSWORD=admin
+      - DB_VENDOR=h2
+    ports:
+      - 9080:8080
+    # volumes:
+    #   - keycloak_data:/opt/jboss/keycloak/standalone/data
+
   
 volumes:
   postgres_data:
+  # keycloak_data:
