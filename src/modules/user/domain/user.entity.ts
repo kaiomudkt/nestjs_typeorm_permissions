@@ -40,7 +40,16 @@ export class UserEntity {
     status?: StatusUserEnum,
     id?: string,
   ): UserEntity {
-    return new UserEntity(id, name, email, password, login, birthAt, status, subdomain);
+    return new UserEntity(
+      id,
+      name,
+      email,
+      password,
+      login,
+      birthAt,
+      status,
+      subdomain,
+    );
   }
 
   static factoryWithId(id: string): UserEntity {
@@ -113,4 +122,13 @@ export class UserEntity {
   set status(status: StatusUserEnum) {
     this._status = status;
   }
+
+  get subdomain(): string {
+    return this._subdomain;
+  }
+
+  set subdomain(subdomain: string) {
+    this._subdomain = subdomain;
+  }
+
 }

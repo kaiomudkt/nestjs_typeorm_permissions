@@ -11,7 +11,6 @@ import {
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdatePatchUserDto } from './dto/update-patch-user.dto';
-import { MultitenancyGuard } from '../multitenancy/multitenancy.guard';
 
 @Controller('user')
 export class UserController {

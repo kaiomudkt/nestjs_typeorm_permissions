@@ -8,9 +8,10 @@ import {
   ManyToMany,
   JoinTable,
 } from 'typeorm';
-import { StatusUserEnum } from '../../../../domain/enum/status-user.enum';
-import { IsEnum } from 'class-validator';
+// import { StatusUserEnum } from '../../../../domain/enum/status-user.enum';
+// import { Matches } from 'class-validator';
 import { IUserSchema } from '../../../../domain/user.schema.interface';
+// import { StatusUserValidator } from '../StatusUser.validator';
 
 @Entity({ name: 'user' })
 export class UserTypeOrmSchemaImpl implements IUserSchema {
@@ -22,6 +23,11 @@ export class UserTypeOrmSchemaImpl implements IUserSchema {
     length: 127,
   })
   name: string;
+
+  // @Matches(/^[A-Z_]+$/, { message: 'Invalid status format' })
+  // TODO: @StatusUserValidator()
+  @Column({ type: 'varchar', length: 127 })
+  status: string;
 
   @Column({
     length: 127,
@@ -45,10 +51,6 @@ export class UserTypeOrmSchemaImpl implements IUserSchema {
     nullable: true,
   })
   birthAt: string;
-
-  @Column({ type: 'enum', enum: StatusUserEnum })
-  @IsEnum(StatusUserEnum, { message: 'Invalid enum type (StatusUserEnum)' })
-  status: StatusUserEnum;
 
   @Column({ type: 'timestamp', nullable: true })
   @DeleteDateColumn()

@@ -5,7 +5,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 // import { mongooseConfig } from './infra/outsourced-service/db/mongoose/data-source';
 import { dataSouceOptions } from './infra/gateways/internal/db/typeorm/data-source';
 import { UserModule } from './modules/user/user.module';
-import { MultitenancyModule } from './modules/multitenancy/multitenancy.module';
 import { RoleModule } from './modules/role/role.module';
 import { AuthModule } from './modules/auth/auth.module';
 
@@ -16,7 +15,6 @@ import { AuthModule } from './modules/auth/auth.module';
     //   useFactory: () => mongooseConfig,
     // }),
     UserModule,
-    MultitenancyModule,
     RoleModule,
     AuthModule,
   ],

@@ -42,9 +42,8 @@ export class CreateTableUser1688489663983 implements MigrationInterface {
           },
           {
             name: 'status',
-            type: 'enum',
-            enum: ['active', 'inactive'],
-            default: "'active'",
+            type: 'varchar',
+            length: '127',
           },
           {
             name: 'deletedAt',

@@ -14,3 +14,10 @@ export function toEnum<T extends string>(
   }
   return undefined;
 }
+
+export function getEnumKeyByValue(
+  enumObject: any,
+  value: string,
+): string | undefined {
+  return Object.keys(enumObject).find((key) => enumObject[key] === value);
+}
