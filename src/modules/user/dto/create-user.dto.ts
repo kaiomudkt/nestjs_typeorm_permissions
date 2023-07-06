@@ -7,8 +7,8 @@ import {
   Matches,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { RegExHelper } from 'src/infra/utils/regex.helper';
-import { MessagesHelper } from 'src/infra/utils/messages.helper';
+import { RegExHelper } from '../../../infra/utils/regex.helper';
+import { MessagesHelper } from '../../../infra/utils/messages.helper';
 
 export class CreateUserDto {
   @IsString()

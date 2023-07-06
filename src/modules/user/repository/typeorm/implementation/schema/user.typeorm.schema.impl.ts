@@ -8,9 +8,9 @@ import {
   ManyToMany,
   JoinTable,
 } from 'typeorm';
-import { StatusUserEnum } from 'src/modules/user/domain/enum/status-user.enum';
+import { StatusUserEnum } from '../../../../domain/enum/status-user.enum';
 import { IsEnum } from 'class-validator';
-import { IUserSchema } from 'src/modules/user/domain/user.schema.interface';
+import { IUserSchema } from '../../../../domain/user.schema.interface';
 
 @Entity({ name: 'user' })
 export class UserTypeOrmSchemaImpl implements IUserSchema {

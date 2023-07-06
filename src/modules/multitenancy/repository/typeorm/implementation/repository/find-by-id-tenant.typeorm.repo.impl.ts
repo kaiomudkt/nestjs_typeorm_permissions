@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { IFindByIdUserRepository } from 'src/modules/user/domain/repository/interfaces/find-by-id-user.repository.interface';
+import { IFindByIdUserRepository } from '../../../../../user/domain/repository/interfaces/find-by-id-user.repository.interface';
 import { TenantTypeOrmSchemaImpl } from '../schema/tenant.typeorm.schema.impl';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';

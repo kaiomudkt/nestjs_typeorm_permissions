@@ -8,10 +8,10 @@ import {
   ManyToMany,
   JoinTable,
 } from 'typeorm';
-import { StatusTenantEnum } from 'src/modules/multitenancy/domain/enum/status-tenant.enum';
+import { StatusTenantEnum } from '../../../../domain/enum/status-tenant.enum';
 import { IsEnum } from 'class-validator';
-import { IUserSchema } from 'src/modules/user/domain/user.schema.interface';
-import { ITenantSchema } from 'src/modules/multitenancy/domain/enum/tenant.schema.interface';
+import { IUserSchema } from '../../../../../user/domain/user.schema.interface';
+import { ITenantSchema } from '../../../../domain/enum/tenant.schema.interface';
 
 @Entity({ name: 'user' })
 export class TenantTypeOrmSchemaImpl implements ITenantSchema {

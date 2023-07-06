@@ -1,4 +1,4 @@
-import { IBaseSquema } from 'src/modules/base/domain/interfaces/base.squema.interface';
+import { IBaseSquema } from '../../../base/domain/interfaces/base.squema.interface';
 import { StatusTenantEnum } from './status-tenant.enum';
 
 export interface ITenantSchema extends IBaseSquema {

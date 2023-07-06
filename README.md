@@ -19,7 +19,8 @@
 ### arquitetura
 Por padrão o Nest.js tem um arquitetura de software orientado a serviços,
 mas neste caso estamos se inspirando como o clean architecture é orientado a camada de dominio,
-desta forma podemos 
+desta forma podemos criar novos conceitos, como camadas e arquivos, mas tentando ao maximo não alterar o padrão do framework,
+pois o objetivo é usar o framework simplesmente como uma ferramenta a nosso favor, e não lutar contra o framework tentando mudar a forma em que foi planejada por seus criadores
 
 - entity: camada do ORM
 - domain: camada que aplica a regra de negócio 

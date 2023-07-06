@@ -9,7 +9,7 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindByIdUserUsecase } from './domain/usecase/find-by-id-user.usecase';
 // import { MultitenancyService } from '../multitenancy/multitenancy.service';
-import { InjectModel } from '@nestjs/mongoose';
+// import { InjectModel } from '@nestjs/mongoose';
 
 @Injectable()
 export class UserService {

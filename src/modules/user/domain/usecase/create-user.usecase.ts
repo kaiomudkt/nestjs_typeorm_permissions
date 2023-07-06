@@ -25,6 +25,8 @@ export class CreateUserUsecase {
 
     // TODO: transaction
     this.repository.create(userEntity);
+    // TODO: registrar no BD categorias deste usuario
+    // TODO: chamar outro modulo que registra esse relacionamento, sem precisar abrir transaction
     // TODO: commitTransaction
 
     // TODO: rollbackTransaction

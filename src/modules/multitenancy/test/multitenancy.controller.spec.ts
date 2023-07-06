@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { MultitenancyController } from './multitenancy.controller';
-import { MultitenancyService } from './multitenancy.service';
+import { MultitenancyController } from '../multitenancy.controller';
+import { MultitenancyService } from '../multitenancy.service';
 
 describe('MultitenancyController', () => {
   let controller: MultitenancyController;

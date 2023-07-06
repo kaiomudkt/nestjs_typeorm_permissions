@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { MultitenancyService } from './multitenancy.service';
+import { MultitenancyService } from '../multitenancy.service';
 
 describe('MultitenancyService', () => {
   let service: MultitenancyService;
