@@ -1,9 +1,7 @@
-// import 'dotenv/config';
-import * as dotenv from 'dotenv';
+import 'dotenv/config';
 import { DataSource, DataSourceOptions } from 'typeorm';
 import { SeederOptions } from 'typeorm-extension';
 import * as path from 'path';
-
 /**
  * por padrão obtem todas as entidades,
  * mas caso tenha mais de um ORM ou mais de um DB,
