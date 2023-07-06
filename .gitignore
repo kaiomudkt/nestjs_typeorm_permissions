@@ -3,6 +3,7 @@
 /node_modules
 /.history
 .env
+/.env
 # Logs
 logs
 *.log
