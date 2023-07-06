@@ -130,5 +130,4 @@ export class UserEntity {
   set subdomain(subdomain: string) {
     this._subdomain = subdomain;
   }
-
 }

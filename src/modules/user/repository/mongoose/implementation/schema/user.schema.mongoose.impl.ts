@@ -16,4 +16,4 @@ export const schema = new mongoose.Schema({
   },
 });
 
-export const UserSchema = { name: 'User', schema };
+export const UserSchemaMongooseImpl = { name: 'User', schema };

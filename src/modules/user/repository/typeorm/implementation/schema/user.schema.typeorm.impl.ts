@@ -14,7 +14,7 @@ import { IUserSchema } from '../../../../domain/user.schema.interface';
 // import { StatusUserValidator } from '../StatusUser.validator';
 
 @Entity({ name: 'user' })
-export class UserTypeOrmSchemaImpl implements IUserSchema {
+export class UserSchemaTypeormImpl implements IUserSchema {
   [x: string]: any;
   @PrimaryGeneratedColumn('uuid')
   id: string;

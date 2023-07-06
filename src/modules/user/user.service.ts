@@ -4,7 +4,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdatePatchUserDto } from './dto/update-patch-user.dto';
 import { CreateUserTypeormRepoImpl } from './repository/typeorm/implementation/repository/create-user.typeorm.repo.impl';
 import { FindByIdUserTypeormRepoImpl } from './repository/typeorm/implementation/repository/find-by-id-user.typeorm.repo.impl';
-import { UserTypeOrmSchemaImpl } from './repository/typeorm/implementation/schema/user.typeorm.schema.impl';
+import { UserSchemaTypeormImpl } from './repository/typeorm/implementation/schema/user.schema.typeorm.impl';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindByIdUserUsecase } from './domain/usecase/find-by-id-user.usecase';
@@ -16,8 +16,8 @@ export class UserService {
   private createUserUsecase: CreateUserUsecase;
   private findByIdUserUsecase: FindByIdUserUsecase;
   constructor(
-    @InjectRepository(UserTypeOrmSchemaImpl)
-    private readonly userRepository: Repository<UserTypeOrmSchemaImpl>,
+    @InjectRepository(UserSchemaTypeormImpl)
+    private readonly userRepository: Repository<UserSchemaTypeormImpl>,
     // private tenantService: MultitenancyService,
   ) {
     this.createUserUsecase = new CreateUserUsecase(

@@ -11,7 +11,6 @@ export class CreateUserUsecase {
   }
 
   async create(data: CreateUserDto) {
-    console.log(data);
     const userEntity = UserEntity.factory(
       data.name,
       data.email,
@@ -33,12 +32,10 @@ export class CreateUserUsecase {
       status: getEnumKeyByValue(StatusUserEnum, userEntity.status),
       // id: userEntity.id,
     };
-    console.log(payload);
     this.repository.create(payload);
     // TODO: registrar no BD categorias deste usuario
     // TODO: chamar outro modulo que registra esse relacionamento, sem precisar abrir transaction
     // TODO: commitTransaction
-
     // TODO: rollbackTransaction
     // return userEntity;
   }
