@@ -57,7 +57,6 @@ export class UserService {
   }
 
   async findOne(id: string) {
-    // console.log(this.tenantService.tenant); // TODO: obtem do payload do token qual é o tenant
     return await this.findByIdUserUsecase.findById(id);
   }
 

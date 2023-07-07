@@ -26,13 +26,11 @@ export class UserController {
   findAll(@Query() query: FindAllUsersByTenantDto) {
     const tenantId = 'tenant_1'; // TODO: extrair o tenantId do auth guard
     const { page, limit } = query;
-    console.log('query: ', query);
     return this.userService.findAll(tenantId, page, limit);
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    console.log('zzzzzzzzzzzzzz: ');
     return this.userService.findOne(id);
   }
 
