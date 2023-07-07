@@ -1,42 +1,48 @@
 import { UserEntity } from '../user.entity';
-import { CreateUserDto } from '../../dto/create-user.dto';
-import { ICreateUserRepository } from '../repository/interfaces/create-user.repository.interface';
+import { UpdatePartialUserDto } from '../../dto/update-partial-user.dto';
+import { IUpdatePartialUserRepository } from '../repository/interfaces/update-partial-user.repository.interface';
 import { IUserSchema } from '../user.schema.interface';
 import { StatusUserEnum } from '../enum/status-user.enum';
-import { getEnumKeyByValue } from '../../../../infra/utils/enum/enum-operations';
+import {
+  getEnumKeyByValue,
+  toEnum,
+} from '../../../../infra/utils/enum/enum-operations';
 
-export class CreateUserUsecase {
-  repository: ICreateUserRepository<IUserSchema>;
-  constructor(repository: ICreateUserRepository<IUserSchema>) {
+export class UpdatePartialUserUsecase {
+  repository: IUpdatePartialUserRepository<IUserSchema>;
+  constructor(repository: IUpdatePartialUserRepository<IUserSchema>) {
     this.repository = repository;
   }
 
-  async create(data: CreateUserDto) {
+  async updatePartial(userId: string, data: UpdatePartialUserDto) {
     // TODO: em cada tenant nao pode repetir email, cpf
     // TODO: login nao pode repetir indepedente de tenant
-    const tenantEntity = data.tenantId;
+    // TODO: não pode atualizar tenantId
+    console.log('toEnum', toEnum(data.status, StatusUserEnum));
+    console.log('data', data);
     const userEntity = UserEntity.factory(
       data.name,
       data.email,
       data.login,
       data.password,
       new Date(data.birthAt),
-      StatusUserEnum.PENDING,
-      tenantEntity,
+      toEnum(data.status, StatusUserEnum),
+      // '',
     );
+    console.log('userEntity', userEntity);
     userEntity.validDateBirth();
-    // TODO: transaction
+    // TODO: start transaction
     const payload = {
       name: userEntity.name,
       email: userEntity.email,
       login: userEntity.login,
       password: userEntity.password,
       birthAt: userEntity.birthAt,
-      tenantId: userEntity.tenantEntity, // TODO: passar somente id
       status: getEnumKeyByValue(StatusUserEnum, userEntity.status),
       // id: userEntity.id,
     };
-    const createdUser = this.repository.create(payload);
+    console.log('payload', payload);
+    const createdUser = this.repository.updatePartial(userId, payload);
     // TODO: registrar no BD categorias deste usuario
     // TODO: chamar outro modulo que registra esse relacionamento, sem precisar abrir transaction
     // TODO: commitTransaction

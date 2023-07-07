@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UpdatePatchUserDto } from './dto/update-patch-user.dto';
+import { UpdatePartialUserDto } from './dto/update-partial-user.dto';
 import { FindAllUsersByTenantDto } from './dto/find-all-users-by-tenant.dto';
 
 @Controller('user')
@@ -37,13 +37,13 @@ export class UserController {
   @Patch(':id')
   update(
     @Param('id') id: string,
-    @Body() updatePatchUserDto: UpdatePatchUserDto,
+    @Body() updatePartialUserDto: UpdatePartialUserDto,
   ) {
-    return this.userService.update(+id, updatePatchUserDto);
+    return this.userService.update(id, updatePartialUserDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.userService.remove(+id);
+    return this.userService.remove(id);
   }
 }

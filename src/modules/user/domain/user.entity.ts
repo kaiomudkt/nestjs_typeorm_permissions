@@ -1,4 +1,5 @@
-import { StatusUserEnum, toEnum } from './enum/status-user.enum';
+import { getEnumKeyByValue, toEnum } from '../../../infra/utils/enum/enum-operations';
+import { StatusUserEnum } from './enum/status-user.enum';
 
 export class UserEntity {
   private _id: string;
@@ -26,7 +27,7 @@ export class UserEntity {
     this._password = password;
     this._birthAt = birthAt;
     this._login = login;
-    this._status = status ?? StatusUserEnum.ACTIVE;
+    this._status = status;
     this._tenantEntity = tenantEntity;
   }
 
@@ -36,8 +37,8 @@ export class UserEntity {
     login: string,
     password: string,
     birthAt: Date,
-    tenantEntity: string,
     status?: StatusUserEnum,
+    tenantEntity?: string, // TODO: ao criar é obrigartio, ao atualizar nao pode
     id?: string,
   ): UserEntity {
     return new UserEntity(
@@ -129,5 +130,31 @@ export class UserEntity {
 
   set tenantEntity(tenantEntity: string) {
     this._tenantEntity = tenantEntity;
+  }
+
+  /**
+   * Lista de atributos que não podem ser atualizados
+   * @returns
+   */
+  static blockUpdate() {
+    return ['id', 'tenantEntity'];
+  }
+
+  static blockCreated() {
+    return ['id', 'status'];
+  }
+
+  /**
+   * Cada Tenant pode ter uma regra de negocio diferente de como será o valor padrão de inicio ao criar novo usuaria
+   */
+  // TODO: implementar feature-flag, step, design pattern Specification
+  static defaultValueCreated() {
+    return {
+      status: getEnumKeyByValue(
+        StatusUserEnum,
+        toEnum('PENDING', StatusUserEnum),
+      ),
+      id: 'UUID_AUTOMATICALLY_GENERATED',
+    };
   }
 }

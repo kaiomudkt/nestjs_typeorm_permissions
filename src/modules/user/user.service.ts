@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserUsecase } from './domain/usecase/create-user.usecase';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UpdatePatchUserDto } from './dto/update-patch-user.dto';
+import { UpdatePartialUserDto } from './dto/update-partial-user.dto';
 import { CreateUserTypeormRepoImpl } from './repository/typeorm/implementation/repository/create-user.typeorm.repo.impl';
 import { FindByIdUserTypeormRepoImpl } from './repository/typeorm/implementation/repository/find-by-id-user.typeorm.repo.impl';
 import { UserSchemaTypeormImpl } from './repository/typeorm/implementation/schema/user.schema.typeorm.impl';
@@ -10,13 +10,17 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { FindByIdUserUsecase } from './domain/usecase/find-by-id-user.usecase';
 import { FindAllUsersByTenantUsecase } from './domain/usecase/find-all-users-by-tenant.usecase';
 import { FindAllUsersByTenantTypeormRepoImpl } from './repository/typeorm/implementation/repository/find-all-users-by-tenant.typeorm.repo.impl';
+import { UpdatePartialUserUsecase } from './domain/usecase/update-partial-user.usecase';
 import { IUserSchema } from './domain/user.schema.interface';
+import { UpdatePartialUserTypeormRepoImpl } from './repository/typeorm/implementation/repository/update-partial-user.typeorm.repo.impl';
 
 @Injectable()
 export class UserService {
   private createUserUsecase: CreateUserUsecase;
   private findByIdUserUsecase: FindByIdUserUsecase;
   private findAllUsersByTenantUsecase: FindAllUsersByTenantUsecase;
+  private updatePartialUserUsecase: UpdatePartialUserUsecase;
+
   constructor(
     @InjectRepository(UserSchemaTypeormImpl)
     private readonly userRepositoryInstance: Repository<UserSchemaTypeormImpl>,
@@ -33,9 +37,9 @@ export class UserService {
     // this.deleteUserByIdUsecase = new DeleteUserByIdUsecase(
     //   new DeleteUserByIdTypeormRepoImpl(this.userRepositoryInstance),
     // );
-    // this.updateUserUsecase = new UpdateUserUsecase(
-    //   new UpdateUserTypeormRepoImpl(this.userRepositoryInstance),
-    // );
+    this.updatePartialUserUsecase = new UpdatePartialUserUsecase(
+      new UpdatePartialUserTypeormRepoImpl(this.userRepositoryInstance),
+    );
   }
 
   async create(createUserDto: CreateUserDto) {
@@ -60,11 +64,14 @@ export class UserService {
     return await this.findByIdUserUsecase.findById(id);
   }
 
-  update(id: number, updatePatchUserDto: UpdatePatchUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: string, updatePartialUserDto: UpdatePartialUserDto) {
+    return await this.updatePartialUserUsecase.updatePartial(
+      id,
+      updatePartialUserDto,
+    );
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} user`;
   }
 }

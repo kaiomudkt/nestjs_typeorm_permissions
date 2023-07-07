@@ -4,7 +4,8 @@ import {
   ValidatorConstraintInterface,
   ValidationArguments,
 } from 'class-validator';
-import { StatusUserEnum, toEnum } from '../../../domain/enum/status-user.enum';
+import { StatusUserEnum } from '../../../domain/enum/status-user.enum';
+import { toEnum } from '../../../../../infra/utils/enum/enum-operations';
 
 @Injectable()
 @ValidatorConstraint({ name: 'statusUser', async: false })
