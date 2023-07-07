@@ -12,8 +12,8 @@
 
 - Sistema web com a funcionalidade de usuário com cargo e suas respectivas permissões;
 - podem ser criados diversos tipos de usuários, e cada cargo só pode ser atribuido a um tipo ou mais
-- suporte a multi-tenancy: cada usuario pode estar relacionado com varios tenancy
-    - mas em cada tenancy de criar um novo user, pois cada tenancy deve ser todalmente independente 
+- suporte a multi-tenancy: cada usuario pode estar relacionado com varios tenant
+    - mas em cada tenant de criar um novo user, pois cada tenant deve ser todalmente independente 
 
 
 ### arquitetura
@@ -30,7 +30,7 @@ pois o objetivo é usar o framework simplesmente como uma ferramenta a nosso fav
 1ª valida se o usuário logado tem cargo com a permissão de realizar a ação do serviço
     - exemplo: somente usuários admininstrdores tem permissão de realizar essa ação
 2ª valida se o usuario logado tem autorização sobre o dado que esta interagindo 
-    - exemplo: usuario logado nao tem autorização para interagir com dados de outro tenancy
+    - exemplo: usuario logado nao tem autorização para interagir com dados de outro tenant
     - exemplo: usuário logado não tem autorização para interagir com dados de outros usuários
 3ª valida se o dado que esta interagindo permite a ação 
     - exemplo: status do dado não permite realizar essa ação 
@@ -47,7 +47,7 @@ pois o objetivo é usar o framework simplesmente como uma ferramenta a nosso fav
     - exemplo: usuário logado não pode realizar está ação caso update-password de outro usuário;
 - a camada de "usecase" do Domain tem a responsabilidade de verificar se a tupla em que o usuario logado esta interagindo permite a ação
     - exemplo:o "cargo-sub-gerente-1" está com o status "lotado", e por isso não pode ser adicionado um novo usuário a este cargo;
-- em aplicações multi-tenancy, a camada de "service" a partir do payload do JWT, é responsavel para verificar se o usuario logado tem a cargo/permissão no tenancy desejado
+- em aplicações multi-tenancy, a camada de "service" a partir do payload do JWT, é responsavel para verificar se o usuario logado tem a cargo/permissão no tenant desejado
 - em aplicações multi-tenancy, vários inquilinos (tenants) compartilham a mesma instância da aplicação, você pode seguir uma abordagem em que cada solicitação é roteada para o tenant correto com base em algum critério, como um subdomínio, um cabeçalho personalizado ou um parâmetro de URL.
 - todas as entidades do typeorm devem ser criados com o sufixo ".typeorm.schema.impl.js"
 ### recomendações de como desenvolver

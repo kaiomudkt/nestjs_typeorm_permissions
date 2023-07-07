@@ -11,13 +11,15 @@ export class CreateUserUsecase {
   }
 
   async create(data: CreateUserDto) {
+    // TODO: em cada tenant nao pode repetir email, cpf
+    // TODO: login nao pode repetir indepedente de tenant
     const userEntity = UserEntity.factory(
       data.name,
       data.email,
       data.login,
       data.password,
       new Date(data.birthAt),
-      data.subdomain,
+      data.tenant,
       StatusUserEnum.PENDING,
     );
     userEntity.validDateBirth();
@@ -28,7 +30,7 @@ export class CreateUserUsecase {
       login: userEntity.login,
       password: userEntity.password,
       birthAt: userEntity.birthAt,
-      subdomain: userEntity.subdomain,
+      tenant: userEntity.tenant,
       status: getEnumKeyByValue(StatusUserEnum, userEntity.status),
       // id: userEntity.id,
     };

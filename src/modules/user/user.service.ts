@@ -8,13 +8,15 @@ import { UserSchemaTypeormImpl } from './repository/typeorm/implementation/schem
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindByIdUserUsecase } from './domain/usecase/find-by-id-user.usecase';
-// import { MultitenancyService } from '../multitenancy/multitenancy.service';
-// import { InjectModel } from '@nestjs/mongoose';
+import { FindAllUsersByTenantUsecase } from './domain/usecase/find-all-users-by-tenant.usecase';
+import { IUserSchema } from './domain/user.schema.interface';
+import { FindAllUsersByTenantTypeormRepoImpl } from './repository/typeorm/implementation/repository/find-all-users-by-tenant.typeorm.repo.impl';
 
 @Injectable()
 export class UserService {
   private createUserUsecase: CreateUserUsecase;
   private findByIdUserUsecase: FindByIdUserUsecase;
+  private findAllUsersByTenantUsecase: FindAllUsersByTenantUsecase;
   constructor(
     @InjectRepository(UserSchemaTypeormImpl)
     private readonly userRepository: Repository<UserSchemaTypeormImpl>,
@@ -25,23 +27,37 @@ export class UserService {
     this.findByIdUserUsecase = new FindByIdUserUsecase(
       new FindByIdUserTypeormRepoImpl(this.userRepository),
     );
+    this.findAllUsersByTenantUsecase = new FindAllUsersByTenantUsecase(
+      new FindAllUsersByTenantTypeormRepoImpl(this.userRepository),
+    );
+    // this.deleteUserByIdUsecase = new DeleteUserByIdUsecase(
+    //   new DeleteUserByIdTypeormRepoImpl(this.userRepository),
+    // );
+    // this.updateUserUsecase = new UpdateUserUsecase(
+    //   new UpdateUserTypeormRepoImpl(this.userRepository),
+    // );
   }
 
   async create(createUserDto: CreateUserDto) {
     const data: any = await this.createUserUsecase.create({
       ...createUserDto,
-      // subdomain: this.tenantService.subdomain,
+      // tenant: this.tenantService.tenant,
     });
     // envio de email
     return data;
   }
 
-  findAll() {
-    return `This action returns all user`;
+  async findAll(tenantId: string, page: number, limit: number) {
+    const data = await this.findAllUsersByTenantUsecase.findAllUsersByTenant(
+      tenantId,
+      page,
+      limit,
+    );
+    return data;
   }
 
   async findOne(id: string) {
-    // console.log(this.tenantService.subdomain); // TODO: obtem do payload do token qual é o tenancy
+    // console.log(this.tenantService.tenant); // TODO: obtem do payload do token qual é o tenant
     return await this.findByIdUserUsecase.findById(id);
   }
 

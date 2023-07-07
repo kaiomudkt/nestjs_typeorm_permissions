@@ -8,7 +8,7 @@ export const usersEnttitiesList: UserSchemaTypeormImpl[] = [
     name: 'João Silva',
     password: '123-abc.ABC', // 123-abc.ABC
     birthAt: new Date('1992-12-28'),
-    subdomain: 'tenancy_1',
+    tenantId: 'tenant_1',
     status: 'PENDING',
     deletedAt: null,
     createdAt: new Date(),
@@ -21,7 +21,7 @@ export const usersEnttitiesList: UserSchemaTypeormImpl[] = [
     name: 'Maria Oliveira',
     password: '123-abc.ABC', // 123-abc.ABC
     birthAt: new Date('2001-11-27'),
-    subdomain: 'tenancy_1',
+    tenantId: 'tenant_1',
     status: 'ACTIVE',
     deletedAt: null,
     createdAt: new Date(),

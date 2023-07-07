@@ -7,7 +7,7 @@ export class UserEntity {
   private _password: string;
   private _birthAt: Date;
   private _login: string;
-  private _subdomain: string;
+  private _tenant: string;
   private _status: StatusUserEnum;
 
   private constructor(
@@ -18,7 +18,7 @@ export class UserEntity {
     login?: string,
     birthAt?: Date,
     status?: StatusUserEnum,
-    subdomain?: string,
+    tenant?: string,
   ) {
     this._id = id;
     this._name = name;
@@ -27,7 +27,7 @@ export class UserEntity {
     this._birthAt = birthAt;
     this._login = login;
     this._status = status ?? StatusUserEnum.ACTIVE;
-    this._subdomain = subdomain;
+    this._tenant = tenant;
   }
 
   static factory(
@@ -36,7 +36,7 @@ export class UserEntity {
     login: string,
     password: string,
     birthAt: Date,
-    subdomain: string,
+    tenant: string,
     status?: StatusUserEnum,
     id?: string,
   ): UserEntity {
@@ -48,7 +48,7 @@ export class UserEntity {
       login,
       birthAt,
       status,
-      subdomain,
+      tenant,
     );
   }
 
@@ -123,11 +123,11 @@ export class UserEntity {
     this._status = status;
   }
 
-  get subdomain(): string {
-    return this._subdomain;
+  get tenant(): string {
+    return this._tenant;
   }
 
-  set subdomain(subdomain: string) {
-    this._subdomain = subdomain;
+  set tenant(tenant: string) {
+    this._tenant = tenant;
   }
 }

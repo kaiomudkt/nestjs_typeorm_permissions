@@ -6,11 +6,12 @@ import {
   Patch,
   Param,
   Delete,
-  UseGuards,
+  Query,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdatePatchUserDto } from './dto/update-patch-user.dto';
+import { FindAllUsersByTenantDto } from './dto/find-all-users-by-tenant.dto';
 
 @Controller('user')
 export class UserController {
@@ -22,14 +23,16 @@ export class UserController {
   }
 
   @Get()
-  findAll() {
-    return this.userService.findAll();
+  findAll(@Query() query: FindAllUsersByTenantDto) {
+    const tenantId = 'tenant_1'; // TODO: extrair o tenantId do auth guard
+    const { page, limit } = query;
+    console.log('query: ', query);
+    return this.userService.findAll(tenantId, page, limit);
   }
 
-  // TODO
-  // @UseGuards(JwtGuard, MultitenancyGuard)
   @Get(':id')
   findOne(@Param('id') id: string) {
+    console.log('zzzzzzzzzzzzzz: ');
     return this.userService.findOne(id);
   }
 

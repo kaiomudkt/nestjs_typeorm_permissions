@@ -37,5 +37,5 @@ export class CreateUserDto {
 
   @IsOptional()
   @ApiProperty()
-  subdomain?: string;
+  tenant?: string;
 }

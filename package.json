@@ -22,8 +22,6 @@
     "typeorm:migrate-up": "typeorm-ts-node-esm migration:run -d ./src/infra/gateways/internal/db/typeorm/data-source.ts",
     "typeorm:migrate-down": "typeorm-ts-node-esm migration:revert -d ./src/infra/gateways/internal/db/typeorm/data-source.ts",
     "typeorm:migrate-create": "typeorm migration:create"
-
-
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",
@@ -45,6 +43,7 @@
     "swagger-ui-express": "^4.6.3",
     "typeorm": "^0.3.17",
     "typeorm-extension": "^2.8.1",
+    "typeorm-pagination": "^2.0.3",
     "uuid": "^9.0.0"
   },
   "devDependencies": {

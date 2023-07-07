@@ -19,6 +19,9 @@ export class UserSchemaTypeormImpl implements IUserSchema {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Column()
+  tenantId: string; // TODO: FK UUID
+
   @Column({
     length: 127,
   })
