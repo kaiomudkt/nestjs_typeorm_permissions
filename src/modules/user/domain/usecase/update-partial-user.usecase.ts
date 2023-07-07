@@ -18,18 +18,23 @@ export class UpdatePartialUserUsecase {
     // TODO: em cada tenant nao pode repetir email, cpf
     // TODO: login nao pode repetir indepedente de tenant
     // TODO: não pode atualizar tenantId
-    console.log('toEnum', toEnum(data.status, StatusUserEnum));
-    console.log('data', data);
+    let statusEnum = null;
+    if (data.status) {
+      statusEnum = toEnum(data.status, StatusUserEnum);
+      if (!statusEnum || statusEnum == undefined) {
+        // TODO: lançar exceção: Valor do status não foi identificado;
+        return;
+      }
+    }
     const userEntity = UserEntity.factory(
       data.name,
       data.email,
       data.login,
       data.password,
       new Date(data.birthAt),
-      toEnum(data.status, StatusUserEnum),
+      statusEnum,
       // '',
     );
-    console.log('userEntity', userEntity);
     userEntity.validDateBirth();
     // TODO: start transaction
     const payload = {
@@ -41,7 +46,6 @@ export class UpdatePartialUserUsecase {
       status: getEnumKeyByValue(StatusUserEnum, userEntity.status),
       // id: userEntity.id,
     };
-    console.log('payload', payload);
     const createdUser = this.repository.updatePartial(userId, payload);
     // TODO: registrar no BD categorias deste usuario
     // TODO: chamar outro modulo que registra esse relacionamento, sem precisar abrir transaction
