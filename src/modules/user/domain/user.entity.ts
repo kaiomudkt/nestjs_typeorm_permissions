@@ -7,7 +7,7 @@ export class UserEntity {
   private _password: string;
   private _birthAt: Date;
   private _login: string;
-  private _tenant: string;
+  private _tenantEntity: string;
   private _status: StatusUserEnum;
 
   private constructor(
@@ -18,7 +18,7 @@ export class UserEntity {
     login?: string,
     birthAt?: Date,
     status?: StatusUserEnum,
-    tenant?: string,
+    tenantEntity?: string, // TODO: criar entity
   ) {
     this._id = id;
     this._name = name;
@@ -27,7 +27,7 @@ export class UserEntity {
     this._birthAt = birthAt;
     this._login = login;
     this._status = status ?? StatusUserEnum.ACTIVE;
-    this._tenant = tenant;
+    this._tenantEntity = tenantEntity;
   }
 
   static factory(
@@ -36,7 +36,7 @@ export class UserEntity {
     login: string,
     password: string,
     birthAt: Date,
-    tenant: string,
+    tenantEntity: string,
     status?: StatusUserEnum,
     id?: string,
   ): UserEntity {
@@ -48,7 +48,7 @@ export class UserEntity {
       login,
       birthAt,
       status,
-      tenant,
+      tenantEntity,
     );
   }
 
@@ -123,11 +123,11 @@ export class UserEntity {
     this._status = status;
   }
 
-  get tenant(): string {
-    return this._tenant;
+  get tenantEntity(): string {
+    return this._tenantEntity;
   }
 
-  set tenant(tenant: string) {
-    this._tenant = tenant;
+  set tenantEntity(tenantEntity: string) {
+    this._tenantEntity = tenantEntity;
   }
 }

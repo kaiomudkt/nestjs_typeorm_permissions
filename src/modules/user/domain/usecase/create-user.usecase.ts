@@ -13,13 +13,14 @@ export class CreateUserUsecase {
   async create(data: CreateUserDto) {
     // TODO: em cada tenant nao pode repetir email, cpf
     // TODO: login nao pode repetir indepedente de tenant
+    const tenantEntity = data.tenantId;
     const userEntity = UserEntity.factory(
       data.name,
       data.email,
       data.login,
       data.password,
       new Date(data.birthAt),
-      data.tenant,
+      tenantEntity,
       StatusUserEnum.PENDING,
     );
     userEntity.validDateBirth();
@@ -30,7 +31,7 @@ export class CreateUserUsecase {
       login: userEntity.login,
       password: userEntity.password,
       birthAt: userEntity.birthAt,
-      tenant: userEntity.tenant,
+      tenantId: userEntity.tenantEntity, // TODO: passar somente id
       status: getEnumKeyByValue(StatusUserEnum, userEntity.status),
       // id: userEntity.id,
     };

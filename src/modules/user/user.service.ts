@@ -9,8 +9,8 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindByIdUserUsecase } from './domain/usecase/find-by-id-user.usecase';
 import { FindAllUsersByTenantUsecase } from './domain/usecase/find-all-users-by-tenant.usecase';
-import { IUserSchema } from './domain/user.schema.interface';
 import { FindAllUsersByTenantTypeormRepoImpl } from './repository/typeorm/implementation/repository/find-all-users-by-tenant.typeorm.repo.impl';
+import { IUserSchema } from './domain/user.schema.interface';
 
 @Injectable()
 export class UserService {
@@ -19,22 +19,22 @@ export class UserService {
   private findAllUsersByTenantUsecase: FindAllUsersByTenantUsecase;
   constructor(
     @InjectRepository(UserSchemaTypeormImpl)
-    private readonly userRepository: Repository<UserSchemaTypeormImpl>,
+    private readonly userRepositoryInstance: Repository<UserSchemaTypeormImpl>,
   ) {
     this.createUserUsecase = new CreateUserUsecase(
-      new CreateUserTypeormRepoImpl(this.userRepository),
+      new CreateUserTypeormRepoImpl(this.userRepositoryInstance),
     );
     this.findByIdUserUsecase = new FindByIdUserUsecase(
-      new FindByIdUserTypeormRepoImpl(this.userRepository),
+      new FindByIdUserTypeormRepoImpl(this.userRepositoryInstance),
     );
     this.findAllUsersByTenantUsecase = new FindAllUsersByTenantUsecase(
-      new FindAllUsersByTenantTypeormRepoImpl(this.userRepository),
+      new FindAllUsersByTenantTypeormRepoImpl(this.userRepositoryInstance),
     );
     // this.deleteUserByIdUsecase = new DeleteUserByIdUsecase(
-    //   new DeleteUserByIdTypeormRepoImpl(this.userRepository),
+    //   new DeleteUserByIdTypeormRepoImpl(this.userRepositoryInstance),
     // );
     // this.updateUserUsecase = new UpdateUserUsecase(
-    //   new UpdateUserTypeormRepoImpl(this.userRepository),
+    //   new UpdateUserTypeormRepoImpl(this.userRepositoryInstance),
     // );
   }
 
