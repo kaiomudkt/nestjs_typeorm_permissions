@@ -5,7 +5,7 @@ export class UserEntity {
   private _name: string;
   private _email: string;
   private _password: string;
-  private _birthAt: string;
+  private _birthAt: Date;
   private _login: string;
   private _subdomain: string;
   private _status: StatusUserEnum;
@@ -16,7 +16,7 @@ export class UserEntity {
     email?: string,
     password?: string,
     login?: string,
-    birthAt?: string,
+    birthAt?: Date,
     status?: StatusUserEnum,
     subdomain?: string,
   ) {
@@ -35,7 +35,7 @@ export class UserEntity {
     email: string,
     login: string,
     password: string,
-    birthAt: string,
+    birthAt: Date,
     subdomain: string,
     status?: StatusUserEnum,
     id?: string,
@@ -59,7 +59,7 @@ export class UserEntity {
   isAdult(): boolean {
     const currentDate = new Date();
     const ageDifference =
-      currentDate.getFullYear() - new Date(this.birthAt).getFullYear();
+      currentDate.getFullYear() - this.birthAt.getFullYear();
     return ageDifference >= 18;
   }
 
@@ -107,11 +107,11 @@ export class UserEntity {
     this._password = password;
   }
 
-  get birthAt(): string {
+  get birthAt(): Date {
     return this._birthAt;
   }
 
-  set birthAt(birthAt: string) {
+  set birthAt(birthAt: Date) {
     this._birthAt = birthAt;
   }
 

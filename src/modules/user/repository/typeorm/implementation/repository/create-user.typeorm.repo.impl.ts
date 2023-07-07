@@ -14,6 +14,7 @@ export class CreateUserTypeormRepoImpl
   ) {}
 
   async create(schema: UserSchemaTypeormImpl): Promise<UserSchemaTypeormImpl> {
-    return await this.repository.save(schema);
+    const createdUser = await this.repository.save(schema);
+    return createdUser;
   }
 }

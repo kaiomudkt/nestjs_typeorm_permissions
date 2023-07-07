@@ -18,7 +18,6 @@ export class UserService {
   constructor(
     @InjectRepository(UserSchemaTypeormImpl)
     private readonly userRepository: Repository<UserSchemaTypeormImpl>,
-    // private tenantService: MultitenancyService,
   ) {
     this.createUserUsecase = new CreateUserUsecase(
       new CreateUserTypeormRepoImpl(this.userRepository),

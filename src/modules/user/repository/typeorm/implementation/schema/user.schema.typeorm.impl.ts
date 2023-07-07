@@ -50,15 +50,15 @@ export class UserSchemaTypeormImpl implements IUserSchema {
     type: 'date',
     nullable: true,
   })
-  birthAt: string;
+  birthAt?: Date;
 
   @Column({ type: 'timestamp', nullable: true })
   @DeleteDateColumn()
-  deletedAt: Date;
+  deletedAt?: Date;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   @CreateDateColumn()
-  createdAt: Date;
+  createdAt?: Date;
 
   @Column({
     type: 'timestamp',
@@ -66,5 +66,5 @@ export class UserSchemaTypeormImpl implements IUserSchema {
     onUpdate: 'CURRENT_TIMESTAMP',
   })
   @UpdateDateColumn()
-  updatedAt: Date;
+  updatedAt?: Date;
 }

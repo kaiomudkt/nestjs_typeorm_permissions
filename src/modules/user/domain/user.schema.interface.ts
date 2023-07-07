@@ -4,9 +4,9 @@ export interface IUserSchema extends IBaseSquema {
   id?: string;
   name: string;
   email: string;
-  birthAt: string;
   status: string;
   password: string;
+  birthAt?: Date;
   deletedAt?: Date;
   createdAt?: Date;
   updatedAt?: Date;

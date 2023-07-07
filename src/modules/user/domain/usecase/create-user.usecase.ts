@@ -16,7 +16,7 @@ export class CreateUserUsecase {
       data.email,
       data.login,
       data.password,
-      data.birthAt,
+      new Date(data.birthAt),
       data.subdomain,
       StatusUserEnum.PENDING,
     );
@@ -32,11 +32,12 @@ export class CreateUserUsecase {
       status: getEnumKeyByValue(StatusUserEnum, userEntity.status),
       // id: userEntity.id,
     };
-    this.repository.create(payload);
+    const createdUser = this.repository.create(payload);
     // TODO: registrar no BD categorias deste usuario
     // TODO: chamar outro modulo que registra esse relacionamento, sem precisar abrir transaction
     // TODO: commitTransaction
     // TODO: rollbackTransaction
     // return userEntity;
+    return createdUser;
   }
 }

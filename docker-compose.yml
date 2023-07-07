@@ -21,14 +21,14 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
-  keycloak:
-    image: jboss/keycloak:latest
-    environment:
-      - KEYCLOAK_USER=${KEYCLOAK_USER}
-      - KEYCLOAK_PASSWORD=${KEYCLOAK_PASSWORD}
-      - DB_VENDOR=${KEYCLOAK_DB_VENDOR}
-    ports:
-      - ${KEYCLOAK_PORT}:8080
+  # keycloak:
+  #   image: jboss/keycloak:latest
+  #   environment:
+  #     - KEYCLOAK_USER=${KEYCLOAK_USER}
+  #     - KEYCLOAK_PASSWORD=${KEYCLOAK_PASSWORD}
+  #     - DB_VENDOR=${KEYCLOAK_DB_VENDOR}
+  #   ports:
+  #     - ${KEYCLOAK_PORT}:8080
     # volumes:
     #   - keycloak_data:/opt/jboss/keycloak/standalone/data
 
