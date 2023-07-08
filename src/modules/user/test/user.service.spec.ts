@@ -26,5 +26,19 @@ describe('UserService', () => {
     });
   });
 
-  // describe('Busca um usuário (user)', () => {});
+  describe('Busca muitos usuários (user)', () => {
+    test('método (findAll)', async () => {
+      const result = await userService.findAll('tenant_1', 0, 99);
+      expect(result).toEqual(usersEnttitiesList);
+    });
+  });
+
+  describe('Busca um usuário (user)', () => {
+    test('método (findOne)', async () => {
+      const result = await userService.findOne(
+        '77001d86-3063-4ae1-9297-81b08e386087',
+      );
+      expect(result).toEqual(usersEnttitiesList[0]);
+    });
+  });
 });

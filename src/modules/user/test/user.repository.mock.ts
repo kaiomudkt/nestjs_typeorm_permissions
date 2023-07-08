@@ -6,6 +6,7 @@ export const userRepositoryMock = {
   provide: getRepositoryToken(UserSchemaTypeormImpl),
   useValue: {
     save: jest.fn().mockResolvedValue(usersEnttitiesList[0]),
-    findOneBy: jest.fn(),
+    findAndCount: jest.fn().mockResolvedValue(usersEnttitiesList),
+    findOneBy: jest.fn().mockResolvedValue(usersEnttitiesList[0]),
   },
 };
