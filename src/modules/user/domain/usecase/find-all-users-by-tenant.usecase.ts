@@ -3,7 +3,7 @@ import { UserEntity } from '../user.entity';
 import { IUserSchema } from '../user.schema.interface';
 
 export class FindAllUsersByTenantUsecase {
-  repository: IFindAllUsersByTenantRepository<IUserSchema>;
+  private repository: IFindAllUsersByTenantRepository<IUserSchema>;
   constructor(repository: IFindAllUsersByTenantRepository<IUserSchema>) {
     this.repository = repository;
   }

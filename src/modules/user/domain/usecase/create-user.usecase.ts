@@ -6,7 +6,7 @@ import { StatusUserEnum } from '../enum/status-user.enum';
 import { getEnumKeyByValue } from '../../../../infra/utils/enum/enum-operations';
 
 export class CreateUserUsecase {
-  repository: ICreateUserRepository<IUserSchema>;
+  private repository: ICreateUserRepository<IUserSchema>;
   constructor(repository: ICreateUserRepository<IUserSchema>) {
     this.repository = repository;
   }

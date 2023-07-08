@@ -3,7 +3,7 @@ import { IFindByIdUserRepository } from '../repository/interfaces/find-by-id-use
 import { IUserSchema } from '../user.schema.interface';
 
 export class FindByIdUserUsecase {
-  repository: IFindByIdUserRepository<IUserSchema>;
+  private repository: IFindByIdUserRepository<IUserSchema>;
   constructor(repository: IFindByIdUserRepository<IUserSchema>) {
     this.repository = repository;
   }

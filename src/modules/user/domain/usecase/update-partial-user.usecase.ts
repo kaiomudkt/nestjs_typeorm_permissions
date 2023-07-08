@@ -9,7 +9,7 @@ import {
 } from '../../../../infra/utils/enum/enum-operations';
 
 export class UpdatePartialUserUsecase {
-  repository: IUpdatePartialUserRepository<IUserSchema>;
+  private repository: IUpdatePartialUserRepository<IUserSchema>;
   constructor(repository: IUpdatePartialUserRepository<IUserSchema>) {
     this.repository = repository;
   }
