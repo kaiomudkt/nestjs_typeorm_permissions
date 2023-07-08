@@ -13,6 +13,8 @@ import { FindAllUsersByTenantTypeormRepoImpl } from './repository/typeorm/implem
 import { UpdatePartialUserUsecase } from './domain/usecase/update-partial-user.usecase';
 import { IUserSchema } from './domain/user.schema.interface';
 import { UpdatePartialUserTypeormRepoImpl } from './repository/typeorm/implementation/repository/update-partial-user.typeorm.repo.impl';
+import { SoftDeleteByIdUserUsecase } from './domain/usecase/soft-delete-user-by-id.usecase';
+import { SoftDeleteByIdUserTypeormRepoImpl } from './repository/typeorm/implementation/repository/soft-delete-user-by-id.typeorm.repo.impl';
 
 @Injectable()
 export class UserService {
@@ -20,6 +22,7 @@ export class UserService {
   private findByIdUserUsecase: FindByIdUserUsecase;
   private findAllUsersByTenantUsecase: FindAllUsersByTenantUsecase;
   private updatePartialUserUsecase: UpdatePartialUserUsecase;
+  private softDeleteByIdUserUsecase: SoftDeleteByIdUserUsecase;
 
   constructor(
     @InjectRepository(UserSchemaTypeormImpl)
@@ -34,15 +37,15 @@ export class UserService {
     this.findAllUsersByTenantUsecase = new FindAllUsersByTenantUsecase(
       new FindAllUsersByTenantTypeormRepoImpl(this.userRepositoryInstance),
     );
-    // this.deleteUserByIdUsecase = new DeleteUserByIdUsecase(
-    //   new DeleteUserByIdTypeormRepoImpl(this.userRepositoryInstance),
-    // );
+    this.softDeleteByIdUserUsecase = new SoftDeleteByIdUserUsecase(
+      new SoftDeleteByIdUserTypeormRepoImpl(this.userRepositoryInstance),
+    );
     this.updatePartialUserUsecase = new UpdatePartialUserUsecase(
       new UpdatePartialUserTypeormRepoImpl(this.userRepositoryInstance),
     );
   }
 
-  async create(createUserDto: CreateUserDto) {
+  async create(createUserDto: CreateUserDto): Promise<IUserSchema | undefined> {
     const data: any = await this.createUserUsecase.create({
       ...createUserDto,
       // tenant: this.tenantService.tenant,
@@ -60,7 +63,7 @@ export class UserService {
     return data;
   }
 
-  async findOne(id: string) {
+  async findOne(id: string): Promise<IUserSchema> {
     return await this.findByIdUserUsecase.findById(id);
   }
 
@@ -71,7 +74,7 @@ export class UserService {
     );
   }
 
-  remove(id: string) {
-    return `This action removes a #${id} user`;
+  async remove(id: string): Promise<Promise<IUserSchema> | void> {
+    return await this.softDeleteByIdUserUsecase.softDeleteById(id);
   }
 }
