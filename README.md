@@ -63,6 +63,12 @@ pois o objetivo é usar o framework simplesmente como uma ferramenta a nosso fav
     - external: são serviços com regra de negocio, que podem ser usados por outros sistemas, e que inclusive tem potencial para se tornar um microserviço caso haja necessidade
 - alem de se preocupar com o princio da responsabilidade unica, tenha cuidado de se preocupar "motivação unica", pois alem de fazer que uma função tenha somente uma responsabilidade, considere em replicar essa função varias vezes se por preciso para manter sua unica motivação de existe, pois para cada motivo como um "service", "usecase" ou "repository" é um motivo diferente o porque esta usando esta função, com motivos diferentes de existir, consequentimente pode acontecer de com o passar do tempo cada função evoluir de forma idependente, tornando oque inicialmente era identico cada vez mais responsabilidades distintas. Mas lembre de que dentro da entidade de dominio nunca não pode haver replicação de código de regra de negocio;
 
+### etapas para criar um novo endpoint
+1ª criar arquivo NOME.repository.interface.ts
+2ª criar arquivo NOME.usecase.ts
+3ª criar arquivo NOME.typeorm.repo.impl.ts 
+4ª na service.ts instanciar o "usecase.ts", passaram como parametro o a instancia do "typeorm.repo.impl.ts"
+
 ### keyclock
 - http://localhost:9080/auth/admin
 
