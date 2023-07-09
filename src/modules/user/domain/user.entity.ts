@@ -36,16 +36,18 @@ export class UserEntity {
     email: string,
     username: string,
     password: string,
+    functionHash: (password: string, salt: number) => string,
     birthAt: Date,
     status?: StatusUserEnum,
     tenantEntity?: string, // TODO: ao criar é obrigartio, ao atualizar nao pode
     id?: string,
   ): UserEntity {
+    const hashPassword: string = functionHash(password, 10);
     return new UserEntity(
       id,
       name,
       email,
-      password,
+      hashPassword,
       username,
       birthAt,
       status,

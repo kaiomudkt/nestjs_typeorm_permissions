@@ -4,6 +4,7 @@ import { ICreateUserRepository } from '../interfaces/repository/create-user.repo
 import { IUserSchema } from '../user.schema.interface';
 import { StatusUserEnum } from '../enum/status-user.enum';
 import { getEnumKeyByValue } from '../../../../infra/utils/enum/enum-operations';
+import { hashSync } from 'bcrypt';
 
 export class CreateUserUsecase {
   private repository: ICreateUserRepository<IUserSchema>;
@@ -20,6 +21,9 @@ export class CreateUserUsecase {
       data.email,
       data.username,
       data.password,
+      () => {
+        return hashSync(data.password, 10);
+      },
       new Date(data.birthAt),
       StatusUserEnum.PENDING,
       tenantEntity,
