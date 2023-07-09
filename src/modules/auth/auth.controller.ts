@@ -6,6 +6,6 @@ export class AuthController {
   constructor(private authService: AuthService) {}
   @Post('login')
   login(@Body() body) {
-    this.authService.login(body.username, body.password);
+    return this.authService.login(body.username, body.password);
   }
 }

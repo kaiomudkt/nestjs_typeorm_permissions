@@ -1,7 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserSchemaTypeormImpl } from '../user/repository/typeorm/implementation/schema/user.schema.typeorm.impl';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindOneOptions, Repository } from 'typeorm';
+import { compareSync } from 'bcrypt';
 
 @Injectable()
 export class AuthService {
@@ -10,11 +11,23 @@ export class AuthService {
     private readonly userRepositoryInstance: Repository<UserSchemaTypeormImpl>,
   ) {}
 
-  async login(username: string, password: string) {
+  async login(
+    username: string,
+    password: string,
+  ): Promise<UserSchemaTypeormImpl | null> {
     const options: FindOneOptions<UserSchemaTypeormImpl> = {
       where: { username },
     };
-    const user = await this.userRepositoryInstance.findOne(options);
-    console.log(user);
+    const userSchema = await this.userRepositoryInstance.findOne(options);
+    if (!userSchema) {
+      // TODO: throw new Error('Login ou senha errado');
+      return null;
+    }
+    const isPasswordValid = compareSync(password, userSchema.password);
+    if (!isPasswordValid) {
+      // TODO: throw new Error('Login ou senha errado');
+      return null;
+    }
+    return userSchema;
   }
 }
