@@ -26,7 +26,8 @@ export class UpdatePartialUserUsecase {
         return;
       }
     }
-    const userEntity = UserEntity.factory(
+    const userEntity = UserEntity.factoryUpdatePartialUser(
+      userId,
       data.name,
       data.email,
       data.login,

@@ -34,7 +34,6 @@ export class UserSchemaTypeormImpl implements IUserSchema {
 
   @Column({
     length: 127,
-    unique: true,
   })
   email: string;
 

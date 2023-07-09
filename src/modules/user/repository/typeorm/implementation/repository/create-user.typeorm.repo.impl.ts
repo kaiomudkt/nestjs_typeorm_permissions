@@ -17,4 +17,33 @@ export class CreateUserTypeormRepoImpl
     const createdUser = await this.repository.save(schema);
     return createdUser;
   }
+
+  /**
+   * (ou email repete por tenant)
+   * (ou login repete)
+   * @param tenantId string
+   * @param email string
+   * @param login string
+   * @returns Promise<boolean>
+   */
+  async isEmailPerTenantOrLoginDuplicated(
+    tenantId: string,
+    email: string,
+    login: string,
+  ): Promise<boolean> {
+    const queryBuilder = this.repository
+      .createQueryBuilder()
+      .select()
+      .from(UserSchemaTypeormImpl, 'user')
+      .where('(user.tenantId = :tenantId and user.email = :email)', {
+        tenantId,
+        email,
+      })
+      .orWhere('user.login = :login', { login });
+
+    const sql = queryBuilder.getSql();
+    console.log(sql);
+    const duplicateUser = queryBuilder.getOne();
+    return !!duplicateUser;
+  }
 }

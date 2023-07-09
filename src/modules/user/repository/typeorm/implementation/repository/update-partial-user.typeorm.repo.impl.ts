@@ -17,11 +17,7 @@ export class UpdatePartialUserTypeormRepoImpl
     id: string,
     schema: UserSchemaTypeormImpl,
   ): Promise<UserSchemaTypeormImpl> {
-    const { affected } = await this.repository.update(id, schema);
-    if (affected < 1) {
-      // TODO: lançar exceção: Erro ao atualizar usuário
-      return;
-    }
+    await this.repository.update(id, schema);
     const updatedUser = await this.repository.findOneBy(<any>{ id });
     return updatedUser;
   }

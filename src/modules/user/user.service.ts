@@ -67,14 +67,14 @@ export class UserService {
     return await this.findByIdUserUsecase.findById(id);
   }
 
-  async update(id: string, updatePartialUserDto: UpdatePartialUserDto) {
+  async updatePartial(id: string, updatePartialUserDto: UpdatePartialUserDto) {
     return await this.updatePartialUserUsecase.updatePartial(
       id,
       updatePartialUserDto,
     );
   }
 
-  async remove(id: string): Promise<Promise<IUserSchema> | void> {
+  async remove(id: string): Promise<void> {
     return await this.softDeleteByIdUserUsecase.softDeleteById(id);
   }
 }

@@ -35,11 +35,11 @@ export class UserController {
   }
 
   @Patch(':id')
-  update(
+  updatePartial(
     @Param('id') id: string,
     @Body() updatePartialUserDto: UpdatePartialUserDto,
   ) {
-    return this.userService.update(id, updatePartialUserDto);
+    return this.userService.updatePartial(id, updatePartialUserDto);
   }
 
   @Delete(':id')

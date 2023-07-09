@@ -15,7 +15,7 @@ export class CreateUserUsecase {
     // TODO: em cada tenant nao pode repetir email, cpf
     // TODO: login nao pode repetir indepedente de tenant
     const tenantEntity = data.tenantId;
-    const userEntity = UserEntity.factory(
+    const userEntity = UserEntity.factoryNewUser(
       data.name,
       data.email,
       data.login,
@@ -25,6 +25,16 @@ export class CreateUserUsecase {
       tenantEntity,
     );
     userEntity.validDateBirth();
+
+    // const duplicated = await this.repository.isEmailPerTenantOrLoginDuplicated(
+    //   'tenant_1',
+    //   userEntity.email,
+    //   userEntity.login,
+    // );
+    // if (duplicated) {
+    //   // TODO: lançar exceção
+    //   throw new Error('Usuário não encontrado');
+    // }
     // TODO: transaction
     const payload = {
       name: userEntity.name,
@@ -36,7 +46,7 @@ export class CreateUserUsecase {
       status: getEnumKeyByValue(StatusUserEnum, userEntity.status),
       // id: userEntity.id,
     };
-    const createdUser = this.repository.create(payload);
+    const createdUser = await this.repository.create(payload);
     // TODO: registrar no BD categorias deste usuario
     // TODO: chamar outro modulo que registra esse relacionamento, sem precisar abrir transaction
     // TODO: commitTransaction

@@ -31,7 +31,7 @@ export class UserEntity {
     this._tenantEntity = tenantEntity;
   }
 
-  static factory(
+  static factoryNewUser(
     name: string,
     email: string,
     login: string,
@@ -40,6 +40,28 @@ export class UserEntity {
     status?: StatusUserEnum,
     tenantEntity?: string, // TODO: ao criar é obrigartio, ao atualizar nao pode
     id?: string,
+  ): UserEntity {
+    return new UserEntity(
+      id,
+      name,
+      email,
+      password,
+      login,
+      birthAt,
+      status,
+      tenantEntity,
+    );
+  }
+
+  static factoryUpdatePartialUser(
+    id: string,
+    name?: string,
+    email?: string,
+    login?: string,
+    password?: string,
+    birthAt?: Date,
+    status?: StatusUserEnum,
+    tenantEntity?: string, // TODO: ao criar é obrigartio, ao atualizar nao pode
   ): UserEntity {
     return new UserEntity(
       id,
