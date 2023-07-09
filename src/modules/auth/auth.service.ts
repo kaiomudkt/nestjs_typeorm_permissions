@@ -47,6 +47,7 @@ export class AuthService {
       // TODO: throw new Error('Login ou senha errado');
       return null;
     }
+    console.log('auth.service validateUser', userSchema);
     return userSchema;
   }
 }
