@@ -11,7 +11,6 @@ export class AuthService {
   ) {}
 
   async login(username: string, password: string) {
-    console.log(username, password);
     const options: FindOneOptions<UserSchemaTypeormImpl> = {
       where: { username },
     };
