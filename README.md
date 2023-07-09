@@ -71,7 +71,13 @@ pois o objetivo é usar o framework simplesmente como uma ferramenta a nosso fav
 
 ### keyclock
 - http://localhost:9080/auth/admin
-
+- login = Autenticação (processo de verificar a identidade de um usuário, geralmente por meio de credenciais, como nome de usuário e senha)
+- OAuth 2 = Autorização (direitos e permissões concedidos a um usuário autenticado)
+- Open ID Connet = (OAuth 2) + (login)
+- realm: backend-nestjs
+- dentro do "realm", "client" com "access type" como "public" para o frontend
+- dentro do "realm", "client" com "access type" como "confidential" para o backend
+    - na aba "Credentials", copie o texto do campo "secret" e cole no arquivo keyclock.http
 ## instalação em ambiente de desenvolvimento
 
 ```bash
