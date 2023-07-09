@@ -8,7 +8,7 @@ export const userRepositoryMock = {
     save: jest.fn().mockResolvedValue(usersEnttitiesList[0]),
     findAndCount: jest.fn().mockResolvedValue(usersEnttitiesList),
     findOneBy: jest.fn().mockResolvedValue(usersEnttitiesList[0]),
-    isEmailPerTenantOrLoginDuplicated: jest.fn().mockResolvedValue(false),
+    isEmailPerTenantOrUsernameDuplicated: jest.fn().mockResolvedValue(false),
     update: jest.fn(),
     createQueryBuilder: jest.fn(),
     softDelete: jest.fn().mockResolvedValue({ affected: 1 }),

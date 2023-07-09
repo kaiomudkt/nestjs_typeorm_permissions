@@ -29,7 +29,7 @@ describe('UserService', () => {
   describe('Cria usuário (user)', () => {
     test('método (create)', async () => {
       // jest
-      //   .spyOn(userRepository, 'isEmailPerTenantOrLoginDuplicated')
+      //   .spyOn(userRepository, 'isEmailPerTenantOrUsernameDuplicated')
       //   .mockResolvedValueOnce(true);
       const result = await userService.create(createuserDtoMock);
       expect(result).toEqual(usersEnttitiesList[0]);

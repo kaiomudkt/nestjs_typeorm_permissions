@@ -20,16 +20,16 @@ export class CreateUserTypeormRepoImpl
 
   /**
    * (ou email repete por tenant)
-   * (ou login repete)
+   * (ou username repete)
    * @param tenantId string
    * @param email string
-   * @param login string
+   * @param username string
    * @returns Promise<boolean>
    */
-  async isEmailPerTenantOrLoginDuplicated(
+  async isEmailPerTenantOrUsernameDuplicated(
     tenantId: string,
     email: string,
-    login: string,
+    username: string,
   ): Promise<boolean> {
     const queryBuilder = this.repository
       .createQueryBuilder()
@@ -39,7 +39,7 @@ export class CreateUserTypeormRepoImpl
         tenantId,
         email,
       })
-      .orWhere('user.login = :login', { login });
+      .orWhere('user.username = :username', { username });
 
     const sql = queryBuilder.getSql();
     console.log(sql);

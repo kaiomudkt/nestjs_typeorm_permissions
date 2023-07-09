@@ -2,7 +2,7 @@ import * as mongoose from 'mongoose';
 
 export const schema = new mongoose.Schema({
   name: { type: String },
-  login: { type: String },
+  username: { type: String },
   email: { type: String },
   birthAt: { type: Date },
   preference: {

@@ -1,9 +1,9 @@
 export interface ICreateUserRepository<T> {
   create: (schema: T) => Promise<T>;
 
-  isEmailPerTenantOrLoginDuplicated: (
+  isEmailPerTenantOrUsernameDuplicated: (
     tenantId: string,
     email: string,
-    login: string,
+    username: string,
   ) => Promise<boolean>;
 }

@@ -9,5 +9,6 @@ import { StatusUserValidator } from './repository/typeorm/implementation/StatusU
   imports: [TypeOrmModule.forFeature([UserSchemaTypeormImpl])],
   controllers: [UserController],
   providers: [StatusUserValidator, UserService],
+  // exports: [UserSchemaTypeormImpl],
 })
 export class UserModule {}

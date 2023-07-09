@@ -7,7 +7,7 @@ export class UserEntity {
   private _email: string;
   private _password: string;
   private _birthAt: Date;
-  private _login: string;
+  private _username: string;
   private _tenantEntity: string;
   private _status: StatusUserEnum;
 
@@ -16,7 +16,7 @@ export class UserEntity {
     name?: string,
     email?: string,
     password?: string,
-    login?: string,
+    username?: string,
     birthAt?: Date,
     status?: StatusUserEnum,
     tenantEntity?: string, // TODO: criar entity
@@ -26,7 +26,7 @@ export class UserEntity {
     this._email = email;
     this._password = password;
     this._birthAt = birthAt;
-    this._login = login;
+    this._username = username;
     this._status = status;
     this._tenantEntity = tenantEntity;
   }
@@ -34,7 +34,7 @@ export class UserEntity {
   static factoryNewUser(
     name: string,
     email: string,
-    login: string,
+    username: string,
     password: string,
     birthAt: Date,
     status?: StatusUserEnum,
@@ -46,7 +46,7 @@ export class UserEntity {
       name,
       email,
       password,
-      login,
+      username,
       birthAt,
       status,
       tenantEntity,
@@ -57,7 +57,7 @@ export class UserEntity {
     id: string,
     name?: string,
     email?: string,
-    login?: string,
+    username?: string,
     password?: string,
     birthAt?: Date,
     status?: StatusUserEnum,
@@ -68,7 +68,7 @@ export class UserEntity {
       name,
       email,
       password,
-      login,
+      username,
       birthAt,
       status,
       tenantEntity,
@@ -106,12 +106,12 @@ export class UserEntity {
     this._name = name;
   }
 
-  get login(): string {
-    return this._login;
+  get username(): string {
+    return this._username;
   }
 
-  set login(login: string) {
-    this._login = login;
+  set username(username: string) {
+    this._username = username;
   }
 
   get email(): string {

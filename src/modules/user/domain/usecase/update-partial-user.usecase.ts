@@ -16,7 +16,7 @@ export class UpdatePartialUserUsecase {
 
   async updatePartial(userId: string, data: UpdatePartialUserDto) {
     // TODO: em cada tenant nao pode repetir email, cpf
-    // TODO: login nao pode repetir indepedente de tenant
+    // TODO: username nao pode repetir indepedente de tenant
     // TODO: não pode atualizar tenantId
     let statusEnum = null;
     if (data.status) {
@@ -30,7 +30,7 @@ export class UpdatePartialUserUsecase {
       userId,
       data.name,
       data.email,
-      data.login,
+      data.username,
       data.password,
       new Date(data.birthAt),
       statusEnum,
@@ -41,7 +41,7 @@ export class UpdatePartialUserUsecase {
     const payload = {
       name: userEntity.name,
       email: userEntity.email,
-      login: userEntity.login,
+      username: userEntity.username,
       password: userEntity.password,
       birthAt: userEntity.birthAt,
       status: getEnumKeyByValue(StatusUserEnum, userEntity.status),

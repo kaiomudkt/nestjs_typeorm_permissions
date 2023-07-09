@@ -13,12 +13,12 @@ export class CreateUserUsecase {
 
   async create(data: CreateUserDto) {
     // TODO: em cada tenant nao pode repetir email, cpf
-    // TODO: login nao pode repetir indepedente de tenant
+    // TODO: username nao pode repetir indepedente de tenant
     const tenantEntity = data.tenantId;
     const userEntity = UserEntity.factoryNewUser(
       data.name,
       data.email,
-      data.login,
+      data.username,
       data.password,
       new Date(data.birthAt),
       StatusUserEnum.PENDING,
@@ -26,10 +26,10 @@ export class CreateUserUsecase {
     );
     userEntity.validDateBirth();
 
-    // const duplicated = await this.repository.isEmailPerTenantOrLoginDuplicated(
+    // const duplicated = await this.repository.isEmailPerTenantOrUsernameDuplicated(
     //   'tenant_1',
     //   userEntity.email,
-    //   userEntity.login,
+    //   userEntity.username,
     // );
     // if (duplicated) {
     //   // TODO: lançar exceção
@@ -39,7 +39,7 @@ export class CreateUserUsecase {
     const payload = {
       name: userEntity.name,
       email: userEntity.email,
-      login: userEntity.login,
+      username: userEntity.username,
       password: userEntity.password,
       birthAt: userEntity.birthAt,
       tenantId: userEntity.tenantEntity, // TODO: passar somente id

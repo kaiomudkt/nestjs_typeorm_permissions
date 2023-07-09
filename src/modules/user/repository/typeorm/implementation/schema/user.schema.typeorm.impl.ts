@@ -41,7 +41,7 @@ export class UserSchemaTypeormImpl implements IUserSchema {
     length: 127,
     unique: true,
   })
-  login: string;
+  username: string;
 
   @Column({
     length: 127,

@@ -22,7 +22,7 @@ export class CreateUserDto {
   @IsString()
   @ApiProperty()
   @MinLength(6)
-  login: string;
+  username: string;
 
   @IsString()
   @MinLength(6)

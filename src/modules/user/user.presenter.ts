@@ -10,7 +10,7 @@ export class UserPresenter {
   @ApiProperty()
   email: string;
   @ApiProperty()
-  login: string;
+  username: string;
   @ApiProperty()
   birthAt: string;
   @ApiProperty()
@@ -22,7 +22,7 @@ export class UserPresenter {
     this.id = user.id;
     this.name = user.name;
     this.email = user.email;
-    this.login = user.login;
+    this.username = user.username;
     this.birthAt = user.birthAt;
     this.createdate = user.createdate;
     this.updateddate = user.updateddate;
