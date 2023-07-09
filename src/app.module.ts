@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 // import { mongooseConfig } from './infra/outsourced-service/db/mongoose/data-source';
 import { dataSouceOptions } from './infra/gateways/db/typeorm/data-source';
 import { UserModule } from './modules/user/user.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { UserModule } from './modules/user/user.module';
     //   useFactory: () => mongooseConfig,
     // }),
     UserModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [],
