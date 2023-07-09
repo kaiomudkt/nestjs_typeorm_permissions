@@ -1,6 +1,6 @@
 import { UserEntity } from '../user.entity';
 import { UpdatePartialUserDto } from '../../dto/update-partial-user.dto';
-import { IUpdatePartialUserRepository } from '../repository/interfaces/update-partial-user.repository.interface';
+import { IUpdatePartialUserRepository } from '../interfaces/repository/update-partial-user.repository.interface';
 import { IUserSchema } from '../user.schema.interface';
 import { StatusUserEnum } from '../enum/status-user.enum';
 import {

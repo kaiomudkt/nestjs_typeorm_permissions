@@ -1,4 +1,4 @@
-import { ISoftDeleteUserByIdRepository } from '../repository/interfaces/soft-delete-user-by-id.repository.interface';
+import { ISoftDeleteUserByIdRepository } from '../interfaces/repository/soft-delete-user-by-id.repository.interface';
 import { IUserSchema } from '../user.schema.interface';
 
 export class SoftDeleteByIdUserUsecase {

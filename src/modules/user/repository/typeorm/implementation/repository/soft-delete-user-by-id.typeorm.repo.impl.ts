@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { UserSchemaTypeormImpl } from '../schema/user.schema.typeorm.impl';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ISoftDeleteUserByIdRepository } from '../../../../domain/repository/interfaces/soft-delete-user-by-id.repository.interface';
+import { ISoftDeleteUserByIdRepository } from '../../../../domain/interfaces/repository/soft-delete-user-by-id.repository.interface';
 
 @Injectable()
 export class SoftDeleteByIdUserTypeormRepoImpl

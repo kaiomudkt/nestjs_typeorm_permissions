@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import {
   FindAllPayloadRepository,
   IFindAllUsersByTenantRepository,
-} from '../../../../domain/repository/interfaces/find-all-users-by-tenant.repository.interface';
+} from '../../../../domain/interfaces/repository/find-all-users-by-tenant.repository.interface';
 import { UserSchemaTypeormImpl } from '../schema/user.schema.typeorm.impl';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';

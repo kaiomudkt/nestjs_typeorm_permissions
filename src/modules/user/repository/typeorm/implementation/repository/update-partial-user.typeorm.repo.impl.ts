@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { IUpdatePartialUserRepository } from '../../../../domain/repository/interfaces/update-partial-user.repository.interface';
+import { IUpdatePartialUserRepository } from '../../../../domain/interfaces/repository/update-partial-user.repository.interface';
 import { UserSchemaTypeormImpl } from '../schema/user.schema.typeorm.impl';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';

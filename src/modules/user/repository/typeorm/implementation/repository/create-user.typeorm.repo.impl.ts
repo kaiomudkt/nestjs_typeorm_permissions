@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { ICreateUserRepository } from '../../../../domain/repository/interfaces/create-user.repository.interface';
+import { ICreateUserRepository } from '../../../../domain/interfaces/repository/create-user.repository.interface';
 import { UserSchemaTypeormImpl } from '../schema/user.schema.typeorm.impl';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';

@@ -1,4 +1,4 @@
-import { IFindAllUsersByTenantRepository } from '../repository/interfaces/find-all-users-by-tenant.repository.interface';
+import { IFindAllUsersByTenantRepository } from '../interfaces/repository/find-all-users-by-tenant.repository.interface';
 import { UserEntity } from '../user.entity';
 import { IUserSchema } from '../user.schema.interface';
 

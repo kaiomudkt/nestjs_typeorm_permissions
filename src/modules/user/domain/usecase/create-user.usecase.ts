@@ -1,6 +1,6 @@
 import { UserEntity } from '../user.entity';
 import { CreateUserDto } from '../../dto/create-user.dto';
-import { ICreateUserRepository } from '../repository/interfaces/create-user.repository.interface';
+import { ICreateUserRepository } from '../interfaces/repository/create-user.repository.interface';
 import { IUserSchema } from '../user.schema.interface';
 import { StatusUserEnum } from '../enum/status-user.enum';
 import { getEnumKeyByValue } from '../../../../infra/utils/enum/enum-operations';
