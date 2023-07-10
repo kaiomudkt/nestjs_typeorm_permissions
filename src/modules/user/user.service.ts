@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { CreateUserUsecase } from './domain/usecase/create-user.usecase';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdatePartialUserDto } from './dto/update-partial-user.dto';
@@ -63,7 +63,19 @@ export class UserService {
     return data;
   }
 
-  async findOne(id: string): Promise<IUserSchema> {
+  async findOne(
+    id: string,
+    userLoggedReq: {
+      id: string;
+      status: string;
+      name: string;
+      email: string;
+      tenantId: string;
+    },
+  ): Promise<IUserSchema> {
+    if (!userLoggedReq) {
+      throw new UnauthorizedException('Usuário logado não informado');
+    }
     return await this.findByIdUserUsecase.findById(id);
   }
 

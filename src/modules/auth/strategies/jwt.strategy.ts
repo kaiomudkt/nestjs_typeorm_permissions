@@ -8,6 +8,7 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor() {
+    console.log('jwt.strategy constructor');
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
@@ -33,6 +34,12 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
    */
   async validate(payload: any) {
     console.log('jwt.strategy.ts validate(payload)', payload);
+    if (
+      process.env.BACKEND_DEFAULT_AUTHENTICATION_TYPE !=
+      'AUTH_DEFAUT_JWT_NESTJS_ALL_ENDPOINTS'
+    ) {
+      return {};
+    }
     return {
       id: payload.sub,
       name: payload.userName,

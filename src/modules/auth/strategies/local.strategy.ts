@@ -13,15 +13,16 @@ import { ModuleRef } from '@nestjs/core';
 export class LocalStrategy extends PassportStrategy(Strategy) {
   constructor(private readonly authService: AuthService) {
     super({
+      passReqToCallback: true,
       usernameField: 'username' /** definindo username como campo do login */,
-      // passReqToCallback: true,
       passwordField: 'password',
     });
   }
 
-  async validate(username: string, password: string) {
-    console.log('local-auth.ts validate()', username);
-    console.log('local-auth.ts validate()', password);
+  async validate(request: Request, username: string, password: string) {
+    console.log('local-strategy.ts validate() request: ', request.body);
+    console.log('local-strategy.ts validate123()', username);
+    console.log('local-strategy.ts validate345()', password);
     const userPayload = await this.authService.validateUser(username, password);
     if (!userPayload) {
       throw new UnauthorizedException('Login ou senha não encontrado');

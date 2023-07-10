@@ -8,6 +8,7 @@ import {
   Delete,
   Query,
   Request,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -22,6 +23,10 @@ export class UserController {
 
   @Get('profile')
   getProfile(@Request() req) {
+    if (!req.user) {
+      throw new UnauthorizedException('Usuário logado não informado');
+    }
+    // console.log('user/profile: req.user', req.user);
     return req.user;
   }
 
@@ -32,21 +37,34 @@ export class UserController {
 
   @Get()
   findAll(@Request() req, @Query() query: FindAllUsersByTenantDto) {
-    const user: {
+    if (!req.user) {
+      throw new UnauthorizedException('Usuário logado não informado');
+    }
+    const userLoggedReq: {
       id: string;
       status: string;
       name: string;
       email: string;
       tenantId: string;
     } = req.user;
-    const tenantId: string = user.tenantId;
+    const tenantId: string = userLoggedReq.tenantId;
     const { page, limit } = query;
     return this.userService.findAll(tenantId, page, limit);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userService.findOne(id);
+  findOne(@Request() req, @Param('id') id: string) {
+    if (!req.user) {
+      throw new UnauthorizedException('Usuário logado não informado');
+    }
+    const userLoggedReq: {
+      id: string;
+      status: string;
+      name: string;
+      email: string;
+      tenantId: string;
+    } = req.user;
+    return this.userService.findOne(id, userLoggedReq);
   }
 
   @Patch(':id')

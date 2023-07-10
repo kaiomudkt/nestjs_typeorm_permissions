@@ -4,7 +4,7 @@ import { SkipAuthou } from './infra/common/decorators/api-access-modifiers.decor
 @Controller()
 export class AppController {
   @Get('health-check')
-  @SkipAuthou()
+  // @SkipAuthou()
   getHello(): string {
     return 'The NEST.JS application is live!';
   }

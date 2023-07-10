@@ -25,5 +25,6 @@ export class LocalAuthGuard extends AuthGuard('local') {
     // "AuthService" is a request-scoped provider
     const authService = await this.moduleRef.resolve(AuthService, contextId);
     console.log(authService);
+    return request.body;
   }
 }
