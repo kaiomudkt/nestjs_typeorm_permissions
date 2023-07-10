@@ -15,6 +15,9 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdatePartialUserDto } from './dto/update-partial-user.dto';
 import { FindAllUsersByTenantDto } from './dto/find-all-users-by-tenant.dto';
 import { ApiTags } from '@nestjs/swagger';
+import {
+  Permission, USER_CAPABILITIES,
+} from '../../infra/common/decorators/permission.decorator';
 
 @Controller('api/v1/user')
 @ApiTags('users')
@@ -52,6 +55,7 @@ export class UserController {
     return this.userService.findAll(tenantId, page, limit);
   }
 
+  @Permission([USER_CAPABILITIES.user_findOne])
   @Get(':id')
   findOne(@Request() req, @Param('id') id: string) {
     if (!req.user) {
