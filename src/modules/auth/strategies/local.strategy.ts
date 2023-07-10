@@ -14,10 +14,14 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
   constructor(private readonly authService: AuthService) {
     super({
       usernameField: 'username' /** definindo username como campo do login */,
+      // passReqToCallback: true,
+      passwordField: 'password',
     });
   }
 
   async validate(username: string, password: string) {
+    console.log('local-auth.ts validate()', username);
+    console.log('local-auth.ts validate()', password);
     const userPayload = await this.authService.validateUser(username, password);
     if (!userPayload) {
       throw new UnauthorizedException('Login ou senha não encontrado');

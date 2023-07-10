@@ -2,16 +2,16 @@ import { Module } from '@nestjs/common';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { UserModule } from '../user/user.module';
-import { LocalStrategy } from './strategies/local.strategy';
-import { JwtStrategy } from './strategies/jwt.strategy';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserSchemaTypeormImpl } from '../user/repository/typeorm/implementation/schema/user.schema.typeorm.impl';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
-import { JwtAuthGuard } from '../../infra/common/guards/jwt-auth.guard';
 import { APP_GUARD } from '@nestjs/core';
 
+import { JwtAuthGuard } from '../../infra/common/guards/jwt-auth.guard';
+import { LocalStrategy } from './strategies/local.strategy';
+import { JwtStrategy } from './strategies/jwt.strategy';
 /**
  * https://docs.nestjs.com/security/authentication
  */
@@ -22,6 +22,7 @@ import { APP_GUARD } from '@nestjs/core';
     UserModule,
     TypeOrmModule.forFeature([UserSchemaTypeormImpl]),
     PassportModule,
+    // PassportModule.register({ session: true }),
     JwtModule.register({
       global: true,
       privateKey: process.env.JWT_SECRET || '123456',

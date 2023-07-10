@@ -31,8 +31,15 @@ export class UserController {
   }
 
   @Get()
-  findAll(@Query() query: FindAllUsersByTenantDto) {
-    const tenantId = 'tenant_1'; // TODO: extrair o tenantId do auth guard
+  findAll(@Request() req, @Query() query: FindAllUsersByTenantDto) {
+    const user: {
+      id: string;
+      status: string;
+      name: string;
+      email: string;
+      tenantId: string;
+    } = req.user;
+    const tenantId: string = user.tenantId;
     const { page, limit } = query;
     return this.userService.findAll(tenantId, page, limit);
   }

@@ -11,13 +11,19 @@ export class LocalAuthGuard extends AuthGuard('local') {
   constructor(private moduleRef: ModuleRef) {
     super({
       passReqToCallback: true,
+      usernameField: 'username',
+      passwordField: 'password',
     });
+    console.log('LocalAuthGuard');
   }
 
   async validate(request: Request, username: string, password: string) {
-    console.log('local-auth.guards.ts validate()');
+    console.log('local-auth.guards.ts validate()', request);
+    console.log('local-auth.guards.ts validate()', username);
+    console.log('local-auth.guards.ts validate()', password);
     const contextId = ContextIdFactory.getByRequest(request);
     // "AuthService" is a request-scoped provider
     const authService = await this.moduleRef.resolve(AuthService, contextId);
+    console.log(authService);
   }
 }
