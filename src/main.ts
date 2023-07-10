@@ -22,7 +22,15 @@ async function bootstrap() {
     document,
   );
   app.enableCors();
-  app.useGlobalPipes(new ValidationPipe());
+  /**
+   * explicação:
+   * define a validação padrão do nest.js validationPipe para todos os endpoints/controllers
+   * whitelist é um parametro do nest.js de AllowList, que ativa a funcionalidade de aceitar somente parametros definidos na DTO
+   */
+  app.useGlobalPipes(
+    new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }),
+  );
+  // app.useGlobalPipes(new ValidationPipe());
   app.useGlobalFilters(new AllExceptionFilter(new LoggerService()));
   const port = process.env.BACKEND_API_PORT || 3000;
   await app.listen(port);

@@ -13,41 +13,35 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async login(
-    username: string,
-    password: string,
-  ): Promise<UserSchemaTypeormImpl | null> {
-    const options: FindOneOptions<UserSchemaTypeormImpl> = {
-      where: { username },
+  async login(userPayload: any) {
+    const signAuthenticatedUserPayload = {
+      access_token: await this.jwtService.signAsync(userPayload),
     };
-    const userSchema = await this.userRepositoryInstance.findOne(options);
-    if (!userSchema) {
-      // TODO: throw new Error('Login ou senha errado');
-      return null;
+    if (!signAuthenticatedUserPayload) {
+      throw new UnauthorizedException();
     }
-    const isPasswordValid = compareSync(password, userSchema.password);
-    if (!isPasswordValid) {
-      // TODO: throw new Error('Login ou senha errado');
-      return null;
-    }
-    return userSchema;
+    return signAuthenticatedUserPayload;
   }
 
-  async validateUser(username: string, password: string) {
+  async validateUser(username: string, password: string): Promise<any> {
     const options: FindOneOptions<UserSchemaTypeormImpl> = {
       where: { username },
     };
-    const userSchema = await this.userRepositoryInstance.findOne(options);
+    const userSchema: UserSchemaTypeormImpl =
+      await this.userRepositoryInstance.findOne(options);
     if (!userSchema) {
-      // TODO: throw new Error('Login ou senha errado');
-      return null;
+      throw new UnauthorizedException();
     }
     const isPasswordValid = compareSync(password, userSchema.password);
     if (!isPasswordValid) {
-      // TODO: throw new Error('Login ou senha errado');
-      return null;
+      throw new UnauthorizedException();
     }
-    console.log('auth.service validateUser', userSchema);
-    return userSchema;
+    const userPayload = {
+      sub: userSchema.id,
+      userName: userSchema.name,
+      userEmail: userSchema.email,
+      userStatus: userSchema.status,
+    };
+    return userPayload;
   }
 }

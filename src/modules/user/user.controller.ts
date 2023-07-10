@@ -7,15 +7,27 @@ import {
   Param,
   Delete,
   Query,
+  UseGuards,
+  Request,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdatePartialUserDto } from './dto/update-partial-user.dto';
 import { FindAllUsersByTenantDto } from './dto/find-all-users-by-tenant.dto';
+import { ApiTags } from '@nestjs/swagger';
+// import { AuthGuard } from '../auth/auth.guard';
+import { JwtAuthGuard } from '../../infra/common/guards/jwt-auth.guard';
 
-@Controller('user')
+@UseGuards(JwtAuthGuard)
+@Controller('api/v1/user')
+@ApiTags('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
+
+  @Get('profile')
+  getProfile(@Request() req) {
+    return req.user;
+  }
 
   @Post()
   create(@Body() createUserDto: CreateUserDto) {

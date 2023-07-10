@@ -4,6 +4,10 @@ import { AuthService } from '../auth.service';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 // TODO: import { MessagesHelper } from 'src/helpers/messages.helper';
 
+/**
+ * LocalStrategy responsabilidade de verificar autenticar por login e senha
+ * https://docs.nestjs.com/recipes/passport
+ */
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
   constructor(private readonly authService: AuthService) {
@@ -12,13 +16,11 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(email: string, password: string) {
-    console.log('local.strategy.ts validate()');
-    const userSchema = await this.authService.validateUser(email, password);
-    if (!userSchema) {
-      // TODO:   throw new UnauthorizedException(MessagesHelper.PASSWORD_OR_EMAIL_INVALID);
-      return null;
+  async validate(username: string, password: string) {
+    const userPayload = await this.authService.validateUser(username, password);
+    if (!userPayload) {
+      throw new UnauthorizedException();
     }
-    return userSchema;
+    return userPayload;
   }
 }
