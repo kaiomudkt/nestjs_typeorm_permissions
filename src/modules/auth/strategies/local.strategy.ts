@@ -2,6 +2,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-local';
 import { AuthService } from '../auth.service';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { ModuleRef } from '@nestjs/core';
 // TODO: import { MessagesHelper } from 'src/helpers/messages.helper';
 
 /**
@@ -19,7 +20,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
   async validate(username: string, password: string) {
     const userPayload = await this.authService.validateUser(username, password);
     if (!userPayload) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException('Login ou senha não encontrado');
     }
     return userPayload;
   }

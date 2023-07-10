@@ -42,7 +42,7 @@ export class CreateUserTypeormRepoImpl
       .orWhere('user.username = :username', { username });
 
     const sql = queryBuilder.getSql();
-    console.log(sql);
+    // console.log(sql);
     const duplicateUser = queryBuilder.getOne();
     return !!duplicateUser;
   }

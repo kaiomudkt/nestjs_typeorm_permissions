@@ -18,7 +18,7 @@ export class AuthService {
       access_token: await this.jwtService.signAsync(userPayload),
     };
     if (!signAuthenticatedUserPayload) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException('Usuário não encontrado');
     }
     return signAuthenticatedUserPayload;
   }
@@ -30,11 +30,11 @@ export class AuthService {
     const userSchema: UserSchemaTypeormImpl =
       await this.userRepositoryInstance.findOne(options);
     if (!userSchema) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException('Login ou senha não encontrado');
     }
     const isPasswordValid = compareSync(password, userSchema.password);
     if (!isPasswordValid) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException('Login ou senha não encontrado');
     }
     const userPayload = {
       sub: userSchema.id,

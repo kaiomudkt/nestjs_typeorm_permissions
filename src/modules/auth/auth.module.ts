@@ -9,8 +9,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserSchemaTypeormImpl } from '../user/repository/typeorm/implementation/schema/user.schema.typeorm.impl';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
-// import { APP_GUARD } from '@nestjs/core';
-// import { AuthGuard } from './auth.guard';
+import { JwtAuthGuard } from '../../infra/common/guards/jwt-auth.guard';
+import { APP_GUARD } from '@nestjs/core';
 
 /**
  * https://docs.nestjs.com/security/authentication
@@ -33,11 +33,11 @@ import { JwtModule } from '@nestjs/jwt';
     AuthService,
     LocalStrategy,
     JwtStrategy,
-    // {
-    //   // vinculará automaticamente AuthGuarda todos os endpoints
-    //   provide: APP_GUARD,
-    //   useClass: AuthGuard,
-    // },
+    {
+      // vinculará automaticamente AuthGuarda global todos os endpoints do sistema
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
   ],
 })
 export class AuthModule {}

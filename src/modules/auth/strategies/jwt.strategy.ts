@@ -24,14 +24,15 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
    * e emitimos anteriormente para um usuário válido.
    * Lembre-se novamente de que o Passport criará um usero bjeto com base no valor de retorno de nosso validate() método
    * e o anexará como uma propriedade no Requestobjeto.
-   * 
-  @UseGuards(LocalAuthGuard)
-  @Post('login')
-  async login(@Request() req) {
-    return this.authService.login(req.user);
-  }
+   * -
+   * @UseGuards(LocalAuthGuard)
+   * @Post('login')
+   * async login(@Request() req) {
+   *  return this.authService.login(req.user);
+   * }
    */
   async validate(payload: any) {
+    console.log('jwt.strategy.ts validate(payload)');
     return {
       id: payload.sub,
       name: payload.username,

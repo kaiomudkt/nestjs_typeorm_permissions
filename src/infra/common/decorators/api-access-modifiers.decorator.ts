@@ -16,4 +16,7 @@ import { SetMetadata } from '@nestjs/common';
  * quando os "isPublic"metadados forem encontrados.
  */
 export const IS_PUBLIC_KEY = 'isPublic';
+/**
+ * desativa JwtAuthGuard
+ */
 export const SkipAuthou = () => SetMetadata(IS_PUBLIC_KEY, true);
