@@ -47,6 +47,13 @@ describe('UserService', () => {
     test('método (findOne)', async () => {
       const result = await userService.findOne(
         '77001d86-3063-4ae1-9297-81b08e386087',
+        {
+          id: '77001d86-3063-4ae1-9297-81b08e386087',
+          status: 'PENDING',
+          name: 'João Silva',
+          email: 'joao@gmail.com',
+          tenantId: 'tenant_1',
+        },
       );
       expect(result).toEqual(usersEnttitiesList[0]);
     });
