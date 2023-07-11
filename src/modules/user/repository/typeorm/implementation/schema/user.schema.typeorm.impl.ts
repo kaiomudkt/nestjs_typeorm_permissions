@@ -5,12 +5,13 @@ import {
   DeleteDateColumn,
   CreateDateColumn,
   UpdateDateColumn,
-  ManyToMany,
-  JoinTable,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
 // import { StatusUserEnum } from '../../../../domain/enum/status-user.enum';
 // import { Matches } from 'class-validator';
 import { IUserSchema } from '../../../../domain/user.schema.interface';
+import { TenantSchemaTypeormImpl } from '../../../../../tenant/repository/typeorm/tenant.schema.typeorm.impl';
 // import { StatusUserValidator } from '../StatusUser.validator';
 
 @Entity({ name: 'user' })
@@ -19,8 +20,13 @@ export class UserSchemaTypeormImpl implements IUserSchema {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
-  tenantId: string; // TODO: FK UUID
+  @ManyToOne(() => TenantSchemaTypeormImpl, tenant => tenant.users)
+  @JoinColumn({ name: 'tenantId' })
+  tenant: TenantSchemaTypeormImpl; // TODO: FK UUID
+
+  @ManyToOne(() => UserSchemaTypeormImpl)
+  @JoinColumn({ name: 'createdById' })
+  createdBy: UserSchemaTypeormImpl;
 
   @Column({
     length: 127,

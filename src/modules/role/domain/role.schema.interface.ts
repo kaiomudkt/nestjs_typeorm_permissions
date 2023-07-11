@@ -1,15 +1,17 @@
 import { IBaseSquema } from '../../base/domain/interfaces/base.squema.interface';
 import { ITenantSchema } from '../../tenant/domain/tenant.schema.interface';
+import { IUserSchema } from '../../user/domain/user.schema.interface';
 
-export interface IUserSchema extends IBaseSquema {
+export interface IRoleSchema extends IBaseSquema {
   id?: string;
-  name: string;
-  email: string;
-  status: string;
-  password: string;
+  IdCode: string;
   tenant: ITenantSchema;
-  createdBy?: IUserSchema;
-  birthAt?: Date;
+  label: string;
+  description: string;
+  status: string;
+  createdBy: IUserSchema;
+  icon?: string;
+  color?: string;
   deletedAt?: Date;
   createdAt?: Date;
   updatedAt?: Date;

@@ -1,4 +1,7 @@
-import { getEnumKeyByValue, toEnum } from '../../../infra/utils/enum/enum-operations';
+import {
+  getEnumKeyByValue,
+  toEnum,
+} from '../../../infra/utils/enum/enum-operations';
 import { StatusUserEnum } from './enum/status-user.enum';
 
 export class UserEntity {

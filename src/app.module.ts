@@ -6,6 +6,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { dataSouceOptions } from './infra/gateways/db/typeorm/data-source';
 import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { RoleModule } from './modules/role/role.module';
+import { TenantModule } from './modules/tenant/tenant.module';
 
 @Module({
   imports: [
@@ -15,6 +17,8 @@ import { AuthModule } from './modules/auth/auth.module';
     // }),
     UserModule,
     AuthModule,
+    RoleModule,
+    TenantModule,
   ],
   controllers: [AppController],
   providers: [],
