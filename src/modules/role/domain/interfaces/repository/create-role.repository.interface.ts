@@ -1,3 +1,3 @@
-export interface ICreateRoleRepository<T> {
-  create(schema: T): Promise<T>;
+export interface ICreateRoleRepository<TenantSchema> {
+  create(schema: TenantSchema): Promise<TenantSchema>;
 }

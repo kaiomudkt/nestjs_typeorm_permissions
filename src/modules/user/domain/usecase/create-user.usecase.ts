@@ -17,7 +17,9 @@ export class CreateUserUsecase {
   async create(data: CreateUserDto) {
     // TODO: em cada tenant nao pode repetir email, cpf
     // TODO: username nao pode repetir indepedente de tenant
-    const tenantSchema = await this.repository.findTenantById(data.tenantId);
+    const tenantSchema: ITenantSchema = await this.repository.findTenantById(
+      data.tenantId,
+    );
     const salt = process.env.BCRYPT_SALT || '10';
     const userEntity = UserEntity.factoryNewUser(
       data.name,
@@ -53,10 +55,10 @@ export class CreateUserUsecase {
       birthAt: userEntity.birthAt,
       status: getEnumKeyByValue(StatusUserEnum, userEntity.status),
       createdBy: null, // TODO
-      tenant: tenantSchema, // TODO: passar somente id
+      tenant: tenantSchema,
       // tenant: null, // userEntity.tenantEntity.id, // TODO: tenantSchema
     };
-    const createdUser = await this.repository.create(payload);
+    const createdUser: IUserSchema = await this.repository.create(payload);
     // TODO: registrar no BD categorias deste usuario
     // TODO: chamar outro modulo que registra esse relacionamento, sem precisar abrir transaction
     // TODO: commitTransaction

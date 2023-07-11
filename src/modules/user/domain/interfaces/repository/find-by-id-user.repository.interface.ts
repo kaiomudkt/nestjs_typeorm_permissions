@@ -1,3 +1,3 @@
-export interface IFindByIdUserRepository<T> {
-  findById(id: string): Promise<T | undefined>;
+export interface IFindByIdUserRepository<UserSchema> {
+  findById(id: string): Promise<UserSchema | undefined>;
 }

@@ -3,6 +3,6 @@ export interface FindAllPayloadRepository {
   limit: number;
 }
 
-export interface IFindAllTenantsRepository<T> {
-  findAllTenants(FindAllPayloadRepository): Promise<[T[], number]>;
+export interface IFindAllTenantsRepository<TenantSchema> {
+  findAllTenants(FindAllPayloadRepository): Promise<[TenantSchema[], number]>;
 }
