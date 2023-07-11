@@ -10,8 +10,8 @@ export class FindAllUsersByTenantUsecase {
 
   async findAllUsersByTenant(
     tenantId: string,
-    page = 50,
-    limit = 0,
+    page = 0,
+    limit = 50,
   ): Promise<[IUserSchema[], number]> {
     // const userEntity = UserEntity.factoryWithId(id);
     const data = await this.repository.findAllUsersByTenant({
