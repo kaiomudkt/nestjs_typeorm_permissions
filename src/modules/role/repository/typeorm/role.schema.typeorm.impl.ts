@@ -12,7 +12,7 @@ import { IRoleSchema } from '../../domain/role.schema.interface';
 import { UserSchemaTypeormImpl } from '../../../user/repository/typeorm/implementation/schema/user.schema.typeorm.impl';
 import { TenantSchemaTypeormImpl } from '../../../tenant/repository/typeorm/tenant.schema.typeorm.impl';
 
-@Entity({ name: 'user' })
+@Entity({ name: 'role' })
 export class RoleSchemaTypeormImpl implements IRoleSchema {
   [x: string]: any;
   @PrimaryGeneratedColumn('uuid')

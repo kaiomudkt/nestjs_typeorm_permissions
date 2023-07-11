@@ -11,7 +11,7 @@ import {
 import { ITenantSchema } from '../../domain/tenant.schema.interface';
 import { UserSchemaTypeormImpl } from '../../../user/repository/typeorm/implementation/schema/user.schema.typeorm.impl';
 
-@Entity({ name: 'user' })
+@Entity({ name: 'tenant' })
 export class TenantSchemaTypeormImpl implements ITenantSchema {
   [x: string]: any;
   @PrimaryGeneratedColumn('uuid')

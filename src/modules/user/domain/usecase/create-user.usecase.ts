@@ -15,14 +15,15 @@ export class CreateUserUsecase {
   async create(data: CreateUserDto) {
     // TODO: em cada tenant nao pode repetir email, cpf
     // TODO: username nao pode repetir indepedente de tenant
-    const tenantEntity = data.tenantId;
+    const tenantEntity = data.tenantId; // TODO: verificar se este tenantyId existe no BD
+    const salt = 10;
     const userEntity = UserEntity.factoryNewUser(
       data.name,
       data.email,
       data.username,
       data.password,
       () => {
-        return hashSync(data.password, 10);
+        return hashSync(data.password, salt);
       },
       new Date(data.birthAt),
       null, // TODO: implementar usuario que criou, caso não auto cadastro
@@ -50,8 +51,7 @@ export class CreateUserUsecase {
       tenantId: userEntity.tenantEntity, // TODO: passar somente id
       status: getEnumKeyByValue(StatusUserEnum, userEntity.status),
       createdBy: null, // TODO
-      tenant: null, // TODO
-      // id: userEntity.id,
+      tenant: null, // TODO: tenantEntity
     };
     const createdUser = await this.repository.create(payload);
     // TODO: registrar no BD categorias deste usuario
