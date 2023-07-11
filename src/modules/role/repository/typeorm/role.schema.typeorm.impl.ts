@@ -24,10 +24,6 @@ export class RoleSchemaTypeormImpl implements IRoleSchema {
   idCode: string;
 
   @ManyToOne(() => UserSchemaTypeormImpl)
-  @JoinColumn({ name: 'superAdminId' })
-  superAdmin: UserSchemaTypeormImpl;
-
-  @ManyToOne(() => UserSchemaTypeormImpl)
   @JoinColumn({ name: 'createdById' })
   createdBy: UserSchemaTypeormImpl;
 
@@ -41,23 +37,22 @@ export class RoleSchemaTypeormImpl implements IRoleSchema {
   label: string;
 
   @Column({
+    length: 127,
+  })
+  icon?: string;
+
+  @Column({
+    length: 127,
+  })
+  color?: string;
+
+  @Column({
     length: 127, // TODO alterar length
   })
   description: string;
 
   @Column({ type: 'varchar', length: 127 })
   status: string;
-
-  @Column({
-    length: 127,
-  })
-  email: string;
-
-  @Column({
-    type: 'date',
-    nullable: true,
-  })
-  foundationDateAt?: Date;
 
   @Column({ type: 'timestamp', nullable: true })
   @DeleteDateColumn()
