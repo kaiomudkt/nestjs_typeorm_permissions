@@ -25,6 +25,7 @@ export class CreateUserUsecase {
         return hashSync(data.password, 10);
       },
       new Date(data.birthAt),
+      null, // TODO: implementar usuario que criou, caso não auto cadastro
       StatusUserEnum.PENDING,
       tenantEntity,
     );
