@@ -1,4 +1,4 @@
-import { IBaseSquema } from '../../base/domain/interfaces/base.squema.interface';
+import { IBaseSquema } from '../../base/interfaces/domain/base.squema.interface';
 import { ITenantSchema } from '../../tenant/domain/tenant.schema.interface';
 import { IUserSchema } from '../../user/domain/user.schema.interface';
 
