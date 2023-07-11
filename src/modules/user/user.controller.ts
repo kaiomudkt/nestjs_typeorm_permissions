@@ -35,9 +35,19 @@ export class UserController {
   }
 
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {
+  create(@Request() req, @Body() createUserDto: CreateUserDto) {
     // TODO: tenantId do user logado
-    return this.userService.create(createUserDto);
+    if (!req.user) {
+      throw new UnauthorizedException('Usuário logado não informado');
+    }
+    const userLoggedReq: {
+      id: string;
+      status: string;
+      name: string;
+      email: string;
+      tenantId: string;
+    } = req.user;
+    return this.userService.create(createUserDto, userLoggedReq);
   }
 
   @Get()

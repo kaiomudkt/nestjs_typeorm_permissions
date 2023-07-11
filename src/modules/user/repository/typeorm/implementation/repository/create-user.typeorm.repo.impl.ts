@@ -17,6 +17,16 @@ export class CreateUserTypeormRepoImpl
     private readonly tenantRepository: Repository<TenantSchemaTypeormImpl>,
   ) {}
 
+  async findUserById(
+    userId: string,
+  ): Promise<UserSchemaTypeormImpl | undefined> {
+    const options: FindOneOptions<UserSchemaTypeormImpl> = {
+      where: { id: userId },
+    };
+    const userSchema = await this.userRepository.findOne(options);
+    return userSchema;
+  }
+
   async findTenantById(
     tenantId: string,
   ): Promise<TenantSchemaTypeormImpl | undefined> {

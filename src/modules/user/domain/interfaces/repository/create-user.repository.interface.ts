@@ -1,7 +1,9 @@
 export interface ICreateUserRepository<UserSchema, TenantSchema> {
   create(schema: UserSchema): Promise<UserSchema>;
 
-  findTenantById(id: string): Promise<TenantSchema | undefined>;
+  findTenantById(tenantId: string): Promise<TenantSchema | undefined>;
+
+  findUserById(userId: string): Promise<UserSchema | undefined>;
 
   isEmailPerTenantOrUsernameDuplicated: (
     tenantId: string,

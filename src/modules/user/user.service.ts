@@ -51,12 +51,24 @@ export class UserService {
     );
   }
 
-  async create(createUserDto: CreateUserDto): Promise<IUserSchema | undefined> {
-    const data: any = await this.createUserUsecase.create({
-      ...createUserDto,
-      // tenantId: this.tenantService.tenant,
-    });
-    // envio de email
+  async create(
+    createUserDto: CreateUserDto,
+    userLoggedReq: {
+      id: string;
+      status: string;
+      name: string;
+      email: string;
+      tenantId: string;
+    },
+  ): Promise<IUserSchema | undefined> {
+    if (!userLoggedReq) {
+      throw new UnauthorizedException('Usuário logado não informado');
+    }
+    const data: any = await this.createUserUsecase.create(
+      createUserDto,
+      userLoggedReq,
+    );
+    // TODO: serviço envio de email
     return data;
   }
 

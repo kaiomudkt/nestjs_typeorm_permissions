@@ -14,11 +14,23 @@ export class CreateUserUsecase {
     this.repository = repository;
   }
 
-  async create(data: CreateUserDto) {
+  async create(
+    data: CreateUserDto,
+    userLoggedReq: {
+      id: string;
+      status: string;
+      name: string;
+      email: string;
+      tenantId: string;
+    },
+  ): Promise<IUserSchema> {
     // TODO: em cada tenant nao pode repetir email, cpf
     // TODO: username nao pode repetir indepedente de tenant
     const tenantSchema: ITenantSchema = await this.repository.findTenantById(
-      data.tenantId,
+      userLoggedReq.tenantId,
+    );
+    const userSchema: IUserSchema = await this.repository.findUserById(
+      userLoggedReq.id,
     );
     const salt = process.env.BCRYPT_SALT || '10';
     const userEntity = UserEntity.factoryNewUser(
@@ -54,7 +66,7 @@ export class CreateUserUsecase {
       password: userEntity.password,
       birthAt: userEntity.birthAt,
       status: getEnumKeyByValue(StatusUserEnum, userEntity.status),
-      createdBy: null, // TODO
+      createdBy: userSchema,
       tenant: tenantSchema,
       // tenant: null, // userEntity.tenantEntity.id, // TODO: tenantSchema
     };
