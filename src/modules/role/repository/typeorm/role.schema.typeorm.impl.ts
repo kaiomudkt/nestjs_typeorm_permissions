@@ -21,7 +21,7 @@ export class RoleSchemaTypeormImpl implements IRoleSchema {
   @Column({
     length: 127,
   })
-  IdCode: string;
+  idCode: string;
 
   @ManyToOne(() => UserSchemaTypeormImpl)
   @JoinColumn({ name: 'superAdminId' })

@@ -12,6 +12,11 @@ export class UserEntity {
   private _password: string;
   private _birthAt: Date;
   private _username: string;
+  /**
+   * fazer M:M da suporte para poder um gerente geral poder ter acesso a mais de um tenant
+   * -
+   * Tenant em que o usuário pertence
+   */
   private _tenantEntity: TenantEntity;
   private _status: StatusUserEnum;
   private _createdBy?: UserEntity;

@@ -4,7 +4,7 @@ import { IUserSchema } from '../../user/domain/user.schema.interface';
 
 export interface IRoleSchema extends IBaseSquema {
   id?: string;
-  IdCode: string;
+  idCode: string;
   tenant: ITenantSchema;
   label: string;
   description: string;
