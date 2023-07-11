@@ -5,7 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { RoleSchemaTypeormImpl } from './repository/typeorm/role.schema.typeorm.impl';
 import { Repository } from 'typeorm';
 import { CreateRoleUsecase } from './domain/usecase/create-role-by-tenant.usecase';
-import { CreateRoleTypeormRepoImpl } from './repository/typeorm/implementation/create-tenanty.typeorm.repo.impl';
+import { CreateRoleTypeormRepoImpl } from './repository/typeorm/implementation/create-role.typeorm.repo.impl';
 
 @Injectable()
 export class RoleService {

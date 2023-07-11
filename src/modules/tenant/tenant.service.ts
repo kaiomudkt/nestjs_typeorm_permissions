@@ -6,10 +6,13 @@ import { TenantSchemaTypeormImpl } from './repository/typeorm/tenant.schema.type
 import { Repository } from 'typeorm';
 import { CreateTenantUsecase } from './domain/usecase/create-tenant.usecase';
 import { CreateTenantTypeormRepoImpl } from './repository/typeorm/implementation/create-tenanty.typeorm.repo.impl';
+import { FindAllTenantsUsecase } from './domain/usecase/find-all-tenants.usecase';
+import { FindAllTenantsTypeormRepoImpl } from './repository/typeorm/implementation/find-all-tenants.typeorm.repo.impl';
 
 @Injectable()
 export class TenantService {
   private createTenantUsecase: CreateTenantUsecase;
+  private findAllTenantsUsecase: FindAllTenantsUsecase;
 
   constructor(
     @InjectRepository(TenantSchemaTypeormImpl)
@@ -17,6 +20,9 @@ export class TenantService {
   ) {
     this.createTenantUsecase = new CreateTenantUsecase(
       new CreateTenantTypeormRepoImpl(this.tenantRepositoryInstance),
+    );
+    this.findAllTenantsUsecase = new FindAllTenantsUsecase(
+      new FindAllTenantsTypeormRepoImpl(this.tenantRepositoryInstance),
     );
   }
 
@@ -29,8 +35,9 @@ export class TenantService {
     return data;
   }
 
-  findAll() {
-    return `This action returns all tenant`;
+  async findAll(page: number, limit: number) {
+    const data = await this.findAllTenantsUsecase.findAllTenants(page, limit);
+    return data;
   }
 
   findOne(id: number) {
