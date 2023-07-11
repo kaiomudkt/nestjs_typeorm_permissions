@@ -15,6 +15,7 @@ import { IUserSchema } from './domain/user.schema.interface';
 import { UpdatePartialUserTypeormRepoImpl } from './repository/typeorm/implementation/repository/update-partial-user.typeorm.repo.impl';
 import { SoftDeleteByIdUserUsecase } from './domain/usecase/soft-delete-user-by-id.usecase';
 import { SoftDeleteByIdUserTypeormRepoImpl } from './repository/typeorm/implementation/repository/soft-delete-user-by-id.typeorm.repo.impl';
+import { TenantSchemaTypeormImpl } from '../tenant/repository/typeorm/tenant.schema.typeorm.impl';
 
 @Injectable()
 export class UserService {
@@ -27,9 +28,14 @@ export class UserService {
   constructor(
     @InjectRepository(UserSchemaTypeormImpl)
     private readonly userRepositoryInstance: Repository<UserSchemaTypeormImpl>,
+    @InjectRepository(TenantSchemaTypeormImpl)
+    private readonly tenantRepositoryInstance: Repository<TenantSchemaTypeormImpl>,
   ) {
     this.createUserUsecase = new CreateUserUsecase(
-      new CreateUserTypeormRepoImpl(this.userRepositoryInstance),
+      new CreateUserTypeormRepoImpl(
+        this.userRepositoryInstance,
+        this.tenantRepositoryInstance,
+      ),
     );
     this.findByIdUserUsecase = new FindByIdUserUsecase(
       new FindByIdUserTypeormRepoImpl(this.userRepositoryInstance),
@@ -48,7 +54,7 @@ export class UserService {
   async create(createUserDto: CreateUserDto): Promise<IUserSchema | undefined> {
     const data: any = await this.createUserUsecase.create({
       ...createUserDto,
-      // tenant: this.tenantService.tenant,
+      // tenantId: this.tenantService.tenant,
     });
     // envio de email
     return data;

@@ -16,7 +16,8 @@ import { UpdatePartialUserDto } from './dto/update-partial-user.dto';
 import { FindAllUsersByTenantDto } from './dto/find-all-users-by-tenant.dto';
 import { ApiTags } from '@nestjs/swagger';
 import {
-  Permission, USER_CAPABILITIES,
+  Permission,
+  USER_CAPABILITIES,
 } from '../../infra/common/decorators/permission.decorator';
 
 @Controller('api/v1/user')
@@ -35,6 +36,7 @@ export class UserController {
 
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
+    // TODO: tenantId do user logado
     return this.userService.create(createUserDto);
   }
 

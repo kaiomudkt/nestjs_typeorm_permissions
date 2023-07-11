@@ -7,8 +7,8 @@ export interface IUserSchema extends IBaseSquema {
   email: string;
   status: string;
   password: string;
-  tenant: ITenantSchema;
-  createdBy?: IUserSchema;
+  tenant: ITenantSchema; // TODO: tenantSchema
+  createdBy?: IUserSchema; // TODO: createBySchema
   birthAt?: Date;
   deletedAt?: Date;
   createdAt?: Date;

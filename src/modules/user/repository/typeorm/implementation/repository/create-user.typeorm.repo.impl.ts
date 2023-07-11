@@ -1,24 +1,34 @@
 import { Injectable } from '@nestjs/common';
 import { ICreateUserRepository } from '../../../../domain/interfaces/repository/create-user.repository.interface';
 import { UserSchemaTypeormImpl } from '../schema/user.schema.typeorm.impl';
-import { Repository } from 'typeorm';
+import { FindOneOptions, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { TenantSchemaTypeormImpl } from '../../../../../tenant/repository/typeorm/tenant.schema.typeorm.impl';
 
 @Injectable()
 export class CreateUserTypeormRepoImpl
-  implements ICreateUserRepository<UserSchemaTypeormImpl>
+  implements
+    ICreateUserRepository<UserSchemaTypeormImpl, TenantSchemaTypeormImpl>
 {
   constructor(
     @InjectRepository(UserSchemaTypeormImpl)
-    private readonly repository: Repository<UserSchemaTypeormImpl>,
+    private readonly userRepository: Repository<UserSchemaTypeormImpl>,
+    @InjectRepository(TenantSchemaTypeormImpl)
+    private readonly tenantRepository: Repository<TenantSchemaTypeormImpl>,
   ) {}
 
-  async findTenantById(id: string): Promise<UserSchemaTypeormImpl> {
-    throw new Error('Method not implemented.');
+  async findTenantById(
+    tenantId: string,
+  ): Promise<TenantSchemaTypeormImpl | undefined> {
+    const options: FindOneOptions<TenantSchemaTypeormImpl> = {
+      where: { id: tenantId },
+    };
+    const tenantSchema = await this.tenantRepository.findOne(options);
+    return tenantSchema;
   }
 
   async create(schema: UserSchemaTypeormImpl): Promise<UserSchemaTypeormImpl> {
-    const createdUser = await this.repository.save(schema);
+    const createdUser = await this.userRepository.save(schema);
     return createdUser;
   }
 
@@ -35,7 +45,7 @@ export class CreateUserTypeormRepoImpl
     email: string,
     username: string,
   ): Promise<boolean> {
-    const queryBuilder = this.repository
+    const queryBuilder = this.userRepository
       .createQueryBuilder()
       .select()
       .from(UserSchemaTypeormImpl, 'user')

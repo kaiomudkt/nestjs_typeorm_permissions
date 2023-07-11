@@ -5,30 +5,32 @@ import { IUserSchema } from '../user.schema.interface';
 import { StatusUserEnum } from '../enum/status-user.enum';
 import { getEnumKeyByValue } from '../../../../infra/utils/enum/enum-operations';
 import { hashSync } from 'bcrypt';
+import { ITenantSchema } from '../../../tenant/domain/tenant.schema.interface';
+import { TenantEntity } from '../../../tenant/domain/tenant.entity';
 
 export class CreateUserUsecase {
-  private repository: ICreateUserRepository<IUserSchema>;
-  constructor(repository: ICreateUserRepository<IUserSchema>) {
+  private repository: ICreateUserRepository<IUserSchema, ITenantSchema>;
+  constructor(repository: ICreateUserRepository<IUserSchema, ITenantSchema>) {
     this.repository = repository;
   }
 
   async create(data: CreateUserDto) {
     // TODO: em cada tenant nao pode repetir email, cpf
     // TODO: username nao pode repetir indepedente de tenant
-    const tenantEntity = data.tenantId; // TODO: verificar se este tenantyId existe no BD
-    const salt = 10;
+    const tenantSchema = await this.repository.findTenantById(data.tenantId);
+    const salt = process.env.BCRYPT_SALT || '10';
     const userEntity = UserEntity.factoryNewUser(
       data.name,
       data.email,
       data.username,
       data.password,
       () => {
-        return hashSync(data.password, salt);
+        return hashSync(data.password, parseInt(salt));
       },
       new Date(data.birthAt),
       null, // TODO: implementar usuario que criou, caso não auto cadastro
       StatusUserEnum.PENDING,
-      tenantEntity,
+      TenantEntity.factoryOnlyId(tenantSchema.id),
     );
     userEntity.validDateBirth();
 
@@ -42,16 +44,17 @@ export class CreateUserUsecase {
     //   throw new Error('Usuário não encontrado');
     // }
     // TODO: transaction
+    // const tenantSchema2: ITenantSchema = (userEntity.tenantEntity.id);
     const payload = {
       name: userEntity.name,
       email: userEntity.email,
       username: userEntity.username,
       password: userEntity.password,
       birthAt: userEntity.birthAt,
-      tenantId: userEntity.tenantEntity, // TODO: passar somente id
       status: getEnumKeyByValue(StatusUserEnum, userEntity.status),
       createdBy: null, // TODO
-      tenant: null, // TODO: tenantEntity
+      tenant: tenantSchema, // TODO: passar somente id
+      // tenant: null, // userEntity.tenantEntity.id, // TODO: tenantSchema
     };
     const createdUser = await this.repository.create(payload);
     // TODO: registrar no BD categorias deste usuario
