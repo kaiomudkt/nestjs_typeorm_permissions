@@ -48,6 +48,8 @@ export class CreateUserUsecase {
       birthAt: userEntity.birthAt,
       tenantId: userEntity.tenantEntity, // TODO: passar somente id
       status: getEnumKeyByValue(StatusUserEnum, userEntity.status),
+      createdBy: null, // TODO
+      tenant: null, // TODO
       // id: userEntity.id,
     };
     const createdUser = await this.repository.create(payload);

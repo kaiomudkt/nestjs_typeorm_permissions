@@ -45,6 +45,8 @@ export class UpdatePartialUserUsecase {
       password: userEntity.password,
       birthAt: userEntity.birthAt,
       status: getEnumKeyByValue(StatusUserEnum, userEntity.status),
+      createdBy: null, // TODO
+      tenant: null, // TODO
       // id: userEntity.id,
     };
     const createdUser = this.repository.updatePartial(userId, payload);

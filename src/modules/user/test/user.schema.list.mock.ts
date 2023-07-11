@@ -13,6 +13,8 @@ export const usersEnttitiesList: UserSchemaTypeormImpl[] = [
     deletedAt: null,
     createdAt: new Date(),
     updatedAt: new Date(),
+    tenant: null, // TODO
+    createdBy: null,
   },
   {
     id: 'fd1d42b6-d8ae-41d6-ae36-75f62c54502d',
@@ -26,5 +28,7 @@ export const usersEnttitiesList: UserSchemaTypeormImpl[] = [
     deletedAt: null,
     createdAt: new Date(),
     updatedAt: new Date(),
+    tenant: null,
+    createdBy: null,
   },
 ];
