@@ -13,6 +13,10 @@ export class CreateUserTypeormRepoImpl
     private readonly repository: Repository<UserSchemaTypeormImpl>,
   ) {}
 
+  async findTenantById(id: string): Promise<UserSchemaTypeormImpl> {
+    throw new Error('Method not implemented.');
+  }
+
   async create(schema: UserSchemaTypeormImpl): Promise<UserSchemaTypeormImpl> {
     const createdUser = await this.repository.save(schema);
     return createdUser;
