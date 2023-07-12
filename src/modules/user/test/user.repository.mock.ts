@@ -3,6 +3,16 @@ import { UserSchemaTypeormImpl } from '../repository/typeorm/implementation/sche
 import { usersEnttitiesList } from './user.schema.list.mock';
 import { tenantsEnttitiesList } from '../../tenant/test/tenant.schema.list.mock';
 
+const createQueryBuilderMock = jest.fn(() => ({
+  leftJoinAndSelect: jest.fn().mockReturnThis(),
+  where: jest.fn().mockReturnThis(),
+  skip: jest.fn().mockReturnThis(),
+  take: jest.fn().mockReturnThis(),
+  getManyAndCount: jest
+    .fn()
+    .mockResolvedValue([usersEnttitiesList, usersEnttitiesList.length]),
+}));
+
 export const userRepositoryMock = {
   provide: getRepositoryToken(UserSchemaTypeormImpl),
   useValue: {
@@ -18,7 +28,7 @@ export const userRepositoryMock = {
     findOne: jest.fn().mockResolvedValue(usersEnttitiesList[1]),
     findOneBy: jest.fn().mockResolvedValue(usersEnttitiesList[1]),
     update: jest.fn(),
-    createQueryBuilder: jest.fn(),
+    createQueryBuilder: createQueryBuilderMock,
     softDelete: jest.fn().mockResolvedValue({ affected: 1 }),
   },
 };

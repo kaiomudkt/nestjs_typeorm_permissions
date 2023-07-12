@@ -58,13 +58,7 @@ describe('UserService', () => {
         0,
         99,
       );
-      console.log(
-        'usersEnttitiesList[1].tenant.id',
-        usersEnttitiesList[1].tenant.id,
-      );
-      console.log('result', result);
-      console.log('usersEnttitiesList', usersEnttitiesList);
-      expect(result).toEqual(usersEnttitiesList);
+      expect(result).toEqual([usersEnttitiesList, usersEnttitiesList.length]);
     });
   });
 
