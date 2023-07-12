@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
+import { UserLogged } from '../../base/interfaces/dto/user-logged.interface';
 
 /**
  * responsabilidade de autorizar a partir de informações extraidas do header-authorization
@@ -39,12 +40,16 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     ) {
       return {};
     }
-    return {
+    const userLogged: UserLogged = {
       id: payload.sub,
       name: payload.userName,
       tenantId: payload.userTenantId,
       email: payload.userEmail,
       status: payload.userStatus,
+      isLessorRoot: false, // TODO usuário logado pode ser do tenant 'LESSOR_ROOT'
+      roles: [],
+      capabilities: [],
     };
+    return userLogged;
   }
 }

@@ -1,3 +1,7 @@
 export interface IUpdatePartialUserRepository<UserSchema, UserSchemaPartial> {
-  updatePartial: (id: string, schema: UserSchemaPartial) => Promise<UserSchema>;
+  updatePartial: (
+    userId: string,
+    schema: UserSchemaPartial,
+  ) => Promise<UserSchema>;
+  findUserById(userId: string): Promise<UserSchema | undefined>;
 }

@@ -19,6 +19,7 @@ import {
   Permission,
   USER_CAPABILITIES,
 } from '../../infra/common/decorators/permission.decorator';
+import { UserLogged } from '../base/interfaces/dto/user-logged.interface';
 
 @Controller('api/v1/user')
 @ApiTags('users')
@@ -39,13 +40,7 @@ export class UserController {
     if (!req.user) {
       throw new UnauthorizedException('Usuário logado não informado');
     }
-    const userLoggedReq: {
-      id: string;
-      status: string;
-      name: string;
-      email: string;
-      tenantId: string;
-    } = req.user;
+    const userLoggedReq: UserLogged = req.user;
     return this.userService.create(createUserDto, userLoggedReq);
   }
 
@@ -54,13 +49,7 @@ export class UserController {
     if (!req.user) {
       throw new UnauthorizedException('Usuário logado não informado');
     }
-    const userLoggedReq: {
-      id: string;
-      status: string;
-      name: string;
-      email: string;
-      tenantId: string;
-    } = req.user;
+    const userLoggedReq: UserLogged = req.user;
     if (!userLoggedReq.tenantId) {
       throw new UnauthorizedException('Usuário logado não informado');
     }
@@ -75,22 +64,25 @@ export class UserController {
     if (!req.user) {
       throw new UnauthorizedException('Usuário logado não informado');
     }
-    const userLoggedReq: {
-      id: string;
-      status: string;
-      name: string;
-      email: string;
-      tenantId: string;
-    } = req.user;
+    const userLoggedReq: UserLogged = req.user;
     return this.userService.findOne(id, userLoggedReq);
   }
 
   @Patch(':id')
   updatePartial(
+    @Request() req,
     @Param('id') id: string,
     @Body() updatePartialUserDto: UpdatePartialUserDto,
   ) {
-    return this.userService.updatePartial(id, updatePartialUserDto);
+    if (!req.user) {
+      throw new UnauthorizedException('Usuário logado não informado');
+    }
+    const userLoggedReq: UserLogged = req.user;
+    return this.userService.updatePartial(
+      id,
+      updatePartialUserDto,
+      userLoggedReq,
+    );
   }
 
   @Delete(':id')

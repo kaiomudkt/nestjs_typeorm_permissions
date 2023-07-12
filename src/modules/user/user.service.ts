@@ -16,6 +16,7 @@ import { UpdatePartialUserTypeormRepoImpl } from './repository/typeorm/implement
 import { SoftDeleteByIdUserUsecase } from './domain/usecase/soft-delete-user-by-id.usecase';
 import { SoftDeleteByIdUserTypeormRepoImpl } from './repository/typeorm/implementation/repository/soft-delete-user-by-id.typeorm.repo.impl';
 import { TenantSchemaTypeormImpl } from '../tenant/repository/typeorm/tenant.schema.typeorm.impl';
+import { UserLogged } from '../base/interfaces/dto/user-logged.interface';
 
 @Injectable()
 export class UserService {
@@ -53,13 +54,7 @@ export class UserService {
 
   async create(
     createUserDto: CreateUserDto,
-    userLoggedReq: {
-      id: string;
-      status: string;
-      name: string;
-      email: string;
-      tenantId: string;
-    },
+    userLoggedReq: UserLogged,
   ): Promise<IUserSchema | undefined> {
     if (!userLoggedReq) {
       throw new UnauthorizedException('Usuário logado não informado');
@@ -81,26 +76,22 @@ export class UserService {
     return data;
   }
 
-  async findOne(
-    id: string,
-    userLoggedReq: {
-      id: string;
-      status: string;
-      name: string;
-      email: string;
-      tenantId: string;
-    },
-  ): Promise<IUserSchema> {
+  async findOne(id: string, userLoggedReq: UserLogged): Promise<IUserSchema> {
     if (!userLoggedReq) {
       throw new UnauthorizedException('Usuário logado não informado');
     }
     return await this.findByIdUserUsecase.findById(id);
   }
 
-  async updatePartial(id: string, updatePartialUserDto: UpdatePartialUserDto) {
+  async updatePartial(
+    id: string,
+    updatePartialUserDto: UpdatePartialUserDto,
+    userLoggedReq: UserLogged,
+  ) {
     return await this.updatePartialUserUsecase.updatePartial(
       id,
       updatePartialUserDto,
+      userLoggedReq,
     );
   }
 

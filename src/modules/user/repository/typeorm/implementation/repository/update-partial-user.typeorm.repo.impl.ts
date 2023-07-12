@@ -29,4 +29,12 @@ export class UpdatePartialUserTypeormRepoImpl
     const updatedUser = await this.repository.findOne(options);
     return updatedUser;
   }
+
+  async findUserById(id: string): Promise<UserSchemaTypeormImpl | undefined> {
+    const options: FindOneOptions<UserSchemaTypeormImpl> = {
+      where: { id },
+      relations: ['tenant'],
+    };
+    return await this.repository.findOne(options);
+  }
 }

@@ -24,6 +24,7 @@ pois o objetivo é usar o framework simplesmente como uma ferramenta a nosso fav
 
 - entity: camada do ORM
 - domain: camada que aplica a regra de negócio 
+- não reaproveite "repo.impl.ts" para diferentes "service" e talvez até para diferentes "usecase", por mais que neste momento parece ser a mesma coisa, cada repository tem um motivo diferente para existir, e cada motivo pode evoluir no futuro de forma diferente, assim reutilizar repository pode gerar efeitos colareias inesperados em locais não esperados;
 
 ### niveis de acesso
 
@@ -70,6 +71,7 @@ pois o objetivo é usar o framework simplesmente como uma ferramenta a nosso fav
 - As companhias que fizerem o "Arrendamento/Tenancy" com o "locador/Lessor", se tornará um "inquilino/tenant";
 - assim cada "inquilino/tenant" é separado dos demais, mas todos os "inquilinos/tenants" compartilham o mesmo "locador/Lessor" que é a empresa proprietaria do sistema;
 - para que o sistema tenha sua propria equipe de atendimento/suporte as "companhias/tenants", será criado um tenant ROOT, chamado de "LESSOR_ROOT" para representar o proprio "locador/Lessor", que para simplificar o software tambem será um tenant, mas com acesso a qualquer outro tenant;
+- Imagine que a instancia do sistema como um prédio comercial, onde este faz o Arrendamento/Tenancy de "salas" para outras empresas, onde cada empresa é um tenant, e existe uma sala para a admininstração do prédio que é chamada "LESSOR_ROOT", que na pratica tambem é um tenant, mas com permissão de acessar qualquer outro tenant, mesmo que em nivel de acesso limitado;
 - futuramente poderá ser implementado o conceito de "matriz e filiais", aonde um tenant será a matriz de muitas filiais, sendo que cada filial tambem é um tenant;
 
 ### etapas para criar um novo endpoint
