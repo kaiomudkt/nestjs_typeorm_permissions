@@ -61,6 +61,9 @@ export class UserController {
       email: string;
       tenantId: string;
     } = req.user;
+    if (!userLoggedReq.tenantId) {
+      throw new UnauthorizedException('Usuário logado não informado');
+    }
     const tenantId: string = userLoggedReq.tenantId;
     const { page, limit } = query;
     return this.userService.findAll(tenantId, page, limit);

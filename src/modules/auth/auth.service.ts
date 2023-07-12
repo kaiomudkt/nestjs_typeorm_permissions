@@ -30,7 +30,7 @@ export class AuthService {
     };
     const userSchema: UserSchemaTypeormImpl =
       await this.userRepositoryInstance.findOne(options);
-    if (!userSchema) {
+    if (!userSchema || !userSchema.id) {
       throw new UnauthorizedException('Login ou senha não encontrado');
     }
     const isPasswordValid = compareSync(password, userSchema.password);
@@ -40,10 +40,15 @@ export class AuthService {
     const userPayload = {
       sub: userSchema.id,
       userName: userSchema.name,
-      userTenantId: userSchema.tenant ? userSchema.tenant.id : '',
+      userTenantId: userSchema.tenant ? userSchema.tenant.id : null,
       userEmail: userSchema.email,
       userStatus: userSchema.status,
     };
+    if (!userPayload.userTenantId) {
+      throw new UnauthorizedException(
+        'Usuário logado não tem tenant para acessar',
+      );
+    }
     return userPayload;
   }
 }
