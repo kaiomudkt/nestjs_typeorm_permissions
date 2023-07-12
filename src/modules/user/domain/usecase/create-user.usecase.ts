@@ -7,6 +7,7 @@ import { getEnumKeyByValue } from '../../../../infra/utils/enum/enum-operations'
 import { hashSync } from 'bcrypt';
 import { ITenantSchema } from '../../../tenant/domain/tenant.schema.interface';
 import { TenantEntity } from '../../../tenant/domain/tenant.entity';
+import { UnauthorizedException } from '@nestjs/common';
 
 export class CreateUserUsecase {
   private repository: ICreateUserRepository<IUserSchema, ITenantSchema>;
@@ -29,9 +30,15 @@ export class CreateUserUsecase {
     const tenantSchema: ITenantSchema = await this.repository.findTenantById(
       userLoggedReq.tenantId,
     );
+    if (!tenantSchema) {
+      throw new UnauthorizedException('Usuário logado não esta sem tenant');
+    }
     const userSchema: IUserSchema = await this.repository.findUserById(
       userLoggedReq.id,
     );
+    if (!tenantSchema) {
+      throw new UnauthorizedException('Usuário logado não encontrado');
+    }
     const salt = process.env.BCRYPT_SALT || '10';
     const userEntity = UserEntity.factoryNewUser(
       data.name,

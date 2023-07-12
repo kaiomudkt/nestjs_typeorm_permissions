@@ -23,11 +23,21 @@ export class FindAllUsersByTenantTypeormRepoImpl
   }: FindAllPayloadRepository): Promise<[UserSchemaTypeormImpl[], number]> {
     // const skip = (page - 1) * limit; // TODO: testar paginação
     const skip = page;
-    const [usersSchema, total] = await this.repository.findAndCount({
-      where: { tenantId },
-      skip,
-      take: limit,
-    });
+    console.log('tenantId', tenantId);
+    // const [usersSchema, total] = await this.repository.findAndCount({
+    //   where: { tenantId },
+    //   skip,
+    //   take: limit,
+    // });
+    const [usersSchema, total] = await this.repository
+      .createQueryBuilder('user')
+      .leftJoinAndSelect('user.tenant', 'tenant')
+      .leftJoinAndSelect('user.createdBy', 'createdBy')
+      // .where('user.tenantId = :tenantId', { tenantId })
+      .skip(skip)
+      .take(limit)
+      .getManyAndCount();
+    console.log(usersSchema);
     return [usersSchema, total];
   }
 }

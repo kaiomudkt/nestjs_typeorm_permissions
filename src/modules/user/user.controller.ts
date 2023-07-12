@@ -62,6 +62,7 @@ export class UserController {
       email: string;
       tenantId: string;
     } = req.user;
+    console.log('userLoggedReq', userLoggedReq);
     const tenantId: string = userLoggedReq.tenantId;
     const { page, limit } = query;
     return this.userService.findAll(tenantId, page, limit);
@@ -80,6 +81,7 @@ export class UserController {
       email: string;
       tenantId: string;
     } = req.user;
+    console.log('findOne userLoggedReq', userLoggedReq);
     return this.userService.findOne(id, userLoggedReq);
   }
 

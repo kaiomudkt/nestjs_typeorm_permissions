@@ -26,6 +26,7 @@ export class AuthService {
   async validateUser(username: string, password: string): Promise<any> {
     const options: FindOneOptions<UserSchemaTypeormImpl> = {
       where: { username },
+      relations: ['tenant'],
     };
     const userSchema: UserSchemaTypeormImpl =
       await this.userRepositoryInstance.findOne(options);
@@ -39,7 +40,7 @@ export class AuthService {
     const userPayload = {
       sub: userSchema.id,
       userName: userSchema.name,
-      userTenantId: userSchema.tenantId,
+      userTenantId: userSchema.tenant ? userSchema.tenant.id : '',
       userEmail: userSchema.email,
       userStatus: userSchema.status,
     };
