@@ -34,6 +34,7 @@ pois o objetivo é usar o framework simplesmente como uma ferramenta a nosso fav
     - exemplo: usuário logado não tem autorização para interagir com dados de outros usuários
 3ª valida se o dado que esta interagindo permite a ação 
     - exemplo: status do dado não permite realizar essa ação 
+4ª o sistema terá um tenant ROOT, aonde estará os usuário de suporte e atendimento ao cliente
 
 ## arquitetura de software
 - esta arquitetura de software é baseada em dominio, diferente da arquitetura padrão fornecida pelo Nest.js que prove uma arquitetura de software orientada a serviço;
@@ -62,6 +63,14 @@ pois o objetivo é usar o framework simplesmente como uma ferramenta a nosso fav
     - internal: são serviços de "conexão" com outro serviço, que está sendo usado exclusivamente internamente no sistema
     - external: são serviços com regra de negocio, que podem ser usados por outros sistemas, e que inclusive tem potencial para se tornar um microserviço caso haja necessidade
 - alem de se preocupar com o princio da responsabilidade unica, tenha cuidado de se preocupar "motivação unica", pois alem de fazer que uma função tenha somente uma responsabilidade, considere em replicar essa função varias vezes se por preciso para manter sua unica motivação de existe, pois para cada motivo como um "service", "usecase" ou "repository" é um motivo diferente o porque esta usando esta função, com motivos diferentes de existir, consequentimente pode acontecer de com o passar do tempo cada função evoluir de forma idependente, tornando oque inicialmente era identico cada vez mais responsabilidades distintas. Mas lembre de que dentro da entidade de dominio nunca não pode haver replicação de código de regra de negocio;
+
+### ornanização do multi-tenancy
+- Uma unica instancia/instalação/"ambiente de produção" do sistema;
+- Aonde existe uma empresa que é proprietaria do sistema e será chamada de "locador/Lessor";
+- As companhias que fizerem o "Arrendamento/Tenancy" com o "locador/Lessor", se tornará um "inquilino/tenant";
+- assim cada "inquilino/tenant" é separado dos demais, mas todos os "inquilinos/tenants" compartilham o mesmo "locador/Lessor" que é a empresa proprietaria do sistema;
+- para que o sistema tenha sua propria equipe de atendimento/suporte as "companhias/tenants", será criado um tenant ROOT, chamado de "LESSOR_ROOT" para representar o proprio "locador/Lessor", que para simplificar o software tambem será um tenant, mas com acesso a qualquer outro tenant;
+- futuramente poderá ser implementado o conceito de "matriz e filiais", aonde um tenant será a matriz de muitas filiais, sendo que cada filial tambem é um tenant;
 
 ### etapas para criar um novo endpoint
 1ª criar arquivo NOME.repository.interface.ts
