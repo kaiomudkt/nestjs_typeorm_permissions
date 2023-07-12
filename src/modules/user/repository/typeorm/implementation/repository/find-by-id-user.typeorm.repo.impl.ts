@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { IFindByIdUserRepository } from '../../../../domain/interfaces/repository/find-by-id-user.repository.interface';
 import { UserSchemaTypeormImpl } from '../schema/user.schema.typeorm.impl';
-import { Repository } from 'typeorm';
+import { FindOneOptions, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
@@ -14,6 +14,10 @@ export class FindByIdUserTypeormRepoImpl
   ) {}
 
   async findById(id: string): Promise<UserSchemaTypeormImpl | undefined> {
-    return await this.repository.findOneBy(<any>{ id });
+    const options: FindOneOptions<UserSchemaTypeormImpl> = {
+      where: { id },
+      relations: ['tenant', 'createdBy'],
+    };
+    return await this.repository.findOne(options);
   }
 }
