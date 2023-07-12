@@ -7,7 +7,4 @@ export class UpdatePartialUserDto extends PartialType(CreateUserDto) {
   @IsString()
   @ApiProperty()
   status?: string;
-
-  // @ApiProperty({ required: false })
-  tenantId?: never;
 }

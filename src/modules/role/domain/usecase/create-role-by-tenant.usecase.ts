@@ -38,6 +38,7 @@ export class CreateRoleUsecase {
       status: '',
       password: '',
       tenant: undefined,
+      username: '',
     };
     const roleEntity = {
       idCode: data.idCode,

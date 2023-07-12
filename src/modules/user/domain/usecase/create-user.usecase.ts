@@ -66,7 +66,7 @@ export class CreateUserUsecase {
     // }
     // TODO: transaction
     // const tenantSchema2: ITenantSchema = (userEntity.tenantEntity.id);
-    const payload = {
+    const payload: IUserSchema = {
       name: userEntity.name,
       email: userEntity.email,
       username: userEntity.username,

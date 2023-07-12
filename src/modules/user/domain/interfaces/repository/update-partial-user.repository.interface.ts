@@ -1,3 +1,3 @@
-export interface IUpdatePartialUserRepository<UserSchema> {
-  updatePartial: (id: string, schema: UserSchema) => Promise<UserSchema>;
+export interface IUpdatePartialUserRepository<UserSchema, UserSchemaPartial> {
+  updatePartial: (id: string, schema: UserSchemaPartial) => Promise<UserSchema>;
 }

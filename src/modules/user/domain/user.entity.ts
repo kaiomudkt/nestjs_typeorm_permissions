@@ -71,20 +71,26 @@ export class UserEntity {
 
   static factoryUpdatePartialUser(
     id: string,
+    functionHash: (password: string, saltRounds: number) => string,
+    saltRounds: number,
     name?: string,
     email?: string,
     username?: string,
     password?: string,
     birthAt?: Date,
     status?: StatusUserEnum,
-    tenantEntity?: TenantEntity, // TODO: ao criar é obrigartio, ao atualizar nao pode
+    tenantEntity?: TenantEntity, // TODO: ao criar é obrigartio, ao atualizar nao pode a
     createdBy?: UserEntity,
   ): UserEntity {
+    let hashPassword: string = null;
+    if (password) {
+      hashPassword = functionHash(password, saltRounds);
+    }
     return new UserEntity(
       id,
       name,
       email,
-      password,
+      hashPassword,
       username,
       birthAt,
       status,

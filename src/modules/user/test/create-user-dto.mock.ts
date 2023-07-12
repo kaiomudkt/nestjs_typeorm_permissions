@@ -7,5 +7,5 @@ export const createuserDtoMock: CreateUserDto = {
   name: 'João Silva',
   password: '123-abc.ABC',
   birthAt: '1992-12-28',
-  tenantId: tenant1Entity.id,
+  // tenantId: tenant1Entity.id,
 };

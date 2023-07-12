@@ -6,9 +6,10 @@ import {
   IsDateString,
   Matches,
 } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiHideProperty, ApiProperty } from '@nestjs/swagger';
 import { RegExHelper } from '../../../infra/utils/regex.helper';
 import { MessagesHelper } from '../../../infra/utils/messages.helper';
+import { Exclude } from 'class-transformer';
 
 export class CreateUserDto {
   @IsString()
@@ -35,7 +36,15 @@ export class CreateUserDto {
   @ApiProperty()
   birthAt?: string;
 
-  @IsOptional()
-  @ApiProperty()
-  tenantId?: string;
+  @Exclude()
+  @ApiHideProperty()
+  tenantId?: never;
+
+  @Exclude()
+  @ApiHideProperty()
+  createdById?: never;
+
+  @Exclude()
+  @ApiHideProperty()
+  createdAt?: never;
 }

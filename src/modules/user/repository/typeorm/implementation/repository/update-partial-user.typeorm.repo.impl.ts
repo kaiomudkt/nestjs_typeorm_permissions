@@ -1,12 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { IUpdatePartialUserRepository } from '../../../../domain/interfaces/repository/update-partial-user.repository.interface';
 import { UserSchemaTypeormImpl } from '../schema/user.schema.typeorm.impl';
-import { Repository } from 'typeorm';
+import { FindOneOptions, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class UpdatePartialUserTypeormRepoImpl
-  implements IUpdatePartialUserRepository<UserSchemaTypeormImpl>
+  implements
+    IUpdatePartialUserRepository<
+      UserSchemaTypeormImpl,
+      Partial<UserSchemaTypeormImpl>
+    >
 {
   constructor(
     @InjectRepository(UserSchemaTypeormImpl)
@@ -18,7 +22,11 @@ export class UpdatePartialUserTypeormRepoImpl
     schema: UserSchemaTypeormImpl,
   ): Promise<UserSchemaTypeormImpl> {
     await this.repository.update(id, schema);
-    const updatedUser = await this.repository.findOneBy(<any>{ id });
+    const options: FindOneOptions<UserSchemaTypeormImpl> = {
+      where: { id },
+      // relations: ['tenant', 'createdBy'],
+    };
+    const updatedUser = await this.repository.findOne(options);
     return updatedUser;
   }
 }

@@ -6,6 +6,7 @@ export interface IUserSchema extends IBaseSquema {
   name: string;
   email: string;
   status: string;
+  username: string;
   password: string;
   tenant: ITenantSchema; // TODO: tenantSchema
   createdBy?: IUserSchema; // TODO: createBySchema
@@ -14,3 +15,5 @@ export interface IUserSchema extends IBaseSquema {
   createdAt?: Date;
   updatedAt?: Date;
 }
+
+export type UserSchemaPartial = Partial<IUserSchema>;
