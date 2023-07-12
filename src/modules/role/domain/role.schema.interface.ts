@@ -15,4 +15,5 @@ export interface IRoleSchema extends IBaseSquema {
   deletedAt?: Date;
   createdAt?: Date;
   updatedAt?: Date;
+  // TODO: categories?: ICategorySchema[];
 }
