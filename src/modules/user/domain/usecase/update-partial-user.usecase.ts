@@ -14,7 +14,7 @@
  * regra 4: verificar se o usuárioLogado tem permissão de alterar o cadastro do usuárioInformado?
  * somente usuário ROOT do sistema pode acessar usuario de outro tenant
  * -
- * realm root tem usuarios de staff
+ * realm root "LESSOR_ROOT" tem usuarios de staff
  * como por exemplo o cargo de suporte de atendimento ao cliente
  */
 import { UserEntity } from '../user.entity';
