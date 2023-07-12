@@ -73,7 +73,6 @@ export class UserService {
   }
 
   async findAll(tenantId: string, page: number, limit: number) {
-    console.log('usecase findAll', tenantId);
     const data = await this.findAllUsersByTenantUsecase.findAllUsersByTenant(
       tenantId,
       page,

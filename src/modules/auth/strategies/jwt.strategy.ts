@@ -33,14 +33,12 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
    * }
    */
   async validate(payload: any) {
-    console.log('jwt.strategy.ts validate(payload)', payload);
     if (
       process.env.BACKEND_DEFAULT_AUTHENTICATION_TYPE !=
       'AUTH_DEFAUT_JWT_NESTJS_ALL_ENDPOINTS'
     ) {
       return {};
     }
-    console.log('JwtStrategy payload', payload);
     return {
       id: payload.sub,
       name: payload.userName,

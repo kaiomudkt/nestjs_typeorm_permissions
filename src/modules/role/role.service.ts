@@ -30,7 +30,6 @@ export class RoleService {
       tenantId: string;
     },
   ) {
-    console.log(createRoleDto, userLoggedReq);
     const data: any = await this.createRoleUsecase.create(
       {
         ...createRoleDto,

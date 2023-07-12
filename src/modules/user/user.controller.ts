@@ -30,7 +30,6 @@ export class UserController {
     if (!req.user) {
       throw new UnauthorizedException('Usuário logado não informado');
     }
-    // console.log('user/profile: req.user', req.user);
     return req.user;
   }
 
@@ -62,7 +61,6 @@ export class UserController {
       email: string;
       tenantId: string;
     } = req.user;
-    console.log('userLoggedReq', userLoggedReq);
     const tenantId: string = userLoggedReq.tenantId;
     const { page, limit } = query;
     return this.userService.findAll(tenantId, page, limit);
@@ -81,7 +79,6 @@ export class UserController {
       email: string;
       tenantId: string;
     } = req.user;
-    console.log('findOne userLoggedReq', userLoggedReq);
     return this.userService.findOne(id, userLoggedReq);
   }
 
