@@ -9,13 +9,20 @@ import { UserPayload } from '../auth.service';
  */
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
+  private strategyOptions: StrategyOptions;
   constructor() {
     console.log('jwt.strategy constructor');
-    super({
+    const options: StrategyOptions = {
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: process.env.JWT_SECRET,
-    });
+      secretOrKey: process.env.JWT_SECRET || '123456',
+    };
+    super(options);
+    this.strategyOptions = options;
+  }
+
+  getOptions(): StrategyOptions {
+    return this.strategyOptions;
   }
 
   /**
@@ -35,9 +42,11 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
    * }
    */
   async validate(payload: UserPayload): Promise<UserLogged> {
+    const hasDecoratorUseGuardsJwtAuthGuard = false; // TODO: verificar se uso o decorator @UseGuards(JwtAuthGuard)
     if (
       process.env.BACKEND_DEFAULT_AUTHENTICATION_TYPE !=
-      'AUTH_DEFAUT_JWT_NESTJS_ALL_ENDPOINTS'
+        'AUTH_DEFAUT_JWT_NESTJS_ALL_ENDPOINTS' &&
+      hasDecoratorUseGuardsJwtAuthGuard
     ) {
       return;
     }
@@ -53,4 +62,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     };
     return userLogged;
   }
+}
+
+interface StrategyOptions {
+  jwtFromRequest: any;
+  ignoreExpiration: boolean;
+  secretOrKey: string;
 }
