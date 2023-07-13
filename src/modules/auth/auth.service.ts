@@ -64,4 +64,6 @@ export type UserPayload = {
   userName: string;
   userEmail: string;
   userTenantId: string;
+  iat?: number;
+  exp?: number;
 };

@@ -89,6 +89,17 @@ pois o objetivo é usar o framework simplesmente como uma ferramenta a nosso fav
 - dentro do "realm", "client" com "access type" como "public" para o frontend
 - dentro do "realm", "client" com "access type" como "confidential" para o backend
     - na aba "Credentials", copie o texto do campo "secret" e cole no arquivo keyclock.http
+
+### Jest / Testes
+- cobertura de testes: [services, controler, ...]
+- para executar todos os teste
+```bash
+npm run test
+```
+- para executar somente um arquivo
+```bash
+npm run test -t src/modules/auth/test/auth.service.spec.ts
+```
 ## instalação em ambiente de desenvolvimento
 
 ```bash

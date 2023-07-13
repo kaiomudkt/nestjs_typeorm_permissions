@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { UserLogged } from '../../base/interfaces/dto/user-logged.interface';
+import { UserPayload } from '../auth.service';
 
 /**
  * responsabilidade de autorizar a partir de informações extraidas do header-authorization
@@ -33,12 +34,12 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
    *  return this.authService.login(req.user);
    * }
    */
-  async validate(payload: any) {
+  async validate(payload: UserPayload): Promise<UserLogged> {
     if (
       process.env.BACKEND_DEFAULT_AUTHENTICATION_TYPE !=
       'AUTH_DEFAUT_JWT_NESTJS_ALL_ENDPOINTS'
     ) {
-      return {};
+      return;
     }
     const userLogged: UserLogged = {
       id: payload.sub,
