@@ -13,6 +13,12 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
+  /**
+   * AUTORIZAÇÃO
+   * src/modules/auth/auth.controller.ts
+   * neste momento o @UseGuards(LocalAuthGuard) já autenticou quem é o usuário;
+   * agora precisamos autorizar/assinar o token;
+   */
   async login(userPayload: UserPayload) {
     const signAuthenticatedUserPayload = {
       access_token: await this.jwtService.signAsync(userPayload),
@@ -23,6 +29,10 @@ export class AuthService {
     return signAuthenticatedUserPayload;
   }
 
+  /**
+   * AUTENTICAÇÃO
+   * src/modules/auth/strategies/local.strategy.ts
+   */
   async validateUser(username: string, password: string): Promise<any> {
     const options: FindOneOptions<UserSchemaTypeormImpl> = {
       where: { username },
