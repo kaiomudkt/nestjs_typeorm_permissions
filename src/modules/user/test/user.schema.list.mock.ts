@@ -1,3 +1,4 @@
+import { UserLogged } from '../../base/interfaces/dto/user-logged.interface';
 import { tenant1Entity } from '../../tenant/test/tenant.schema.list.mock';
 import { UserSchemaTypeormImpl } from '../repository/typeorm/implementation/schema/user.schema.typeorm.impl';
 
@@ -51,3 +52,25 @@ export const usersEnttitiesList: UserSchemaTypeormImpl[] = [
   user1Entity,
   user2Entity,
 ];
+
+export const userLogged1: UserLogged = {
+  id: user1Entity.id,
+  email: user1Entity.email,
+  isLessorRoot: false,
+  name: user1Entity.name,
+  status: user1Entity.status,
+  tenantId: '757851a7-259d-4e69-ad16-8bf44137e564',
+  capabilities: [],
+  roles: [],
+};
+
+export const userLogged2: UserLogged = {
+  id: user2Entity.id,
+  email: user2Entity.email,
+  isLessorRoot: false,
+  name: user2Entity.name,
+  status: user2Entity.status,
+  tenantId: '757851a7-259d-4e69-ad16-8bf44137e564',
+  capabilities: [],
+  roles: [],
+};

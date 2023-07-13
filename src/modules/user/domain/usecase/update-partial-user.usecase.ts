@@ -53,6 +53,8 @@ export class UpdatePartialUserUsecase {
     if (!userLoggedReq.isLessorRoot && !userToUpdate.tenant) {
       throw new UnauthorizedException('Usuário logado não tem permissão');
     }
+    console.log('userToUpdate', userToUpdate);
+    console.log('userLoggedReq', userLoggedReq);
     if (userLoggedReq.tenantId != userToUpdate.tenant.id) {
       throw new UnauthorizedException('Usuário logado não tem permissão');
     }

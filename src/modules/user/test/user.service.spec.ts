@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UserService } from '../user.service';
 import { userRepositoryMock } from './user.repository.mock';
-import { usersEnttitiesList } from './user.schema.list.mock';
+import { userLogged1, usersEnttitiesList } from './user.schema.list.mock';
 import { createuserDtoMock } from './create-user-dto.mock';
 import { Repository } from 'typeorm';
 import { UserSchemaTypeormImpl } from '../repository/typeorm/implementation/schema/user.schema.typeorm.impl';
@@ -10,6 +10,7 @@ import { UpdatePartialUserDto } from '../dto/update-partial-user.dto';
 import { TenantSchemaTypeormImpl } from '../../tenant/repository/typeorm/tenant.schema.typeorm.impl';
 import { tenantRepositoryMock } from '../../tenant/test/tenant.repository.mock';
 import { tenant1Entity } from '../../tenant/test/tenant.schema.list.mock';
+import { UserLogged } from '../../base/interfaces/dto/user-logged.interface';
 
 describe('UserService', () => {
   let userService: UserService;
@@ -36,16 +37,7 @@ describe('UserService', () => {
       // jest
       //   .spyOn(userRepository, 'isEmailPerTenantOrUsernameDuplicated')
       //   .mockResolvedValueOnce(true);
-      const userLoggedReq: {
-        id: string;
-        status: string;
-        name: string;
-        email: string;
-        tenantId: string;
-      } = {
-        ...usersEnttitiesList[1],
-        tenantId: usersEnttitiesList[1].tenant.id,
-      };
+      const userLoggedReq: UserLogged = userLogged1;
       const result = await userService.create(createuserDtoMock, userLoggedReq);
       expect(result).toEqual(usersEnttitiesList[1]);
     });
@@ -66,13 +58,7 @@ describe('UserService', () => {
     test('método (findOne)', async () => {
       const result = await userService.findOne(
         '77001d86-3063-4ae1-9297-81b08e386087',
-        {
-          id: '77001d86-3063-4ae1-9297-81b08e386087',
-          status: 'PENDING',
-          name: 'João Silva',
-          email: 'joao@gmail.com',
-          tenantId: tenant1Entity.id,
-        },
+        userLogged1,
       );
       expect(result).toEqual(usersEnttitiesList[1]);
     });
@@ -83,6 +69,7 @@ describe('UserService', () => {
       const result = await userService.updatePartial(
         '77001d86-3063-4ae1-9297-81b08e386087',
         UpdatePartialUserDto,
+        userLogged1,
       );
       expect(result).toEqual(usersEnttitiesList[1]);
     });
