@@ -8,6 +8,7 @@ import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { RoleModule } from './modules/role/role.module';
 import { TenantModule } from './modules/tenant/tenant.module';
+import { CategoryModule } from './category/category.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { TenantModule } from './modules/tenant/tenant.module';
     AuthModule,
     RoleModule,
     TenantModule,
+    CategoryModule,
   ],
   controllers: [AppController],
   providers: [],
