@@ -46,7 +46,12 @@ export class AuthService {
     };
     if (!userPayload.userTenantId) {
       throw new UnauthorizedException(
-        'Usuário logado não tem tenant para acessar',
+        'Usuário logado não tem tenant para acessar.',
+      );
+    }
+    if (!userPayload.userStatus) {
+      throw new UnauthorizedException(
+        'O usuário logado não tem um status válido.',
       );
     }
     return userPayload;
