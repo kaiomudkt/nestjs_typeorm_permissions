@@ -13,7 +13,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async login(userPayload: any) {
+  async login(userPayload: UserPayload) {
     const signAuthenticatedUserPayload = {
       access_token: await this.jwtService.signAsync(userPayload),
     };
@@ -37,7 +37,7 @@ export class AuthService {
     if (!isPasswordValid) {
       throw new UnauthorizedException('Login ou senha não encontrado');
     }
-    const userPayload = {
+    const userPayload: UserPayload = {
       sub: userSchema.id,
       userName: userSchema.name,
       userTenantId: userSchema.tenant ? userSchema.tenant.id : null,
@@ -57,3 +57,11 @@ export class AuthService {
     return userPayload;
   }
 }
+
+export type UserPayload = {
+  sub: string;
+  userStatus: string;
+  userName: string;
+  userEmail: string;
+  userTenantId: string;
+};
