@@ -9,6 +9,7 @@ import { jwtServiceMock } from './jwt.service.mock';
 import { user1Entity } from '../../user/test/user.schema.list.mock';
 import { UserLogged } from '../../base/interfaces/dto/user-logged.interface';
 import { UnauthorizedException } from '@nestjs/common';
+import { accessToken } from './access-token.mock';
 // import { jwtServiceMock } from './jwt.service.mock';
 
 describe('AuthService', () => {
@@ -39,37 +40,20 @@ describe('AuthService', () => {
     expect(userRepository).toBeDefined();
   });
 
-  it('deve gerar um token JWT ao fazer login com sucesso', async () => {
-    // Mock do usuário e payload
-    const userPayload = {
-      username: user1Entity.username,
-      password: user1Entity.password,
-    };
-    const user: UserLogged = {
-      id: user1Entity.id,
-      // username: user1Entity.username,
-      // password: user1Entity.password,
-      email: user1Entity.email,
-      isLessorRoot: false,
-      name: user1Entity.name,
-      status: user1Entity.status,
-      tenantId: '757851a7-259d-4e69-ad16-8bf44137e564',
-      // tenantId: user1Entity.tenant.id,
-      capabilities: [],
-      roles: [],
-    };
-
-    // Mock do serviço de geração de token
-    jest.spyOn(jwtService, 'signAsync').mockResolvedValue('token');
-
-    // Mock do repositório de usuário
-    jest.spyOn(userRepository, 'findOne').mockResolvedValue(user1Entity);
-
-    // Chama o método de login do AuthService
-    const result = await authService.login(userPayload);
-
-    // Verifica se o token foi gerado corretamente
-    expect(jwtService.signAsync).toHaveBeenCalledWith(userPayload);
-    expect(result).toEqual({ access_token: 'token' });
+  describe('token', () => {
+    test('metodo createToken', async () => {
+      const userPayload = {
+        sub: user1Entity.id,
+        userName: user1Entity.name,
+        userTenantId: user1Entity.tenant ? user1Entity.tenant.id : null,
+        userEmail: user1Entity.email,
+        userStatus: user1Entity.status,
+      };
+      const resultAccessToken: { access_token: string } =
+        await authService.login(userPayload);
+      expect(resultAccessToken.access_token).toEqual({
+        access_token: accessToken,
+      });
+    });
   });
 });
