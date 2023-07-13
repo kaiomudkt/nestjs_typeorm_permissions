@@ -10,6 +10,7 @@ import { user1Entity } from '../../user/test/user.schema.list.mock';
 import { UserLogged } from '../../base/interfaces/dto/user-logged.interface';
 import { UnauthorizedException } from '@nestjs/common';
 import { accessToken } from './access-token.mock';
+import { jwtPayloadMockUser1 } from './jwt.payload.mock';
 // import { jwtServiceMock } from './jwt.service.mock';
 
 describe('AuthService', () => {
@@ -41,19 +42,16 @@ describe('AuthService', () => {
   });
 
   describe('token', () => {
-    test('metodo createToken', async () => {
-      const userPayload = {
-        sub: user1Entity.id,
-        userName: user1Entity.name,
-        userTenantId: user1Entity.tenant ? user1Entity.tenant.id : null,
-        userEmail: user1Entity.email,
-        userStatus: user1Entity.status,
-      };
+    test('método createToken', async () => {
       const resultAccessToken: { access_token: string } =
-        await authService.login(userPayload);
+        await authService.login(jwtPayloadMockUser1);
       expect(resultAccessToken.access_token).toEqual({
         access_token: accessToken,
       });
     });
   });
+
+  // describe('método checkToken', () => {
+  //   const resultAccessToken = authService.validateUser('', '');
+  // });
 });
