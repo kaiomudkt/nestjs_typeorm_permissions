@@ -37,18 +37,6 @@ describe('AuthService', () => {
   it('authService deve estar definido', async () => {
     expect(authService).toBeDefined();
     expect(userRepository).toBeDefined();
-    // const username = user1Entity.username;
-    // const password = user1Entity.password;
-    // const userPayload = {
-    //   sub: user1Entity.id,
-    //   userName: user1Entity.name,
-    //   userTenantId: user1Entity.tenant ? user1Entity.tenant.id : null,
-    //   userEmail: user1Entity.email,
-    //   userStatus: user1Entity.status,
-    // };
-    // const token = await authService.login(userPayload);
-    // expect(jwtService.sign).toHaveBeenCalledWith(userPayload);
-    // expect(token).toBe('token123!@#');
   });
 
   it('deve gerar um token JWT ao fazer login com sucesso', async () => {
