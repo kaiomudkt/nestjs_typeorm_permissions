@@ -6,10 +6,14 @@ import { RoleSchemaTypeormImpl } from './repository/typeorm/role.schema.typeorm.
 import { Repository } from 'typeorm';
 import { CreateRoleUsecase } from './domain/usecase/create-role-by-tenant.usecase';
 import { CreateRoleTypeormRepoImpl } from './repository/typeorm/implementation/create-role.typeorm.repo.impl';
+import { FindAllRolesPayloadRepository } from './domain/interfaces/repository/find-all-roles-by.repository.interface';
+import { FindAllRolesByTenantUsecase } from './domain/usecase/find-all-roles.usecase';
+import { FindAllRolesByTenantTypeormRepoImpl } from './repository/typeorm/implementation/find-all-roles-by-tenant.typeorm.repo.impl';
 
 @Injectable()
 export class RoleService {
   private createRoleUsecase: CreateRoleUsecase;
+  private findAllRolesByTenantUsecase: FindAllRolesByTenantUsecase;
 
   constructor(
     @InjectRepository(RoleSchemaTypeormImpl)
@@ -17,6 +21,9 @@ export class RoleService {
   ) {
     this.createRoleUsecase = new CreateRoleUsecase(
       new CreateRoleTypeormRepoImpl(this.roleRepositoryInstance),
+    );
+    this.findAllRolesByTenantUsecase = new FindAllRolesByTenantUsecase(
+      new FindAllRolesByTenantTypeormRepoImpl(this.roleRepositoryInstance),
     );
   }
 
@@ -41,8 +48,10 @@ export class RoleService {
     return data;
   }
 
-  findAll() {
-    return `This action returns all role`;
+  async findAll(findAllData: FindAllRolesPayloadRepository) {
+    const data: any =
+      await this.findAllRolesByTenantUsecase.findAllRolesByTenant(findAllData);
+    return data;
   }
 
   findOne(id: number) {

@@ -7,10 +7,15 @@ import {
   Param,
   Delete,
   Request,
+  Query,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { RoleService } from './role.service';
 import { CreateRoleDto } from './dto/create-role.dto';
 import { UpdateRoleDto } from './dto/update-role.dto';
+import { UserLogged } from '../base/interfaces/dto/user-logged.interface';
+import { FindAllRolesByTenantDto } from './dto/find-all-roles.dto';
+import { FindAllRolesPayloadRepository } from './domain/interfaces/repository/find-all-roles-by.repository.interface';
 
 @Controller('api/v1/role')
 export class RoleController {
@@ -29,8 +34,21 @@ export class RoleController {
   }
 
   @Get()
-  findAll() {
-    return this.roleService.findAll();
+  findAll(@Request() req, @Query() query: FindAllRolesByTenantDto) {
+    if (!req.user) {
+      throw new UnauthorizedException('Usuário logado não informado');
+    }
+    const userLoggedReq: UserLogged = req.user;
+    if (!userLoggedReq.tenantId) {
+      throw new UnauthorizedException('Usuário logado não informado');
+    }
+    const tenantId: string = userLoggedReq.tenantId;
+    const findAllData: FindAllRolesPayloadRepository = {
+      tenantId: tenantId,
+      page: query.page,
+      limit: query.limit,
+    };
+    return this.roleService.findAll(findAllData);
   }
 
   @Get(':id')
