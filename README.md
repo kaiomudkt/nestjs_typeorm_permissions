@@ -1,14 +1,15 @@
 ## Tecnologias
-
+- nest.js
 - npm
 - postgres
 - typeorm
 - jest
 - moongose
-- *email
-- keyclock
+- jwt
+- ?email
+- ?keyclock
 
-## Description
+## Descrições
 
 - Sistema web com a funcionalidade de usuário com cargo e suas respectivas permissões;
 - podem ser criados diversos tipos de usuários, e cada cargo só pode ser atribuido a um tipo ou mais
@@ -16,26 +17,16 @@
     - mas em cada tenant de criar um novo user, pois cada tenant deve ser todalmente independente 
 
 
-### arquitetura
+### Organização das camadas da estrutura do sistema
 Por padrão o Nest.js tem um arquitetura de software orientado a serviços,
 mas neste caso estamos se inspirando como o clean architecture é orientado a camada de dominio,
 desta forma podemos criar novos conceitos, como camadas e arquivos, mas tentando ao maximo não alterar o padrão do framework,
 pois o objetivo é usar o framework simplesmente como uma ferramenta a nosso favor, e não lutar contra o framework tentando mudar a forma em que foi planejada por seus criadores
 
-- entity: camada do ORM
-- domain: camada que aplica a regra de negócio 
-- não reaproveite "repo.impl.ts" para diferentes "service" e talvez até para diferentes "usecase", por mais que neste momento parece ser a mesma coisa, cada repository tem um motivo diferente para existir, e cada motivo pode evoluir no futuro de forma diferente, assim reutilizar repository pode gerar efeitos colareias inesperados em locais não esperados;
-
-### niveis de acesso
-
-1ª valida se o usuário logado tem cargo com a permissão de realizar a ação do serviço
-    - exemplo: somente usuários admininstrdores tem permissão de realizar essa ação
-2ª valida se o usuario logado tem autorização sobre o dado que esta interagindo 
-    - exemplo: usuario logado nao tem autorização para interagir com dados de outro tenant
-    - exemplo: usuário logado não tem autorização para interagir com dados de outros usuários
-3ª valida se o dado que esta interagindo permite a ação 
-    - exemplo: status do dado não permite realizar essa ação 
-4ª o sistema terá um tenant ROOT, aonde estará os usuário de suporte e atendimento ao cliente
+- schema: camada do ORM, como por exemplo typeorm, mongoose e outros;
+- repository/implementation: camada responsavel por ter a implementação do acesso ao BD pela instancia de cada ORM com base em seu respectivo schema.{orm}.ts 
+- domain: camada que aplica a regra de negócio, sendo arquivo "entity.ts" e "usecase.ts";
+- [IMPORTANTE] não reaproveite "repo.impl.ts" para diferentes "service" e até para diferentes "usecase", por mais que neste momento parece ser a mesma coisa, cada repository tem um MOTIVO diferente para existir, e cada motivo pode evoluir no futuro de forma diferente, assim reutilizar repository pode gerar efeitos colareias inesperados em locais não esperados;
 
 ## arquitetura de software
 - esta arquitetura de software é baseada em dominio, diferente da arquitetura padrão fornecida pelo Nest.js que prove uma arquitetura de software orientada a serviço;
@@ -52,6 +43,23 @@ pois o objetivo é usar o framework simplesmente como uma ferramenta a nosso fav
 - em aplicações multi-tenancy, a camada de "service" a partir do payload do JWT, é responsavel para verificar se o usuario logado tem a cargo/permissão no tenant desejado
 - em aplicações multi-tenancy, vários inquilinos (tenants) compartilham a mesma instância da aplicação, você pode seguir uma abordagem em que cada solicitação é roteada para o tenant correto com base em algum critério, como um subdomínio, um cabeçalho personalizado ou um parâmetro de URL.
 - todas as entidades do typeorm devem ser criados com o sufixo ".typeorm.schema.impl.js"
+
+### niveis de acesso 
+- toda ação deve passar por este fluxo de validação:
+- entenda "ação" como o "usecase" que é executado
+1ª valida no "guardian" se o usuário logado tem o cargo com a permissão de realizar a ação do "service/usecase"
+    - exemplo: somente usuários admininstrdores tem permissão de realizar essa ação
+2ª valida no "usecase" se o usuario logado tem autorização sobre o dado que esta interagindo 
+    - exemplo: usuario logado nao tem autorização para interagir com dados de outro tenant
+    - exemplo: usuário logado não tem autorização para interagir com dados de outros usuários
+3ª valida no "usecase" se o dado que esta interagindo permite a ação 
+    - exemplo: status do dado não permite realizar essa ação 
+4ª o sistema terá um tenant ROOT, aonde estará os usuário de suporte e atendimento ao cliente
+    - toda ação, poderá ter mais de uma "permission", desta forma será separado cargos do tenant dos cargos do "LESSOR_ROOT"
+#### Cargo e permissões
+- 'user' tem muitos 'roles'
+- cada cargo pode ter muitas capacidades de permissões
+- 'capability' é a tabela de junção "pivot" entre 'role' e 'permission'
 ### recomendações de como desenvolver
 - Um módulo contém toda a lógica associada a um domínio específico. É recomendado seguir de forma sensata o princípio da Responsabilidade Única do SOLID. Isso significa que cada módulo deve se preocupar apenas com seu próprio domínio e não com outros domínios. Esta regra pode ser quebrado caso julgue que o "trade-off" de tardar sua decisão de executar essa separação somente quando houver real necessidade tenha um custo beneficio satisfatorio;
 - Deixe todas as bibliotecas, pacotes e qualquer outro importação de terceiros fora da camada de domínio. Pois tudo que esta dentro da camada de dominio só pode depender quase que exclusivamente da propria camada de dominio. Salve em caso que ha necessidade compense, como por exemplo tipagem de data-hora;
@@ -72,7 +80,7 @@ pois o objetivo é usar o framework simplesmente como uma ferramenta a nosso fav
 - assim cada "inquilino/tenant" é separado dos demais, mas todos os "inquilinos/tenants" compartilham o mesmo "locador/Lessor" que é a empresa proprietaria do sistema;
 - para que o sistema tenha sua propria equipe de atendimento/suporte as "companhias/tenants", será criado um tenant ROOT, chamado de "LESSOR_ROOT" para representar o proprio "locador/Lessor", que para simplificar o software tambem será um tenant, mas com acesso a qualquer outro tenant;
 - Imagine que a instancia do sistema como um prédio comercial, onde este faz o Arrendamento/Tenancy de "salas" para outras empresas, onde cada empresa é um tenant, e existe uma sala para a admininstração do prédio que é chamada "LESSOR_ROOT", que na pratica tambem é um tenant, mas com permissão de acessar qualquer outro tenant, mesmo que em nivel de acesso limitado;
-- futuramente poderá ser implementado o conceito de "matriz e filiais", aonde um tenant será a matriz de muitas filiais, sendo que cada filial tambem é um tenant;
+- Futuramente poderá ser implementado o conceito de "matriz e filiais", aonde um tenant será a matriz de muitas filiais, sendo que cada filial tambem é um tenant;
 
 ### etapas para criar um novo endpoint
 1ª criar arquivo NOME.repository.interface.ts
@@ -121,10 +129,12 @@ $ npm run typeorm:migrate-up
 
 ### cli nest
 ```bash
-# gera modulo com CRUD
-$ nest resource modules/nome-do-modulo
+# gera modulo com API CRUD
+$ nest generate resource modules/nome-do-modulo
 ```
 
 ## License
 
 Nest is [MIT licensed](LICENSE).
+
+usuarios > grupos > permissões

@@ -6,6 +6,7 @@ import { AbstractStrategy, PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-local';
 import { ExtractJwt } from 'passport-jwt';
 import { jwtPayloadMockUser1 } from './jwt.payload.mock';
+import jwt from 'jsonwebtoken';
 
 describe('JwtStrategy', () => {
   let jwtStrategy: JwtStrategy;
@@ -17,6 +18,40 @@ describe('JwtStrategy', () => {
 
   test('Validar a definição', () => {
     expect(jwtStrategy).toBeDefined();
+  });
+
+  // test('checkToken method', () => {
+  //   const result = jwtStrategy.verify(jwtStrategy);
+
+  //   expect(result).toEqual(jwtStrategy);
+  // });
+
+  test('deve verificar se o token possui assinatura válida', () => {
+    const token = '...'; // Token JWT a ser verificado
+    const secretOrKey = '...'; // Chave secreta usada para assinar o token
+
+    const options = {
+      algorithms: ['HS256'], // Algoritmos de assinatura permitidos
+      secretOrKey, // Chave secreta usada para verificar a assinatura
+    };
+
+    const jwtPayload = jwt.verify(token, secretOrKey);
+
+    expect(jwtPayload).toBeDefined();
+  });
+
+  test('deve verificar se o token possui assinatura válida', () => {
+    const token = '...'; // Token JWT a ser verificado
+    const secretOrKey = '...'; // Chave secreta usada para assinar o token
+
+    const options = {
+      algorithms: ['HS256'], // Algoritmos de assinatura permitidos
+      secretOrKey, // Chave secreta usada para verificar a assinatura
+    };
+
+    const jwtPayload = jwt.verify(token, secretOrKey);
+
+    expect(jwtPayload).toBeDefined();
   });
 
   // it('deve ser uma instância de PassportStrategy', () => {
