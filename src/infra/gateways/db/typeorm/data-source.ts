@@ -7,7 +7,7 @@ import * as path from 'path';
  * mas caso tenha mais de um ORM ou mais de um DB,
  * especifique cada entidade que usa esta conexão
  */
-export const dataSouceOptions: DataSourceOptions & SeederOptions = {
+export const dataSourceOptions: DataSourceOptions & SeederOptions = {
   type: 'postgres',
   host: process.env.DATABASE_HOST,
   port: parseInt(process.env.DB_MAIN_PORT || '5432', 10),
@@ -25,6 +25,6 @@ export const dataSouceOptions: DataSourceOptions & SeederOptions = {
 const cliConfig = {
   migrationsDir: 'src/infra/gateways/internal/db/typeorm/migrations',
 };
-const dataSource = new DataSource(dataSouceOptions);
-Object.assign(dataSouceOptions, { cli: cliConfig });
+const dataSource = new DataSource(dataSourceOptions);
+Object.assign(dataSourceOptions, { cli: cliConfig });
 export default dataSource;

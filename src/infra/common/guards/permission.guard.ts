@@ -6,7 +6,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { Observable } from 'rxjs';
+// import { Observable } from 'rxjs';
 import { NAME_DECORATOR } from '../decorators/permission.decorator';
 import { UserSchemaTypeormImpl } from '../../../modules/user/repository/typeorm/implementation/schema/user.schema.typeorm.impl';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -31,9 +31,7 @@ export class PermissionGuard implements CanActivate {
     private reflector: Reflector,
   ) {}
 
-  canActivate(
-    context: ExecutionContext,
-  ): boolean | Promise<boolean> | Observable<boolean> {
+  canActivate(context: ExecutionContext) {
     let hasPermission = false;
     const requiredCapabilities: string[] = this.reflector.get(
       NAME_DECORATOR,
