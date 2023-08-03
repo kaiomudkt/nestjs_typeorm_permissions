@@ -15,8 +15,12 @@ export class UserTypeormSeed {
   public async run() {
     const usersInDatabase = await this.userRepository.find();
     const salt = process.env.BCRYPT_SALT || '10';
+    const usersFactory: Partial<UserSchemaTypeormImpl>[] = [];
+    for (let i = 0; i < 10; i++) {
+      usersFactory.push(createUserFakeData());
+    }
     if (usersInDatabase.length === 0) {
-      // await createUserFakeData().createMany(10);
+      // const teste123 = await createUserFakeData().createMany(10);
       const usersEntitiesSchemas: Partial<UserSchemaTypeormImpl>[] = [
         {
           id: '55de4944-8f8e-4a30-a4ec-1afad3ffa924',
@@ -48,6 +52,7 @@ export class UserTypeormSeed {
           birthAt: new Date('2023-02-02'),
           tenantId: '',
         },
+        ...usersFactory,
       ];
       await this.userRepository.save(usersEntitiesSchemas);
     } else {
