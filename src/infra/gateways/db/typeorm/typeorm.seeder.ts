@@ -4,6 +4,9 @@ import { Connection, EntityManager, Repository } from 'typeorm';
 import { UserSchemaTypeormImpl } from '../../../../modules/user/repository/typeorm/implementation/schema/user.schema.typeorm.impl';
 import { UserTypeormSeed } from './seeds/user.typeorm.seed';
 import { Injectable, OnApplicationBootstrap } from '@nestjs/common';
+import { TenantSchemaTypeormImpl } from '../../../../modules/tenant/repository/typeorm/tenant.schema.typeorm.impl';
+import { TenantTypeormSeed } from './seeds/tenant.typeorm.seed';
+import { UserTenantRelationshipSeed } from './seeds/user-tenant-relationship.typeorm.seed';
 // import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
@@ -15,7 +18,6 @@ export class TypeormSeeder implements OnApplicationBootstrap {
   async onApplicationBootstrap() {
     try {
       await this.runSeeds();
-      console.log('Todas as SEEDs foram executadas com sucesso!');
     } catch (error) {
       console.error('Erro ao executar as SEEDs:', error);
     }
@@ -27,8 +29,18 @@ export class TypeormSeeder implements OnApplicationBootstrap {
         entityManager.getRepository(UserSchemaTypeormImpl);
       const userSeed = new UserTypeormSeed(userRepository);
       await userSeed.run();
-      // const categorySeed = new CategoryTypeormSeed(CategorySchemaTypeormImpl);
-      // await categorySeed.run();
+      const tenantRepository: Repository<TenantSchemaTypeormImpl> =
+        entityManager.getRepository(TenantSchemaTypeormImpl);
+      const tenantSeed = new TenantTypeormSeed(
+        tenantRepository,
+        userRepository,
+      );
+      await tenantSeed.run();
+      // const userTenantRelationshipSeed = new UserTenantRelationshipSeed(
+      //   userRepository,
+      //   tenantRepository,
+      // );
+      // await userTenantRelationshipSeed.run();
     });
   }
 }

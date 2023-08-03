@@ -14,6 +14,7 @@ export const tenantMasterEntity: TenantSchemaTypeormImpl = {
   superAdmin: rootEntity,
   createdBy: rootEntity,
   foundationDateAt: new Date('1999/01/25'),
+  users: [],
 };
 
 export const tenant1Entity: TenantSchemaTypeormImpl = {
@@ -25,6 +26,7 @@ export const tenant1Entity: TenantSchemaTypeormImpl = {
   superAdmin: rootEntity,
   createdBy: rootEntity,
   foundationDateAt: new Date('1950/01/25'),
+  users: [],
 };
 
 export const tenantsEnttitiesList: TenantSchemaTypeormImpl[] = [
@@ -38,5 +40,6 @@ export const tenantsEnttitiesList: TenantSchemaTypeormImpl[] = [
     superAdmin: user1Entity,
     createdBy: user1Entity,
     foundationDateAt: new Date('2000/06/19'),
+    users: [],
   },
 ];

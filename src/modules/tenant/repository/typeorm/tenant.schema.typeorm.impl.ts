@@ -7,6 +7,7 @@ import {
   UpdateDateColumn,
   JoinColumn,
   ManyToOne,
+  OneToMany,
 } from 'typeorm';
 import { ITenantSchema } from '../../domain/tenant.schema.interface';
 import { UserSchemaTypeormImpl } from '../../../user/repository/typeorm/implementation/schema/user.schema.typeorm.impl';
@@ -16,6 +17,10 @@ export class TenantSchemaTypeormImpl implements ITenantSchema {
   [x: string]: any;
   @PrimaryGeneratedColumn('uuid')
   id: string;
+
+  /** users do tenant */
+  @OneToMany(() => UserSchemaTypeormImpl, (user) => user.tenant)
+  users: UserSchemaTypeormImpl[];
 
   @ManyToOne(() => UserSchemaTypeormImpl)
   @JoinColumn({ name: 'superAdminId' })

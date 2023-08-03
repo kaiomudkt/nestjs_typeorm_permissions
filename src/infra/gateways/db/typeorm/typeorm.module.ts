@@ -7,6 +7,7 @@ import { dataSourceOptions } from './data-source';
 
 @Module({
   imports: [
+    TypeOrmModule.forRoot(dataSourceOptions),
     forwardRef(() => UserModule),
     /** configura typeorm para este modulo */
     TypeOrmModule.forFeature([UserSchemaTypeormImpl]),

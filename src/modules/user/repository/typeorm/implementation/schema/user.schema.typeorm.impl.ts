@@ -20,9 +20,17 @@ export class UserSchemaTypeormImpl implements IUserSchema {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => TenantSchemaTypeormImpl, tenant => tenant.users)
+  // @ManyToOne(
+  //   (): typeof TenantSchemaTypeormImpl => TenantSchemaTypeormImpl,
+  //   (tenant: TenantSchemaTypeormImpl): any => tenant.users,
+  // )
+  // @JoinColumn({ name: 'tenantId' })
+  @ManyToOne(
+    () => TenantSchemaTypeormImpl,
+    (tenant: TenantSchemaTypeormImpl): any => tenant.users,
+  )
   @JoinColumn({ name: 'tenantId' })
-  tenant: TenantSchemaTypeormImpl; // TODO: FK UUID
+  tenant: TenantSchemaTypeormImpl;
 
   @ManyToOne(() => UserSchemaTypeormImpl)
   @JoinColumn({ name: 'createdById' })
