@@ -15,6 +15,8 @@ import { IUserSchema } from './domain/user.schema.interface';
 import { UpdatePartialUserTypeormRepoImpl } from './repository/typeorm/implementation/repository/update-partial-user.typeorm.repo.impl';
 import { SoftDeleteByIdUserUsecase } from './domain/usecase/soft-delete-user-by-id.usecase';
 import { SoftDeleteByIdUserTypeormRepoImpl } from './repository/typeorm/implementation/repository/soft-delete-user-by-id.typeorm.repo.impl';
+import { TenantSchemaTypeormImpl } from '../tenant/repository/typeorm/tenant.schema.typeorm.impl';
+import { UserLogged } from '../base/interfaces/dto/user-logged.interface';
 
 @Injectable()
 export class UserService {
@@ -27,9 +29,14 @@ export class UserService {
   constructor(
     @InjectRepository(UserSchemaTypeormImpl)
     private readonly userRepositoryInstance: Repository<UserSchemaTypeormImpl>,
+    @InjectRepository(TenantSchemaTypeormImpl)
+    private readonly tenantRepositoryInstance: Repository<TenantSchemaTypeormImpl>,
   ) {
     this.createUserUsecase = new CreateUserUsecase(
-      new CreateUserTypeormRepoImpl(this.userRepositoryInstance),
+      new CreateUserTypeormRepoImpl(
+        this.userRepositoryInstance,
+        this.tenantRepositoryInstance,
+      ),
     );
     this.findByIdUserUsecase = new FindByIdUserUsecase(
       new FindByIdUserTypeormRepoImpl(this.userRepositoryInstance),
@@ -45,12 +52,18 @@ export class UserService {
     );
   }
 
-  async create(createUserDto: CreateUserDto): Promise<IUserSchema | undefined> {
-    const data: any = await this.createUserUsecase.create({
-      ...createUserDto,
-      // tenant: this.tenantService.tenant,
-    });
-    // envio de email
+  async create(
+    createUserDto: CreateUserDto,
+    userLoggedReq: UserLogged,
+  ): Promise<IUserSchema | undefined> {
+    if (!userLoggedReq) {
+      throw new UnauthorizedException('Usuário logado não informado');
+    }
+    const data: any = await this.createUserUsecase.create(
+      createUserDto,
+      userLoggedReq,
+    );
+    // TODO: serviço envio de email
     return data;
   }
 
@@ -63,26 +76,22 @@ export class UserService {
     return data;
   }
 
-  async findOne(
-    id: string,
-    userLoggedReq: {
-      id: string;
-      status: string;
-      name: string;
-      email: string;
-      tenantId: string;
-    },
-  ): Promise<IUserSchema> {
+  async findOne(id: string, userLoggedReq: UserLogged): Promise<IUserSchema> {
     if (!userLoggedReq) {
       throw new UnauthorizedException('Usuário logado não informado');
     }
     return await this.findByIdUserUsecase.findById(id);
   }
 
-  async updatePartial(id: string, updatePartialUserDto: UpdatePartialUserDto) {
+  async updatePartial(
+    id: string,
+    updatePartialUserDto: UpdatePartialUserDto,
+    userLoggedReq: UserLogged,
+  ) {
     return await this.updatePartialUserUsecase.updatePartial(
       id,
       updatePartialUserDto,
+      userLoggedReq,
     );
   }
 

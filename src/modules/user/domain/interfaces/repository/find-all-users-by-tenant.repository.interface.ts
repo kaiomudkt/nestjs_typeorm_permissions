@@ -4,6 +4,8 @@ export interface FindAllPayloadRepository {
   tenantId: string;
 }
 
-export interface IFindAllUsersByTenantRepository<T> {
-  findAllUsersByTenant(FindAllPayloadRepository): Promise<[T[], number]>;
+export interface IFindAllUsersByTenantRepository<UserSchema> {
+  findAllUsersByTenant(
+    FindAllPayloadRepository,
+  ): Promise<[UserSchema[], number]>;
 }

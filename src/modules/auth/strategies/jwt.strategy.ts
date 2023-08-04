@@ -1,19 +1,28 @@
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
+import { UserLogged } from '../../base/interfaces/dto/user-logged.interface';
+import { UserPayload } from '../auth.service';
 
 /**
  * responsabilidade de autorizar a partir de informações extraidas do header-authorization
  */
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
+  private strategyOptions: StrategyOptions;
   constructor() {
     console.log('jwt.strategy constructor');
-    super({
+    const options: StrategyOptions = {
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: process.env.JWT_SECRET,
-    });
+      secretOrKey: process.env.JWT_SECRET || '123456',
+    };
+    super(options);
+    this.strategyOptions = options;
+  }
+
+  getOptions(): StrategyOptions {
+    return this.strategyOptions;
   }
 
   /**
@@ -32,20 +41,31 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
    *  return this.authService.login(req.user);
    * }
    */
-  async validate(payload: any) {
-    console.log('jwt.strategy.ts validate(payload)', payload);
+  async validate(payload: UserPayload): Promise<UserLogged> {
+    const hasDecoratorUseGuardsJwtAuthGuard = false; // TODO: verificar se uso o decorator @UseGuards(JwtAuthGuard)
     if (
       process.env.BACKEND_DEFAULT_AUTHENTICATION_TYPE !=
-      'AUTH_DEFAUT_JWT_NESTJS_ALL_ENDPOINTS'
+        'AUTH_DEFAUT_JWT_NESTJS_ALL_ENDPOINTS' &&
+      hasDecoratorUseGuardsJwtAuthGuard
     ) {
-      return {};
+      return;
     }
-    return {
+    const userLogged: UserLogged = {
       id: payload.sub,
       name: payload.userName,
       tenantId: payload.userTenantId,
       email: payload.userEmail,
       status: payload.userStatus,
+      isLessorRoot: false, // TODO usuário logado pode ser do tenant 'LESSOR_ROOT'
+      roles: [],
+      capabilities: [],
     };
+    return userLogged;
   }
+}
+
+interface StrategyOptions {
+  jwtFromRequest: any;
+  ignoreExpiration: boolean;
+  secretOrKey: string;
 }

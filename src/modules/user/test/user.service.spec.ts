@@ -1,24 +1,30 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UserService } from '../user.service';
 import { userRepositoryMock } from './user.repository.mock';
-import { usersEnttitiesList } from './user.schema.list.mock';
+import { userLogged1, usersEnttitiesList } from './user.schema.list.mock';
 import { createuserDtoMock } from './create-user-dto.mock';
 import { Repository } from 'typeorm';
 import { UserSchemaTypeormImpl } from '../repository/typeorm/implementation/schema/user.schema.typeorm.impl';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { UpdatePartialUserDto } from '../dto/update-partial-user.dto';
+import { TenantSchemaTypeormImpl } from '../../tenant/repository/typeorm/tenant.schema.typeorm.impl';
+import { tenantRepositoryMock } from '../../tenant/test/tenant.repository.mock';
+import { tenant1Entity } from '../../tenant/test/tenant.schema.list.mock';
+import { UserLogged } from '../../base/interfaces/dto/user-logged.interface';
 
 describe('UserService', () => {
   let userService: UserService;
   let userRepository: Repository<UserSchemaTypeormImpl>;
+  let tenantRepository: Repository<TenantSchemaTypeormImpl>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [UserService, userRepositoryMock],
+      providers: [UserService, userRepositoryMock, tenantRepositoryMock],
     }).compile();
 
     userService = module.get<UserService>(UserService);
     userRepository = module.get(getRepositoryToken(UserSchemaTypeormImpl));
+    tenantRepository = module.get(getRepositoryToken(TenantSchemaTypeormImpl));
   });
 
   it('validar se está definido', () => {
@@ -31,15 +37,20 @@ describe('UserService', () => {
       // jest
       //   .spyOn(userRepository, 'isEmailPerTenantOrUsernameDuplicated')
       //   .mockResolvedValueOnce(true);
-      const result = await userService.create(createuserDtoMock);
-      expect(result).toEqual(usersEnttitiesList[0]);
+      const userLoggedReq: UserLogged = userLogged1;
+      const result = await userService.create(createuserDtoMock, userLoggedReq);
+      expect(result).toEqual(usersEnttitiesList[1]);
     });
   });
 
   describe('Busca muitos usuários (user)', () => {
     test('método (findAll)', async () => {
-      const result = await userService.findAll('tenant_1', 0, 99);
-      expect(result).toEqual(usersEnttitiesList);
+      const result = await userService.findAll(
+        usersEnttitiesList[1].tenant.id,
+        0,
+        99,
+      );
+      expect(result).toEqual([usersEnttitiesList, usersEnttitiesList.length]);
     });
   });
 
@@ -47,15 +58,9 @@ describe('UserService', () => {
     test('método (findOne)', async () => {
       const result = await userService.findOne(
         '77001d86-3063-4ae1-9297-81b08e386087',
-        {
-          id: '77001d86-3063-4ae1-9297-81b08e386087',
-          status: 'PENDING',
-          name: 'João Silva',
-          email: 'joao@gmail.com',
-          tenantId: 'tenant_1',
-        },
+        userLogged1,
       );
-      expect(result).toEqual(usersEnttitiesList[0]);
+      expect(result).toEqual(usersEnttitiesList[1]);
     });
   });
 
@@ -64,8 +69,9 @@ describe('UserService', () => {
       const result = await userService.updatePartial(
         '77001d86-3063-4ae1-9297-81b08e386087',
         UpdatePartialUserDto,
+        userLogged1,
       );
-      expect(result).toEqual(usersEnttitiesList[0]);
+      expect(result).toEqual(usersEnttitiesList[1]);
     });
   });
 

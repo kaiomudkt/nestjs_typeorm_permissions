@@ -1,4 +1,8 @@
-import { getEnumKeyByValue, toEnum } from '../../../infra/utils/enum/enum-operations';
+import {
+  getEnumKeyByValue,
+  toEnum,
+} from '../../../infra/utils/enum/enum-operations';
+import { TenantEntity } from '../../tenant/domain/tenant.entity';
 import { StatusUserEnum } from './enum/status-user.enum';
 
 export class UserEntity {
@@ -8,8 +12,14 @@ export class UserEntity {
   private _password: string;
   private _birthAt: Date;
   private _username: string;
-  private _tenantEntity: string;
+  /**
+   * fazer M:M da suporte para poder um gerente geral poder ter acesso a mais de um tenant
+   * -
+   * Tenant em que o usuário pertence
+   */
+  private _tenantEntity: TenantEntity;
   private _status: StatusUserEnum;
+  private _createdBy?: UserEntity;
 
   private constructor(
     id?: string,
@@ -19,7 +29,8 @@ export class UserEntity {
     username?: string,
     birthAt?: Date,
     status?: StatusUserEnum,
-    tenantEntity?: string, // TODO: criar entity
+    tenantEntity?: TenantEntity,
+    createdBy?: UserEntity,
   ) {
     this._id = id;
     this._name = name;
@@ -29,6 +40,7 @@ export class UserEntity {
     this._username = username;
     this._status = status;
     this._tenantEntity = tenantEntity;
+    this._createdBy = createdBy;
   }
 
   static factoryNewUser(
@@ -38,11 +50,42 @@ export class UserEntity {
     password: string,
     functionHash: (password: string, salt: number) => string,
     birthAt: Date,
+    createdBy: UserEntity,
     status?: StatusUserEnum,
-    tenantEntity?: string, // TODO: ao criar é obrigartio, ao atualizar nao pode
-    id?: string,
+    tenantEntity?: TenantEntity, // TODO: ao criar é obrigartio, ao atualizar nao pode
+    // id?: string,
   ): UserEntity {
     const hashPassword: string = functionHash(password, 10);
+    return new UserEntity(
+      null,
+      name,
+      email,
+      hashPassword,
+      username,
+      birthAt,
+      status,
+      tenantEntity,
+      createdBy,
+    );
+  }
+
+  static factoryUpdatePartialUser(
+    id: string,
+    functionHash: (password: string, saltRounds: number) => string,
+    saltRounds: number,
+    name?: string,
+    email?: string,
+    username?: string,
+    password?: string,
+    birthAt?: Date,
+    status?: StatusUserEnum,
+    tenantEntity?: TenantEntity, // TODO: ao criar é obrigartio, ao atualizar nao pode a
+    createdBy?: UserEntity,
+  ): UserEntity {
+    let hashPassword: string = null;
+    if (password) {
+      hashPassword = functionHash(password, saltRounds);
+    }
     return new UserEntity(
       id,
       name,
@@ -52,28 +95,7 @@ export class UserEntity {
       birthAt,
       status,
       tenantEntity,
-    );
-  }
-
-  static factoryUpdatePartialUser(
-    id: string,
-    name?: string,
-    email?: string,
-    username?: string,
-    password?: string,
-    birthAt?: Date,
-    status?: StatusUserEnum,
-    tenantEntity?: string, // TODO: ao criar é obrigartio, ao atualizar nao pode
-  ): UserEntity {
-    return new UserEntity(
-      id,
-      name,
-      email,
-      password,
-      username,
-      birthAt,
-      status,
-      tenantEntity,
+      createdBy,
     );
   }
 
@@ -148,12 +170,20 @@ export class UserEntity {
     this._status = status;
   }
 
-  get tenantEntity(): string {
+  get tenantEntity(): TenantEntity {
     return this._tenantEntity;
   }
 
-  set tenantEntity(tenantEntity: string) {
+  set tenantEntity(tenantEntity: TenantEntity) {
     this._tenantEntity = tenantEntity;
+  }
+
+  get createdBy(): UserEntity {
+    return this._createdBy;
+  }
+
+  set createdByEntity(createdBy: UserEntity) {
+    this._createdBy = createdBy;
   }
 
   /**

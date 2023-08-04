@@ -7,7 +7,7 @@ services:
   #   ports:
   #     - ${BACKEND_API_PORT}:3000
   #   depends_on:
-  #     - db
+  #     - postgres
   #     - keycloak
 
   postgres:

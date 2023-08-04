@@ -2,6 +2,7 @@ import { ExecutionContext, Injectable } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { IS_PUBLIC_KEY } from '../decorators/api-access-modifiers.decorator';
 import { Reflector } from '@nestjs/core';
+// import { Observable } from 'rxjs';
 
 /**
  * https://docs.nestjs.com/recipes/passport
@@ -9,7 +10,7 @@ import { Reflector } from '@nestjs/core';
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {
   constructor(private reflector: Reflector) {
-    console.log('jwt.auth.guard.ts constructor');
+    console.log('jwt.auth.guard.ts constructor', reflector);
     super();
   }
 
@@ -24,6 +25,9 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
       return true;
     }
     console.log('jwt-auth.guard.ts isPublic DEPOIS', isPublic);
-    return super.canActivate(context);
+    // const request = context.switchToHttp().getRequest();
+    // const { authorization } = request.headers;
+    const isActivate = super.canActivate(context);
+    return isActivate;
   }
 }

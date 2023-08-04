@@ -13,7 +13,13 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async login(userPayload: any) {
+  /**
+   * AUTORIZAÇÃO
+   * src/modules/auth/auth.controller.ts
+   * neste momento o @UseGuards(LocalAuthGuard) já autenticou quem é o usuário;
+   * agora precisamos autorizar/assinar o token;
+   */
+  async login(userPayload: UserPayload) {
     const signAuthenticatedUserPayload = {
       access_token: await this.jwtService.signAsync(userPayload),
     };
@@ -23,26 +29,52 @@ export class AuthService {
     return signAuthenticatedUserPayload;
   }
 
+  /**
+   * AUTENTICAÇÃO
+   * src/modules/auth/strategies/local.strategy.ts
+   */
   async validateUser(username: string, password: string): Promise<any> {
     const options: FindOneOptions<UserSchemaTypeormImpl> = {
       where: { username },
+      relations: ['tenant'],
     };
     const userSchema: UserSchemaTypeormImpl =
       await this.userRepositoryInstance.findOne(options);
-    if (!userSchema) {
+    if (!userSchema || !userSchema.id) {
       throw new UnauthorizedException('Login ou senha não encontrado');
     }
     const isPasswordValid = compareSync(password, userSchema.password);
     if (!isPasswordValid) {
       throw new UnauthorizedException('Login ou senha não encontrado');
     }
-    const userPayload = {
+    const userPayload: UserPayload = {
       sub: userSchema.id,
       userName: userSchema.name,
-      userTenantId: userSchema.tenantId,
+      userTenantId: userSchema.tenant ? userSchema.tenant.id : null,
       userEmail: userSchema.email,
       userStatus: userSchema.status,
     };
+    // console.log('userSchema:::', userSchema);
+    if (!userPayload.userTenantId) {
+      throw new UnauthorizedException(
+        'Usuário logado não tem tenant para acessar.',
+      );
+    }
+    if (!userPayload.userStatus) {
+      throw new UnauthorizedException(
+        'O usuário logado não tem um status válido.',
+      );
+    }
     return userPayload;
   }
 }
+
+export type UserPayload = {
+  sub: string;
+  userStatus: string;
+  userName: string;
+  userEmail: string;
+  userTenantId: string;
+  iat?: number;
+  exp?: number;
+};
