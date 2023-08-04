@@ -9,6 +9,7 @@ import { CreateRoleTypeormRepoImpl } from './repository/typeorm/implementation/c
 import { FindAllRolesPayloadRepository } from './domain/interfaces/repository/find-all-roles-by.repository.interface';
 import { FindAllRolesByTenantUsecase } from './domain/usecase/find-all-roles.usecase';
 import { FindAllRolesByTenantTypeormRepoImpl } from './repository/typeorm/implementation/find-all-roles-by-tenant.typeorm.repo.impl';
+import { SlugService } from '../../infra/utils/slug/slugify';
 
 @Injectable()
 export class RoleService {
@@ -21,6 +22,7 @@ export class RoleService {
   ) {
     this.createRoleUsecase = new CreateRoleUsecase(
       new CreateRoleTypeormRepoImpl(this.roleRepositoryInstance),
+      new SlugService(),
     );
     this.findAllRolesByTenantUsecase = new FindAllRolesByTenantUsecase(
       new FindAllRolesByTenantTypeormRepoImpl(this.roleRepositoryInstance),

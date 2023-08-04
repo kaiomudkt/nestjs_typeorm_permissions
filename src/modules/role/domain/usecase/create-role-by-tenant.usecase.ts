@@ -4,11 +4,17 @@ import { RoleEntity } from '../role.entity';
 import { IRoleSchema } from '../role.schema.interface';
 import { ITenantSchema } from '../../../tenant/domain/tenant.schema.interface';
 import { IUserSchema } from '../../../user/domain/user.schema.interface';
+import { SlugService } from '../../../../infra/utils/slug/slugify';
 
 export class CreateRoleUsecase {
   private repository: ICreateRoleRepository<IRoleSchema>;
-  constructor(repository: ICreateRoleRepository<IRoleSchema>) {
+  private slugService: SlugService;
+  constructor(
+    repository: ICreateRoleRepository<IRoleSchema>,
+    slugService: SlugService,
+  ) {
     this.repository = repository;
+    this.slugService = slugService;
   }
 
   async create(
@@ -41,7 +47,7 @@ export class CreateRoleUsecase {
       username: '',
     };
     const roleEntity = {
-      idCode: data.idCode,
+      idCode: data.idCode || this.slugService.generateSlug(data.label),
       tenant: tenantSchema,
       label: data.label,
       description: data.description,
