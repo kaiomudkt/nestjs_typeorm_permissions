@@ -20,7 +20,6 @@ export class UserTypeormSeed {
       usersFactory.push(createUserFakeData());
     }
     if (usersInDatabase.length === 0) {
-      // const teste123 = await createUserFakeData().createMany(10);
       const usersEntitiesSchemas: Partial<UserSchemaTypeormImpl>[] = [
         {
           id: '55de4944-8f8e-4a30-a4ec-1afad3ffa924',

@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { TenantSchemaTypeormImpl } from '../../../../../modules/tenant/repository/typeorm/tenant.schema.typeorm.impl';
 import { UserSchemaTypeormImpl } from '../../../../../modules/user/repository/typeorm/implementation/schema/user.schema.typeorm.impl';
+import { createTenantFakeData } from '../factories/tenant.factory.typeorm';
 
 @Injectable()
 export class TenantTypeormSeed {
@@ -18,7 +19,10 @@ export class TenantTypeormSeed {
       await this.userRepository.find();
     const tenantsInDatabase: TenantSchemaTypeormImpl[] =
       await this.tenantRepository.find();
-    console.log('tenantsInDatabase.length:::', tenantsInDatabase.length);
+    const tenantsFactory: Partial<TenantSchemaTypeormImpl>[] = [];
+    for (let i = 0; i < 10; i++) {
+      tenantsFactory.push(await createTenantFakeData(this.userRepository));
+    }
     if (tenantsInDatabase.length < 1) {
       const tenantsEntitiesSchemas: Partial<TenantSchemaTypeormImpl>[] = [
         {
@@ -52,6 +56,7 @@ export class TenantTypeormSeed {
           createdBy: usersInDatabase[0],
           status: 'ACTIVE',
         },
+        ...tenantsFactory,
       ];
       await this.tenantRepository.save(tenantsEntitiesSchemas);
     } else {

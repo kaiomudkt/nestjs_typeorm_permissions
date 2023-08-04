@@ -31,12 +31,12 @@ export class TenantSchemaTypeormImpl implements ITenantSchema {
   createdBy: UserSchemaTypeormImpl;
 
   @Column({
-    length: 127,
+    length: 255,
   })
   name: string;
 
   @Column({
-    length: 127, // TODO alterar length
+    length: 500,
   })
   description: string;
 

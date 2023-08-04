@@ -37,7 +37,7 @@ export class UserSchemaTypeormImpl implements IUserSchema {
   createdBy: UserSchemaTypeormImpl;
 
   @Column({
-    length: 127,
+    length: 255,
   })
   name: string;
 
