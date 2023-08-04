@@ -7,6 +7,9 @@ import { Injectable, OnApplicationBootstrap } from '@nestjs/common';
 import { TenantSchemaTypeormImpl } from '../../../../modules/tenant/repository/typeorm/tenant.schema.typeorm.impl';
 import { TenantTypeormSeed } from './seeds/tenant.typeorm.seed';
 import { UserTenantRelationshipSeed } from './seeds/user-tenant-relationship.typeorm.seed';
+import { RoleSchemaTypeormImpl } from '../../../../modules/role/repository/typeorm/role.schema.typeorm.impl';
+import { RoleTypeormSeed } from './seeds/role.typeorm.seed';
+import { SlugService } from '../../../utils/slug/slugify';
 // import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
@@ -41,6 +44,16 @@ export class TypeormSeeder implements OnApplicationBootstrap {
         tenantRepository,
       );
       await userTenantRelationshipSeed.run();
+      //
+      const roleRepository: Repository<RoleSchemaTypeormImpl> =
+        entityManager.getRepository(RoleSchemaTypeormImpl);
+      const roleSeed = new RoleTypeormSeed(
+        roleRepository,
+        userRepository,
+        tenantRepository,
+        new SlugService(),
+      );
+      await roleSeed.run();
     });
   }
 }

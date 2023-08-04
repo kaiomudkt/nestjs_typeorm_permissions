@@ -33,22 +33,22 @@ export class RoleSchemaTypeormImpl implements IRoleSchema {
   tenant: TenantSchemaTypeormImpl;
 
   @Column({
-    length: 127,
+    length: 255,
   })
   label: string;
 
   @Column({
-    length: 127,
+    length: 255,
   })
   icon?: string;
 
   @Column({
-    length: 127,
+    length: 255,
   })
   color?: string;
 
   @Column({
-    length: 127, // TODO alterar length
+    length: 500,
   })
   description: string;
 
