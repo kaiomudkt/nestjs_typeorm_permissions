@@ -1,5 +1,8 @@
 import { UnauthorizedException } from '@nestjs/common';
-import { FindAllRolesPayloadRepository, IFindAllRolesByTenantRepository } from '../interfaces/repository/find-all-roles-by.repository.interface';
+import {
+  FindAllRolesPayloadRepository,
+  IFindAllRolesByTenantRepository,
+} from '../interfaces/repository/find-all-roles-by.repository.interface';
 import { IRoleSchema } from '../role.schema.interface';
 
 export class FindAllRolesByTenantUsecase {

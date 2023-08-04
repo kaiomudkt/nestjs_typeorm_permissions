@@ -1,3 +1,4 @@
-export interface ICreateRoleRepository<TenantSchema> {
-  create(schema: TenantSchema): Promise<TenantSchema>;
+export interface ICreateRoleRepository<RoleSchema, TenantSchema> {
+  createRole(schema: RoleSchema): Promise<RoleSchema>;
+  findTenantById(tenantId: string): Promise<TenantSchema>;
 }

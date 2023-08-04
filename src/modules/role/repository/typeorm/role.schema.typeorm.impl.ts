@@ -20,6 +20,7 @@ export class RoleSchemaTypeormImpl implements IRoleSchema {
 
   @Column({
     length: 127,
+    unique: true,
   })
   idCode: string;
 
