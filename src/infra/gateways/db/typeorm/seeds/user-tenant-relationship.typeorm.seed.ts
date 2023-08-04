@@ -19,33 +19,23 @@ export class UserTenantRelationshipSeed {
       await this.userRepository.find();
     const tenantsInDatabase: TenantSchemaTypeormImpl[] =
       await this.tenantRepository.find({ relations: ['superAdmin'] });
-    console.log('usersInDatabase:::', usersInDatabase);
-    console.log('tenantsInDatabase:::', tenantsInDatabase);
+    // console.log('usersInDatabase:::', usersInDatabase);
+    // console.log('tenantsInDatabase:::', tenantsInDatabase);
     if (usersInDatabase.length > 0 && tenantsInDatabase.length > 0) {
       for (const user of usersInDatabase) {
-        // const matchingTenant: TenantSchemaTypeormImpl = tenantsInDatabase.find(
-        //   (tenant: TenantSchemaTypeormImpl): boolean =>
-        //     tenant.superAdminId === user.id,
-        // );
-        // console.log('matchingTenant:::', matchingTenant);
-        // if (matchingTenant) {
-        // TODO: user.tenantId = matchingTenant.id;
-        // user.tenantId = '83eadcee-dbfa-4a5d-bb8d-b1f755246906';
-        const options: FindOneOptions<TenantSchemaTypeormImpl> = {
-          where: { id: '83eadcee-dbfa-4a5d-bb8d-b1f755246906' },
-          relations: ['tenant'],
-        };
-        const tenantSchema: TenantSchemaTypeormImpl =
-          await this.tenantRepository.findOne(options);
-        user.tenant = tenantSchema;
-        const result: UserSchemaTypeormImpl = await this.userRepository.save(
-          user,
+        const matchingTenant: TenantSchemaTypeormImpl = tenantsInDatabase.find(
+          (tenant: TenantSchemaTypeormImpl): boolean =>
+            tenant.superAdmin.id === user.id,
         );
-        console.log('result:::', result);
-        // }
+        // console.log('matchingTenant:::', matchingTenant);
+        if (matchingTenant) {
+          user.tenant = matchingTenant;
+          const result = await this.userRepository.save(user);
+          // console.log('result:::', result);
+        }
         const usersInDatabase22: UserSchemaTypeormImpl[] =
           await this.userRepository.find({ relations: ['tenant'] });
-        console.log('usersInDatabase22:::', usersInDatabase22);
+        // console.log('usersInDatabase22:::', usersInDatabase22);
       }
     } else {
       console.log('ERRO UserTenantRelationshipSeed');

@@ -36,11 +36,11 @@ export class TypeormSeeder implements OnApplicationBootstrap {
         userRepository,
       );
       await tenantSeed.run();
-      // const userTenantRelationshipSeed = new UserTenantRelationshipSeed(
-      //   userRepository,
-      //   tenantRepository,
-      // );
-      // await userTenantRelationshipSeed.run();
+      const userTenantRelationshipSeed = new UserTenantRelationshipSeed(
+        userRepository,
+        tenantRepository,
+      );
+      await userTenantRelationshipSeed.run();
     });
   }
 }

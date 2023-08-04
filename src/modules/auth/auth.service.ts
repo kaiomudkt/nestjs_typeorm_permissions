@@ -54,7 +54,7 @@ export class AuthService {
       userEmail: userSchema.email,
       userStatus: userSchema.status,
     };
-    console.log('userSchema:::', userSchema);
+    // console.log('userSchema:::', userSchema);
     if (!userPayload.userTenantId) {
       throw new UnauthorizedException(
         'Usuário logado não tem tenant para acessar.',

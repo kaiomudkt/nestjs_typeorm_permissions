@@ -17,6 +17,20 @@ export class TenantTypeormSeed {
   public async run() {
     const usersInDatabase: UserSchemaTypeormImpl[] =
       await this.userRepository.find();
+    let userRoot = null;
+    let user1 = null;
+    let user2 = null;
+    for (const user of usersInDatabase) {
+      if (user.id === '55de4944-8f8e-4a30-a4ec-1afad3ffa924') {
+        userRoot = user;
+      }
+      if (user.id === '83eadcee-dbfa-4a5d-bb8d-b1f755246906') {
+        user1 = user;
+      }
+      if (user.id === '4c7a37e6-60c3-47bb-898a-124279e71778') {
+        user2 = user;
+      }
+    }
     const tenantsInDatabase: TenantSchemaTypeormImpl[] =
       await this.tenantRepository.find();
     const tenantsFactory: Partial<TenantSchemaTypeormImpl>[] = [];
@@ -32,8 +46,8 @@ export class TenantTypeormSeed {
             'locatario: tenant é para funcionarios adminstrativo do sistema',
           email: 'tenant1@example.com',
           foundationDateAt: new Date('2023-01-02'),
-          superAdmin: usersInDatabase[0],
-          createdBy: usersInDatabase[0],
+          superAdmin: userRoot,
+          createdBy: userRoot,
           status: 'ACTIVE',
         },
         {
@@ -42,8 +56,8 @@ export class TenantTypeormSeed {
           description: 'descricao do tenant',
           email: 'tenant1@example.com',
           foundationDateAt: new Date('2023-01-02'),
-          superAdmin: usersInDatabase[0],
-          createdBy: usersInDatabase[0],
+          superAdmin: user1,
+          createdBy: userRoot,
           status: 'ACTIVE',
         },
         {
@@ -52,8 +66,8 @@ export class TenantTypeormSeed {
           description: 'descricao do tenant',
           email: 'tenant2@example.com',
           foundationDateAt: new Date('2023-02-02'),
-          superAdmin: usersInDatabase[0],
-          createdBy: usersInDatabase[0],
+          superAdmin: user2,
+          createdBy: userRoot,
           status: 'ACTIVE',
         },
         ...tenantsFactory,
