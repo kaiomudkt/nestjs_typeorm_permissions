@@ -7,24 +7,24 @@ import {
   UpdateDateColumn,
   ManyToOne,
   JoinColumn,
+  ManyToMany,
+  JoinTable,
+  OneToMany,
 } from 'typeorm';
 // import { StatusUserEnum } from '../../../../domain/enum/status-user.enum';
 // import { Matches } from 'class-validator';
 import { IUserSchema } from '../../../../domain/user.schema.interface';
 import { TenantSchemaTypeormImpl } from '../../../../../tenant/repository/typeorm/tenant.schema.typeorm.impl';
+import { CapabilitySchemaTypeormImpl } from '../../../../../role/modules/capability/repository/typeorm/capability.schema.typeorm.impl';
 // import { StatusUserValidator } from '../StatusUser.validator';
 
 @Entity({ name: 'user' })
 export class UserSchemaTypeormImpl implements IUserSchema {
   [x: string]: any;
+
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  // @ManyToOne(
-  //   (): typeof TenantSchemaTypeormImpl => TenantSchemaTypeormImpl,
-  //   (tenant: TenantSchemaTypeormImpl): any => tenant.users,
-  // )
-  // @JoinColumn({ name: 'tenantId' })
   @ManyToOne(
     () => TenantSchemaTypeormImpl,
     (tenant: TenantSchemaTypeormImpl): any => tenant.users,
@@ -35,6 +35,12 @@ export class UserSchemaTypeormImpl implements IUserSchema {
   @ManyToOne(() => UserSchemaTypeormImpl)
   @JoinColumn({ name: 'createdById' })
   createdBy: UserSchemaTypeormImpl;
+
+  @OneToMany(
+    () => CapabilitySchemaTypeormImpl,
+    (capability: CapabilitySchemaTypeormImpl) => capability.user,
+  )
+  capabilities: CapabilitySchemaTypeormImpl[];
 
   @Column({
     length: 255,

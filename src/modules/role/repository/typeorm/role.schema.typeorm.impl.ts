@@ -7,10 +7,14 @@ import {
   UpdateDateColumn,
   ManyToOne,
   JoinColumn,
+  ManyToMany,
+  JoinTable,
+  OneToMany,
 } from 'typeorm';
 import { IRoleSchema } from '../../domain/role.schema.interface';
 import { UserSchemaTypeormImpl } from '../../../user/repository/typeorm/implementation/schema/user.schema.typeorm.impl';
 import { TenantSchemaTypeormImpl } from '../../../tenant/repository/typeorm/tenant.schema.typeorm.impl';
+import { CapabilitySchemaTypeormImpl } from '../../modules/capability/repository/typeorm/capability.schema.typeorm.impl';
 
 @Entity({ name: 'role' })
 export class RoleSchemaTypeormImpl implements IRoleSchema {
@@ -28,9 +32,15 @@ export class RoleSchemaTypeormImpl implements IRoleSchema {
   @JoinColumn({ name: 'createdById' })
   createdBy: UserSchemaTypeormImpl;
 
-  @ManyToOne(() => TenantSchemaTypeormImpl, tenant => tenant.roles)
+  @ManyToOne(() => TenantSchemaTypeormImpl, (tenant) => tenant.roles)
   @JoinColumn({ name: 'tenantId' })
   tenant: TenantSchemaTypeormImpl;
+
+  @OneToMany(
+    () => CapabilitySchemaTypeormImpl,
+    (capability: CapabilitySchemaTypeormImpl) => capability.role,
+  )
+  capabilities: CapabilitySchemaTypeormImpl[];
 
   @Column({
     length: 255,
