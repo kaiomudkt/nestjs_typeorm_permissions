@@ -12,7 +12,7 @@ export class CapabilityEntity {
   /**
    * fazer M:M da suporte para poder um gerente geral poder ter acesso a mais de um tenant
    */
-  private _tenantEntity: TenantEntity;
+  // private _tenantEntity: TenantEntity; /** user ja tem tenant, role ja tem tenant, nao precisa de tenant no capability */
   private _status: StatusCapabilityEnum;
   private _createdBy?: UserEntity;
 
@@ -30,7 +30,7 @@ export class CapabilityEntity {
     this._name = name;
     this._idCode = idCode;
     this._status = status;
-    this._tenantEntity = tenantEntity;
+    // this._tenantEntity = tenantEntity;
     this._createdBy = createdBy;
     this._user = user;
     this._role = role;

@@ -87,7 +87,7 @@ export class UserService {
     id: string,
     updatePartialUserDto: UpdatePartialUserDto,
     userLoggedReq: UserLogged,
-  ) {
+  ): Promise<IUserSchema> {
     return await this.updatePartialUserUsecase.updatePartial(
       id,
       updatePartialUserDto,
